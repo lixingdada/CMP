@@ -4,47 +4,13 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
-        <servlet-name>MyFirstServlet</servlet-name>
-        <servlet-class>demo.MyFirstServlet</servlet-class>
+        <servlet-name>AddItemToCartServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.AddItemToCartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MyFirstServlet</servlet-name>
-        <url-pattern>/demo</url-pattern>
+        <servlet-name>AddItemToCartServlet</servlet-name>
+        <url-pattern>/addItemToCart</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>demo.MyServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/demo1</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>CH02.demo.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/CH02/login</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CH03_LoginServlet</servlet-name>
-        <servlet-class>ch03.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CH03_LoginServlet</servlet-name>
-        <url-pattern>/ch03/login</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>SuccessServlet</servlet-name>
-        <servlet-class>ch03.SuccessServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SuccessServlet</servlet-name>
-        <url-pattern>/ch03/success</url-pattern>
-    </servlet-mapping>
+   
 </web-app>
