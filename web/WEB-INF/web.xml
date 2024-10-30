@@ -12,5 +12,32 @@
         <url-pattern>/addItemToCart</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.UpdateCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/updateCart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.RemoveCartItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <url-pattern>/removeCartItem</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CartFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.CartFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartFormServlet</servlet-name>
+        <url-pattern>/cartForm</url-pattern>
+    </servlet-mapping>
+
    
 </web-app>

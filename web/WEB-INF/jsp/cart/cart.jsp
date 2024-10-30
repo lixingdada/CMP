@@ -10,7 +10,7 @@
 
         <h2>Shopping Cart</h2>
 
-        <form action="" method="post">
+        <form action="updateCart" method="post">
             <table>
                 <tr>
                     <th><b>Item ID</b></th>
@@ -49,7 +49,7 @@
                                               pattern="$#,##0.00" /></td>
 
                         <td>
-                            <a href="removeItemFromCart?cartItem=${cartItem.item.itemId}" class="Button" >Remove</a>
+                            <a href="removeCartItem?workingItemId=${cartItem.item.itemId}" class="Button" >Remove</a>
                         </td>
                     </tr>
                 </c:forEach>
