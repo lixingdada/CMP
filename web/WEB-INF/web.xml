@@ -39,5 +39,23 @@
         <url-pattern>/cartForm</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LoginFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.LoginFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginFormServlet</servlet-name>
+        <url-pattern>/loginForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MainFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.MainFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainFormServlet</servlet-name>
+        <url-pattern>/mainForm</url-pattern>
+    </servlet-mapping>
+
    
 </web-app>
