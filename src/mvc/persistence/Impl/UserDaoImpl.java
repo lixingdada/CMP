@@ -7,13 +7,13 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static final String INSERT_USER =
-            "INSERT INTO userinfo (username, password) VALUES (?, ?)";
+            "INSERT INTO signon (username, password) VALUES (?, ?)";
     private static final String FIND_USER =
-            "SELECT * FROM userinfo WHERE id = ?";
+            "SELECT * FROM signon WHERE id = ?";
     private static final String FIND_USER_BY_USERNAME_AND_PASSWORD =
-            "SELECT * FROM userinfo WHERE username = ? AND password = ?";
+            "SELECT * FROM signon WHERE username = ? AND password = ?";
     private static final String FIND_ALL_USERS =
-            "SELECT * FROM userinfo";
+            "SELECT * FROM signon";
 
     @Override
     public List<User> findAllUser() {
