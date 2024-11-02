@@ -1,6 +1,6 @@
-package persistence;
+package mvc.persistence;
 
-import domain.User;
+import mvc.domain.User;
 
 import java.util.List;
 

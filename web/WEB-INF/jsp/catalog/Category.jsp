@@ -10,20 +10,23 @@
     <%--<h1>Session msg 值: ${sessionScope.msg}</h1>--%>
 
 <%--如果是搜索的话--%>
-<c:if test="${sessionScope.msg=='search'}">
+<%--<c:if test="${sessionScope.msg=='search'}">--%>
         <form action="./main" method="post">
-            <input type="text" name="information" placeholder="输入关键字搜索"/>
+            <input type="text" name="information" placeholder="${requestScope.information}"/>
             <button type="submit">搜索</button>
         </form>
         <%--<h1>hhh1</h1>--%>
-    </c:if>
+    <%--</c:if>--%>
+
+
 
 <%--如果是点击大板块进来的话--%>
-    <c:if test="${sessionScope.msg.equals('')||sessionScope.msg==null}">
+    <c:if test="${sessionScope.msg=='flag'}">
         <h1>${sessionScope.category}</h1>
        <%-- <h1>hhh2</h1>--%>
     </c:if>
 
+    <c:if test="${not empty sessionScope.productList}">
     <table>
         <tr>
             <td>产品id</td>
@@ -43,6 +46,11 @@
             </tr>
         </c:forEach>
     </table>
+    </c:if>
+
+    <c:if test="${empty sessionScope.productList}">
+        <h1>没找到相关内容</h1>
+    </c:if>
 
 </body>
 </html>

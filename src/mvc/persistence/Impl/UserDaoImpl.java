@@ -1,6 +1,8 @@
-package persistence;
+package mvc.persistence.Impl;
 
-import domain.User;
+import mvc.domain.User;
+import mvc.persistence.UserDao;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

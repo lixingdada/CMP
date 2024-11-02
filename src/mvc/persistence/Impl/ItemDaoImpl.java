@@ -1,7 +1,6 @@
 package mvc.persistence.Impl;
 
 import mvc.domain.Item;
-import mvc.domain.Product;
 import mvc.persistence.DBUtil;
 import mvc.persistence.ItemDao;
 

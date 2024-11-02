@@ -27,6 +27,7 @@ public class CategoryServlet extends HttpServlet {
         CatalogService catalogService = new CatalogService();
 //        System.out.println("productList在这"+catalogService.getProductList(category));
         session.setAttribute("productList",catalogService.getProductList(category));
+        session.setAttribute("msg","flag");
 
         /*展示*/
         //resp.sendRedirect("categoryForm");
