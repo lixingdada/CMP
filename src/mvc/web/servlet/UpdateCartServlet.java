@@ -22,7 +22,6 @@ public class UpdateCartServlet extends HttpServlet {
         Cart cart=(Cart)session.getAttribute("cart");
         Iterator<CartItem> cartItems = cart.getAllCartItems();
 
- /*       等其它部分完善
         while (cartItems.hasNext()) {
             CartItem cartItem = (CartItem) cartItems.next();
             String itemId = cartItem.getItem().getItemId();
@@ -36,11 +35,11 @@ public class UpdateCartServlet extends HttpServlet {
                     cartItems.remove();
                 }
             } catch (Exception e) {
-                //ignore parse exceptions on purpose
+                e.printStackTrace();
             }
         }
 
-  */
+
 
         req.getRequestDispatcher(CART_FORM).forward(req,resp);
 

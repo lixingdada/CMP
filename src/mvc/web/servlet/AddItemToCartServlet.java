@@ -1,6 +1,8 @@
 package mvc.web.servlet;
 
 import mvc.domain.Cart;
+import mvc.domain.Item;
+import mvc.service.CatalogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,17 +29,16 @@ public class AddItemToCartServlet extends HttpServlet {
             cart = new Cart();
         }
 
-/*待其它部分完善
+
         if (cart.containsItemId(workingItemId)) {
             cart.incrementQuantityByItemId(workingItemId);
         } else {
-            //CatalogService待写
             CatalogService catalogService=new CatalogService();
             boolean isInStock = catalogService.isItemInStock(workingItemId);
             Item item = catalogService.getItem(workingItemId);
-            cart.addItem(item, isInStock);
+            cart.addItem(item);
         }
- */
+
         session.setAttribute("cart",cart);
         req.getRequestDispatcher(CART_FORM).forward(req,resp);
     }

@@ -163,7 +163,7 @@
     </div>
 
     <!-- Form Section -->
-    <form id="form-section" action="/loginForm" method="post">
+    <form id="form-section" action="loginForm" method="post">
       <input type="text" class="input-box" name="username" placeholder="请输入用户名" required>
       <input type="password" class="input-box" name="password" placeholder="请输入密码" required>
       <button type="submit" class="submit-button">登录</button>

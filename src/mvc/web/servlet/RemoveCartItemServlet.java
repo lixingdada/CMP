@@ -1,6 +1,7 @@
 package mvc.web.servlet;
 
 import mvc.domain.Cart;
+import mvc.domain.Item;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,6 @@ public class RemoveCartItemServlet extends HttpServlet {
 
         String workingItemId = req.getParameter("workingItemId");
 
-/*      待其它部分完善
         Item item = cart.removeItemById(workingItemId);
 
         if (item == null) {
@@ -30,9 +30,6 @@ public class RemoveCartItemServlet extends HttpServlet {
         } else {
             req.getRequestDispatcher(CART_FORM).forward(req,resp);
         }
-
- */
-
 
     }
 }

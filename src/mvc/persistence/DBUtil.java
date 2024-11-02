@@ -75,6 +75,16 @@ public class DBUtil {
         }
     }
 
+    public static void  closeConnection(Connection connection) {
+        if(connection!=null){
+            try{
+                connection.close();
+            }catch(SQLException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static void closePreparedStatement(PreparedStatement preparedStatement){
         if(preparedStatement != null){
             try {
@@ -95,4 +105,8 @@ public class DBUtil {
         }
     }
 
+    //测试数据库连接
+    //public static void main(String[] args) {
+        //System.out.println("数据库："+getConnection());
+   // }
 }

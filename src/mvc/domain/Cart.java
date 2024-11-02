@@ -33,7 +33,7 @@ public class Cart implements Serializable {
         return itemMap.containsKey(itemId);
     }
 
-/*    等Item类
+
 
     //添加购物车商品
     public void addItem(Item item) {
@@ -85,5 +85,5 @@ public class Cart implements Serializable {
         return subTotal;
     }
 
- */
+
 }
