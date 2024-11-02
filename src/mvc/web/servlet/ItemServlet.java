@@ -1,5 +1,6 @@
 package mvc.web.servlet;
 
+import mvc.domain.Item;
 import mvc.service.CatalogService;
 
 import javax.servlet.ServletException;
@@ -14,29 +15,24 @@ import java.io.IOException;
 public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ;  req.getRequestDispatcher("itemForm").forward(req,resp);
+        HttpSession session = req.getSession();
+         String itemId = req.getParameter("itemId");
+        System.out.println("你要查看的具体商品为"+itemId);
+        CatalogService catalogService = new CatalogService();
+        Item item = catalogService.getItem(itemId);
+        session.setAttribute("item",item);
+
+        req.getRequestDispatcher("itemForm").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        HttpSession session = req.getSession();
 
-        /*从提交的表单中获取这些值*/
-        String productId = req.getParameter("productId");
-        String productName = req.getParameter("productName");
-        req.setAttribute("productName",productName);
-
-       /* System.out.println("productId"+productId);
-        System.out.println("productName"+req.getParameter("productName"));*/
-
-        //String productName = req.getParameter("productName");
-
-
-        /*调用业务逻辑*/
+        /*String itemId = req.getParameter("itemId");
+        System.out.println("你要查看的具体商品为"+itemId);
         CatalogService catalogService = new CatalogService();
-        session.setAttribute("ItemList",catalogService.getItemList(productId));
-
+        Item item = catalogService.getItem(itemId);
+        req.setAttribute("item",item);*/
 
         req.getRequestDispatcher("itemForm").forward(req,resp);
     }

@@ -71,7 +71,8 @@ public class ProductDaoImpl implements ProductDao {
 
             List<Product> list = new ArrayList<>();
             ArrayList<Object> arrayList  = new ArrayList<>();
-            arrayList.add(keywords);
+            arrayList.add("%"+keywords+"%");
+            arrayList.add("%"+keywords+"%");
 
             try {
 
