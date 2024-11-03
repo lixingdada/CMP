@@ -1,7 +1,7 @@
-package web.servlet;
+package mvc.web.servlet;
 
-import domain.User;
-import service.RegisterService;
+import mvc.domain.User;
+import mvc.service.RegisterService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

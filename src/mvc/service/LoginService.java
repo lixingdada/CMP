@@ -1,7 +1,7 @@
-package service;
+package mvc.service;
 
-import domain.User;
-import persistence.UserDaoImpl;
+import mvc.domain.User;
+import mvc.persistence.Impl.UserDaoImpl;
 
 public class LoginService {
     private UserDaoImpl userDao;
