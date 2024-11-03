@@ -154,7 +154,6 @@
         <img src="img/img05.png" alt="Image 5">
     </div>
 
-
 <%--<<<<<<< HEAD
     <!-- Form Section -->
     <form id="form-section" action="loginForm" method="post">
@@ -189,7 +188,6 @@
         </form>
 
     </div>
-
 
 </div>
 <c:if test="${not empty successMessage}">

@@ -57,7 +57,6 @@ public class UpdateCartServlet extends HttpServlet {
                 }
             }
         }
-        session.setAttribute("cart", cart);
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
 

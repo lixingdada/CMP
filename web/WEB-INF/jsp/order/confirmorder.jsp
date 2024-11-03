@@ -17,7 +17,7 @@
             <td>
                 姓名：
             </td>
-            <td class="centered-text">
+            <td class="centered-text" colspan="4">
                 <input type="text" name="orderName" value="${sessionScope.order.orderName}">
             </td>
         </tr>
@@ -26,7 +26,7 @@
             <td>
                 电话
             </td>
-            <td class="centered-text">
+            <td class="centered-text" colspan="4">
                 <input type="text" name="orderTel" value="${sessionScope.order.orderTel}">
             </td>
         </tr>
@@ -35,7 +35,7 @@
             <td>
                 地址
             </td>
-            <td class="centered-text">
+            <td class="centered-text" colspan="4">
                 <input type="text" name="orderAddress" value="${sessionScope.order.orderAddress}">
             </td>
         </tr>
