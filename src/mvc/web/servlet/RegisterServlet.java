@@ -20,21 +20,42 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+     /*   String username = req.getParameter("newUsername"); // 确保获取到正确的注册用户名
+        String password = req.getParameter("newPassword"); // 确保获取到正确的注册密码
 
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
 
         if (registerService.register(user)) {
-            // 注册成功，重定向到登录页面
-            resp.sendRedirect(req.getContextPath() + "/jsp/LoginForm");
+            // 注册成功，重定向到登录页面，并携带提示信息
+            req.setAttribute("successMessage", "注册成功，请登录");
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         } else {
-            // 注册失败，提示错误信息并返回注册页面
+            // 注册失败，提示错误信息并返回登录页面
             req.setAttribute("errorMessage", "注册失败，请重试");
-            req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        }*/
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("newUsername"); // 确保获取到正确的注册用户名
+        String password = req.getParameter("newPassword"); // 确保获取到正确的注册密码
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        if (registerService.register(user)) {
+            // 注册成功，重定向到登录页面，并携带提示信息
+            req.setAttribute("successMessage", "注册成功，请登录");
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        } else {
+            // 注册失败，提示错误信息并返回登录页面
+            req.setAttribute("errorMessage", "注册失败，请重试");
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         }
     }
 }

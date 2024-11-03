@@ -1,6 +1,7 @@
 package mvc.persistence.Impl;
 
 import mvc.domain.User;
+import mvc.persistence.DBUtil;
 import mvc.persistence.UserDao;
 
 import java.sql.*;
@@ -9,28 +10,26 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 
-    //通过username去查password
-    //看用户名在不在
+    // SQL 查询语句
     private static final String INSERT_USER =
             "INSERT INTO signon (username, password) VALUES (?, ?)";
-    /*private static final String FIND_USER =
-            "SELECT * FROM signon WHERE id = ?";*/
     private static final String FIND_USER_BY_USERNAME_AND_PASSWORD =
             "SELECT * FROM signon WHERE username = ? AND password = ?";
+    private static final String FIND_USER_BY_USERNAME =
+            "SELECT * FROM signon WHERE username = ?";
     private static final String FIND_ALL_USERS =
             "SELECT * FROM signon";
 
+    // 获取所有用户
     @Override
     public List<User> findAllUser() {
         List<User> userList = new ArrayList<>();
-        DatabaseMetaData DBUtil = null;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(FIND_ALL_USERS);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 User user = new User();
-                user.setId(rs.getInt("id")); // 假设 id 是一个字段
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 userList.add(user);
@@ -41,10 +40,10 @@ public class UserDaoImpl implements UserDao {
         return userList;
     }
 
+    // 根据用户名和密码查询用户
     @Override
     public User findUserByUsernameAndPassword(String username, String password) {
         User user = null;
-        DatabaseMetaData DBUtil = null;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(FIND_USER_BY_USERNAME_AND_PASSWORD)) {
 
@@ -53,7 +52,7 @@ public class UserDaoImpl implements UserDao {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     user = new User();
-                    user.setId(rs.getInt("id")); // 假设 id 是一个字段
+
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                 }
@@ -64,32 +63,25 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-  /*  @Override
-    public User findUser(int id) {
-        User user = null;
-        DatabaseMetaData DBUtil = null;
+    // 新增：仅通过用户名查询用户
+    public boolean userExists(String username) {
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(FIND_USER)) {
+             PreparedStatement ps = conn.prepareStatement(FIND_USER_BY_USERNAME)) {
 
-            ps.setInt(1, id);
+            ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    user = new User();
-                    user.setId(rs.getInt("id")); // 假设 id 是一个字段
-                    user.setUsername(rs.getString("username"));
-                    user.setPassword(rs.getString("password"));
-                }
+                return rs.next();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
-    }*/
+        return false;
+    }
 
+    // 插入新用户
     @Override
     public boolean insertUser(User user) {
         boolean success = false;
-        DatabaseMetaData DBUtil = null;
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(INSERT_USER)) {
 
