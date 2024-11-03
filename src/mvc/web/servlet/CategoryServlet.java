@@ -22,7 +22,6 @@ public class CategoryServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("category",category);
 
-
         /*调用业务逻辑，并将商品中类列表存到session中*/
         CatalogService catalogService = new CatalogService();
 //        System.out.println("productList在这"+catalogService.getProductList(category));

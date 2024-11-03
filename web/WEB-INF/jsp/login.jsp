@@ -154,6 +154,15 @@
         <img src="img/img05.png" alt="Image 5">
     </div>
 
+<%--<<<<<<< HEAD
+    <!-- Form Section -->
+    <form id="form-section" action="loginForm" method="post">
+      <input type="text" class="input-box" name="username" placeholder="请输入用户名" required>
+      <input type="password" class="input-box" name="password" placeholder="请输入密码" required>
+      <button type="submit" class="submit-button">登录</button>
+    </form>
+  </div>
+=======--%>
     <!-- 登录注册模块 -->
     <div class="login-register">
         <!-- Menu Section -->

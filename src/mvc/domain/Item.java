@@ -1,6 +1,7 @@
 package mvc.domain;
 
 import java.io.Serializable;
+
 import java.math.BigDecimal; //精确的小数，表示价格
 
 /*Item类里面的属性*/
@@ -131,3 +132,4 @@ public class Item implements Serializable {
     }
 
 }
+

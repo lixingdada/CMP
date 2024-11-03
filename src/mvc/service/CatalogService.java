@@ -1,15 +1,15 @@
-
 /*处理商品展示的业务逻辑*/
-
 package mvc.service;
+
+import mvc.domain.Category;
 import mvc.domain.Item;
 import mvc.domain.Product;
 import mvc.persistence.CategoryDao;
+import mvc.persistence.ItemDao;
+import mvc.persistence.ProductDao;
 import mvc.persistence.Impl.CategoryDaoImpl;
 import mvc.persistence.Impl.ItemDaoImpl;
 import mvc.persistence.Impl.ProductDaoImpl;
-import mvc.persistence.ItemDao;
-import mvc.persistence.ProductDao;
 
 import java.util.List;
 
@@ -19,9 +19,42 @@ public class CatalogService {
     private ItemDao itemDao;
 
     public CatalogService(){
-        categoryDao = new CategoryDaoImpl();
-        productDao = new ProductDaoImpl();
-        itemDao = new ItemDaoImpl();
+        this.categoryDao=new CategoryDaoImpl();
+        this.itemDao=new ItemDaoImpl();
+        this.productDao=new ProductDaoImpl();
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryDao.getCategoryList();
+    }
+
+    public Category getCategory(String categoryId) {
+        return categoryDao.getCategory(categoryId);
+    }
+
+    public Product getProduct(String productId) {
+        return productDao.getProduct(productId);
+    }
+
+    public List<Product> getProductListByCategory(String categoryId) {
+        return productDao.getProductListByCategory(categoryId);
+    }
+
+    // TODO enable using more than one keyword
+    public List<Product> searchProductList(String keyword) {
+        return productDao.searchProductList("%" + keyword.toLowerCase() + "%");
+    }
+
+    public List<Item> getItemListByProduct(String productId) {
+        return itemDao.getItemListByProduct(productId);
+    }
+
+    public Item getItem(String itemId) {
+        return itemDao.getItem(itemId);
+    }
+
+    public boolean isItemInStock(String itemId) {
+        return itemDao.getInventoryQuantity(itemId) > 0;
     }
 
     /*获取商品中类列表*/
@@ -42,9 +75,6 @@ public class CatalogService {
         return list;
     }
 
-    public Item getItem(String itemID){
-        return itemDao.getItem(itemID);
-    }
 
     /*通过关键词检索*/
     public List<Product> getSearchProductList(String keyword){
