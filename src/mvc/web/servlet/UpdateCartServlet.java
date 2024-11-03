@@ -20,28 +20,25 @@ public class UpdateCartServlet extends HttpServlet {
 
         HttpSession session=req.getSession();
         Cart cart=(Cart)session.getAttribute("cart");
-        Iterator<CartItem> cartItems = cart.getAllCartItems();
+        if(cart!=null) {
+            Iterator<CartItem> cartItems = cart.getAllCartItems();
+            while (cartItems.hasNext()) {
+                CartItem cartItem = (CartItem) cartItems.next();
+                String itemId = cartItem.getItem().getItemId();
 
-        while (cartItems.hasNext()) {
-            CartItem cartItem = (CartItem) cartItems.next();
-            String itemId = cartItem.getItem().getItemId();
-            try {
-                String quantityString=req.getParameter(itemId);
-
-                int quantity=Integer.parseInt(quantityString);
+                int quantity = cartItem.getQuantity();
 
                 cart.setQuantityByItemId(itemId, quantity);
                 if (quantity < 1) {
                     cartItems.remove();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
-
-
-
         req.getRequestDispatcher(CART_FORM).forward(req,resp);
+    }
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        doPost(req, resp);
     }
 }

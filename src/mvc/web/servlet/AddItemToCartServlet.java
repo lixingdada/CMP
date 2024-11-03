@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.catalog.Catalog;
 import java.io.IOException;
 
 public class AddItemToCartServlet extends HttpServlet {
@@ -19,7 +18,8 @@ public class AddItemToCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //从item.jsp中获取
+        //要有 <a href="addItemToCart?workingItemId=${cartItem.item.itemId}" class="Button">加入购物车</a>
+
         String workingItemId = req.getParameter("workingItemId");
 
         HttpSession session = req.getSession();
@@ -29,12 +29,10 @@ public class AddItemToCartServlet extends HttpServlet {
             cart = new Cart();
         }
 
-
         if (cart.containsItemId(workingItemId)) {
             cart.incrementQuantityByItemId(workingItemId);
         } else {
             CatalogService catalogService=new CatalogService();
-            boolean isInStock = catalogService.isItemInStock(workingItemId);
             Item item = catalogService.getItem(workingItemId);
             cart.addItem(item);
         }

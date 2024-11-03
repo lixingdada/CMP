@@ -1,14 +1,9 @@
-</div>
-
-<div id="Footer">
-
-    <div id="PoweredBy">&nbsp<a href="http://www.csu.edu.cn">http://www.csu.edu.cn</a>
-    </div>
-
-    <div id="Banner">
-
-    </div>
-</div>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
 
 </body>
 </html>

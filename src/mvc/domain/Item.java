@@ -1,10 +1,13 @@
 package mvc.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
+import java.math.BigDecimal; //精确的小数，表示价格
+
+/*Item类里面的属性*/
 public class Item implements Serializable {
-    private static final long serialVersionUID = -2159121673445254631L;
+
+/*    private static final long serialVersionUID = -2159121673445254631L;*/
 
     private String itemId;
     private String productId;
@@ -127,4 +130,6 @@ public class Item implements Serializable {
     public String toString() {
         return "(" + getItemId() + "-" + getProductId() + ")";
     }
+
 }
+

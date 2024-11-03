@@ -1,3 +1,4 @@
+/*处理商品展示的业务逻辑*/
 package mvc.service;
 
 import mvc.domain.Category;
@@ -6,9 +7,9 @@ import mvc.domain.Product;
 import mvc.persistence.CategoryDao;
 import mvc.persistence.ItemDao;
 import mvc.persistence.ProductDao;
-import mvc.persistence.impl.CategoryDaoImpl;
-import mvc.persistence.impl.ItemDaoImpl;
-import mvc.persistence.impl.ProductDaoImpl;
+import mvc.persistence.Impl.CategoryDaoImpl;
+import mvc.persistence.Impl.ItemDaoImpl;
+import mvc.persistence.Impl.ProductDaoImpl;
 
 import java.util.List;
 
@@ -56,4 +57,21 @@ public class CatalogService {
         return itemDao.getInventoryQuantity(itemId) > 0;
     }
 
+    /*获取商品中类列表*/
+    public List<Product> getProductList(String categoryID){
+        List<Product> list= productDao.getProductListByCategory(categoryID);
+  /*      System.out.println(list.size());
+        System.out.println(list.get(0).getProductId());
+        System.out.println(list.get(0).getCategoryId());
+        System.out.println(list.get(0).getName());
+        System.out.println(list.get(0).getDescription());
+        System.out.println(list);*/
+        return list;
+    }
+
+    /*获取商品小类列表*/
+    public List<Item> getItemList(String productID){
+        List<Item> list= itemDao.getItemListByProduct(productID);
+        return list;
+    }
 }

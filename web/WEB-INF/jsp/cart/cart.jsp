@@ -1,75 +1,92 @@
+
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ include file="../common/top.jsp"%>
 
-<div id="BackLink"><stripes:link
-        beanclass="org.mybatis.jpetstore.web.actions.CatalogActionBean">
-    Return to Main Menu</stripes:link></div>
+<style>
+    .centered-text {
+        text-align: center;
+    }
+</style>
+<div id="BackLink">
+    <a href="mainForm"> 返回主菜单</a>
+</div>
 
 <div id="Catalog">
-
     <div id="Cart">
-
-        <h2>Shopping Cart</h2>
+        <h2 class="centered-text">购物车</h2>
 
         <form action="updateCart" method="post">
-            <table>
+            <table class="centered-text">
                 <tr>
-                    <th><b>Item ID</b></th>
-                    <th><b>Product ID</b></th>
-                    <th><b>Description</b></th>
-                    <th><b>Quantity</b></th>
-                    <th><b>List Price</b></th>
-                    <th><b>Total Cost</b></th>
-                    <th>&nbsp;</th>
+                    <th class="centered-text"><b>名称</b></th>
+                    <th class="centered-text"><b>数量</b></th>
+                    <th class="centered-text"><b>单价</b></th>
+                    <th class="centered-text"><b>总价</b></th>
+                    <th class="centered-text">&nbsp;</th>
                 </tr>
 
-                <c:if test="${sessionScope.cart.numberOfItems == 0}">
+                <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart ==null}">
                     <tr>
-                        <td colspan="8"><b>Your cart is empty.</b></td>
+                        <td colspan="5" class="centered-text">您的购物车空空如也</td>
                     </tr>
                 </c:if>
 
+                <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
                 <c:forEach var="cartItem" items="${sessionScope.cart.cartItems}">
                     <tr>
-                        <td>
+                        <td class="centered-text">
                             <a href="itemForm?itemId=${cartItem.item.itemId}">${cartItem.item.itemId}</a>
                         </td>
 
-                        <td>${cartItem.item.product.productId}</td>
-                        <td>${cartItem.item.attribute1} ${cartItem.item.attribute2}
-                                ${cartItem.item.attribute3} ${cartItem.item.attribute4}
-                                ${cartItem.item.attribute5} ${cartItem.item.product.name}</td>
-
-                        <td>
-                            <input type="text" name="${cartItem.item.itemId}" value="${cartItem.quantity}" >
+                        <td class="centered-text">
+                            <input type="text" name="${cartItem.item.itemId}" value="${cartItem.quantity}">
                         </td>
 
-                        <td><fmt:formatNumber value="${cartItem.item.listPrice}"
-                                              pattern="$#,##0.00" /></td>
-                        <td><fmt:formatNumber value="${cartItem.total}"
-                                              pattern="$#,##0.00" /></td>
+                        <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"
+                                                                    pattern="$#,##0.00" /></td>
 
-                        <td>
-                            <a href="removeCartItem?workingItemId=${cartItem.item.itemId}" class="Button" >Remove</a>
+                        <td class="centered-text"><fmt:formatNumber value="${cartItem.total}"
+                                                                    pattern="$#,##0.00" /></td>
+
+                        <td class="centered-text">
+                            <a href="removeCartItem?workingItemId=${cartItem.item.itemId}" class="Button">移除</a>
                         </td>
                     </tr>
                 </c:forEach>
+                </c:if>
+
+                <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart ==null}">
+                    <tr>
+                        <td colspan="5" class="centered-text">
+                            合计: $0.00
+                        </td>
+                    </tr>
+                </c:if>
+
+                <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
+                <tr>
+                    <td colspan="5" class="centered-text">
+                        合计: <fmt:formatNumber value="${sessionScope.cart.getsubTotal()}" pattern="$#,##0.00" />
+                    </td>
+                </tr>
+                </c:if>
 
                 <tr>
-                    <td colspan="7">
-                        Sub Total: <fmt:formatNumber value="${sessionScope.cart.subTotal}" pattern="$#,##0.00" />
-                        <input type="submit" value="Update Cart">
+                    <td colspan="2" class="centered-text">
+                        <a href="updateCart" class="Button">更新</a>
                     </td>
-                    <td>&nbsp;</td>
+
+                    <td colspan="3" class="centered-text">
+                        <a href="" class="Button centered-text">去付款</a>
+                    </td>
                 </tr>
+
             </table>
         </form>
-
-        <c:if test="${sessionScope.cart.numberOfItems > 0}">
-            <a href="newOrderForm" class="Button">Proceed to Checkout</a>
-        </c:if>
     </div>
-
-    <div id="Separator">&nbsp;</div>
 </div>
 
 <%@ include file="../common/bottom.jsp"%>

@@ -11,7 +11,6 @@ public class CartItem implements Serializable {
     private int quantity;   //商品数量
     private BigDecimal total;    //总价
 
-
     public Item getItem() {
         return item;
     }
@@ -43,6 +42,4 @@ public class CartItem implements Serializable {
             total = null;
         }
     }
-
-
 }

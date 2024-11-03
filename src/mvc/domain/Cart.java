@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Cart implements Serializable {
-    private static final long serialVersionUID = 8329559983943337176L;
+    //private static final long serialVersionUID = 8329559983943337176L;
 
     //提高查询效率
     private final Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<String, CartItem>());
@@ -22,7 +22,11 @@ public class Cart implements Serializable {
     }
 
     public int getNumberOfItems() {
-        return itemList.size();
+        int count = 0;
+        for (CartItem item : itemList) {
+            count += item.getQuantity();
+        }
+        return count;
     }
 
     public Iterator<CartItem> getAllCartItems() {
@@ -34,8 +38,7 @@ public class Cart implements Serializable {
     }
 
 
-
-    //添加购物车商品
+    //添加购物车商品（商品不存在）
     public void addItem(Item item) {
         CartItem cartItem = (CartItem) itemMap.get(item.getItemId());
         if (cartItem == null) {
@@ -59,7 +62,7 @@ public class Cart implements Serializable {
         }
     }
 
-    //增加购物车某商品数量
+    //增加购物车某商品数量(确定商品存在）
     public void incrementQuantityByItemId(String itemId) {
         CartItem cartItem = (CartItem) itemMap.get(itemId);
         cartItem.incrementQuantity();
@@ -84,6 +87,4 @@ public class Cart implements Serializable {
         }
         return subTotal;
     }
-
-
 }
