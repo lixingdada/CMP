@@ -74,4 +74,14 @@ public class CatalogService {
         List<Item> list= itemDao.getItemListByProduct(productID);
         return list;
     }
+
+    public Item getItem(String itemID){
+        return itemDao.getItem(itemID);
+    }
+
+    /*通过关键词检索*/
+    public List<Product> getSearchProductList(String keyword){
+        return productDao.searchProductList(keyword);
+    }
+
 }

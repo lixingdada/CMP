@@ -28,12 +28,13 @@ public class CategoryServlet extends HttpServlet {
         session.setAttribute("productList",catalogService.getProductList(category));
 
         /*展示*/
-        resp.sendRedirect("categoryForm");
-       // req.getRequestDispatcher("categoryForm").forward(req,resp);
+        //resp.sendRedirect("categoryForm");
+        req.getRequestDispatcher("categoryForm").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        req.getRequestDispatcher("categoryForm").forward(req,resp);
     }
 }

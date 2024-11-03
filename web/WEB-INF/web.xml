@@ -75,5 +75,4 @@
         <url-pattern>/productForm</url-pattern>
     </servlet-mapping>
 
-   
 </web-app>
