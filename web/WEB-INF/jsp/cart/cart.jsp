@@ -18,7 +18,7 @@
     <div id="Cart">
         <h2 class="centered-text">购物车</h2>
 
-        <form action="updateCart" method="post">
+        <form action="updateCart" method="post" class="centered-text">
             <table class="centered-text">
                 <tr>
                     <th class="centered-text"><b>名称</b></th>
@@ -80,10 +80,9 @@
                     </td>
 
                     <td colspan="3" class="centered-text">
-                        <a href="" class="Button centered-text">去付款</a>
+                        <a href="confirmOrderForm" class="Button centered-text">提交订单</a>
                     </td>
                 </tr>
-
             </table>
         </form>
     </div>

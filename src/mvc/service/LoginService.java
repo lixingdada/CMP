@@ -18,4 +18,9 @@ public class LoginService {
     public User getUser(String username, String password) {
         return userDao.findUserByUsernameAndPassword(username, password);
     }
+
+    // 新增：检查用户是否存在
+    public boolean userExists(String username) {
+        return userDao.userExists(username);
+    }
 }

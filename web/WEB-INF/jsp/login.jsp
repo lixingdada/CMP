@@ -154,7 +154,8 @@
         <img src="img/img05.png" alt="Image 5">
     </div>
 
-<<<<<<< HEAD
+
+<%--<<<<<<< HEAD
     <!-- Form Section -->
     <form id="form-section" action="loginForm" method="post">
       <input type="text" class="input-box" name="username" placeholder="请输入用户名" required>
@@ -162,7 +163,8 @@
       <button type="submit" class="submit-button">登录</button>
     </form>
   </div>
-=======
+=======--%>
+
     <!-- 登录注册模块 -->
     <div class="login-register">
         <!-- Menu Section -->
@@ -173,22 +175,29 @@
 
         <!-- 登录表单 -->
         <!-- 登录表单 -->
-        <form id="login-form" action="/loginForm" method="post">
+        <form id="login-form" action="loginForm" method="post">
             <input type="text" class="input-box" name="username" placeholder="请输入用户名" required>
             <input type="password" class="input-box" name="password" placeholder="请输入密码" required>
             <button type="submit" class="submit-button" id="login-button">登录</button>
         </form>
 
         <!-- 注册表单 -->
-        <form id="register-form" action="/registerForm" method="post" style="display: none;">
+        <form id="register-form" action="registerForm" method="post" style="display: none;">
             <input type="text" class="input-box" name="newUsername" placeholder="请输入用户名" required>
             <input type="password" class="input-box" name="newPassword" placeholder="请输入密码" required>
             <button type="submit" class="submit-button" id="register-button">注册</button>
         </form>
 
     </div>
->>>>>>> 305d79b793158d0d7cbaec312e05ea62c85e04fb
+
+
 </div>
+<c:if test="${not empty successMessage}">
+    <div>${successMessage}</div>
+</c:if>
+<c:if test="${not empty errorMessage}">
+    <div>${errorMessage}</div>
+</c:if>
 
 <script>
     // JavaScript to toggle between login and register

@@ -1,8 +1,12 @@
 package mvc.web.servlet;
 
 import mvc.domain.Cart;
+import mvc.domain.CartItem;
 import mvc.domain.Item;
+import mvc.persistence.CartDao;
+import mvc.persistence.Impl.CartDaoImpl;
 import mvc.service.CatalogService;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,31 +17,55 @@ import java.io.IOException;
 
 public class AddItemToCartServlet extends HttpServlet {
 
-   private static final String CART_FORM="/WEB-INF/jsp/cart/cart.jsp";
+    private static final String CART_FORM = "/WEB-INF/jsp/cart/cart.jsp";
+    private CartDao cartDao = new CartDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //要有 <a href="addItemToCart?workingItemId=${cartItem.item.itemId}" class="Button">加入购物车</a>
-
         String workingItemId = req.getParameter("workingItemId");
-
         HttpSession session = req.getSession();
-        Cart cart = (Cart) session.getAttribute("cart");
+        Integer userId = (Integer) session.getAttribute("userId");
 
-        if (cart == null) {
-            cart = new Cart();
+        if (userId == null) {
+            resp.sendRedirect("loginForm");
+            return;
         }
+
+        Cart cart = null;
+        try {
+            cart = cartDao.getCartByUserId(userId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (cart == null) {
+            try {
+                cartDao.createCartForUser(userId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                cart = cartDao.getCartByUserId(userId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        CatalogService catalogService = new CatalogService();
+        CartItem cartItem = new CartItem();
+        cartItem.item = catalogService.getItem(workingItemId);
 
         if (cart.containsItemId(workingItemId)) {
             cart.incrementQuantityByItemId(workingItemId);
         } else {
-            CatalogService catalogService=new CatalogService();
-            Item item = catalogService.getItem(workingItemId);
-            cart.addItem(item);
+            cart.addItem(cartItem.item);
+            try {
+                cartDao.addCartItem(cartItem, cart.getId());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        session.setAttribute("cart",cart);
-        req.getRequestDispatcher(CART_FORM).forward(req,resp);
+        session.setAttribute("cart", cart);
+        req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
 }
