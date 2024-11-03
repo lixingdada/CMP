@@ -1,15 +1,20 @@
-package persistence;
+package mvc.persistence.Impl;
 
-import domain.User;
+import mvc.domain.User;
+import mvc.persistence.UserDao;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
+
+    //通过username去查password
+    //看用户名在不在
     private static final String INSERT_USER =
             "INSERT INTO signon (username, password) VALUES (?, ?)";
-    private static final String FIND_USER =
-            "SELECT * FROM signon WHERE id = ?";
+    /*private static final String FIND_USER =
+            "SELECT * FROM signon WHERE id = ?";*/
     private static final String FIND_USER_BY_USERNAME_AND_PASSWORD =
             "SELECT * FROM signon WHERE username = ? AND password = ?";
     private static final String FIND_ALL_USERS =
@@ -59,7 +64,7 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    @Override
+  /*  @Override
     public User findUser(int id) {
         User user = null;
         DatabaseMetaData DBUtil = null;
@@ -79,7 +84,7 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return user;
-    }
+    }*/
 
     @Override
     public boolean insertUser(User user) {

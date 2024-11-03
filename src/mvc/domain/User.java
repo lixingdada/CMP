@@ -1,4 +1,4 @@
-package domain;
+package mvc.domain;
 
 public class User {
     private int id;
