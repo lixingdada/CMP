@@ -77,7 +77,7 @@
                 <a href="cartForm" class="Button centered-text">返回</a>
             </td>
             <td colspan="3" class="centered-text">
-                <a href="mainForm" class="Button centered-text">去支付</a>
+                <a href="orderForm" class="Button centered-text">去支付</a>
             </td>
         </tr>
     </table>

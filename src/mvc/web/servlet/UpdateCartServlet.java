@@ -22,16 +22,11 @@ public class UpdateCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
-
-        if (userId == null) {
-            resp.sendRedirect("loginForm");
-            return;
-        }
+        String username = (String) session.getAttribute("username");
 
         Cart cart = null;
         try {
-            cart = cartDao.getCartByUserId(userId);
+            cart = cartDao.getCartByUserName(username);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

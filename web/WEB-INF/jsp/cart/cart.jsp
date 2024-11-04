@@ -76,7 +76,7 @@
 
                 <tr>
                     <td colspan="2" class="centered-text">
-                        <a href="updateCart" class="Button">更新</a>
+                        <input type="submit" value="更新">
                     </td>
 
                     <td colspan="3" class="centered-text">

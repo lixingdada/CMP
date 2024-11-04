@@ -12,15 +12,15 @@ import java.util.List;
 
 public class CartDaoImpl implements CartDao {
 
-    private static final String SELECT_CART_BY_USER_ID = "SELECT * FROM cart WHERE user_id = ?";
+    private static final String SELECT_CART_BY_USER_ID = "SELECT * FROM cart WHERE username = ?";
     private static final String INSERT_CART_ITEM = "INSERT INTO cart_item (cart_id, item_name, item_price, quantity) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_CART_ITEM_QUANTITY = "UPDATE cart_item SET quantity = ? WHERE item_id = ?";
     private static final String DELETE_CART_ITEM = "DELETE FROM cart_item WHERE item_id = ?";
-    private static final String CREATE_CART_FOR_USER = "INSERT INTO cart (user_id) VALUES (?)";
+    private static final String CREATE_CART_FOR_USER = "INSERT INTO cart (username) VALUES (?)";
     private static final String SELECT_CART_ITEMS = "SELECT * FROM cart_item WHERE cart_id = ?";
 
     @Override
-    public Cart getCartByUserId(int userId){
+    public Cart getCartByUserName(String userName){
             Cart cart = new Cart();
             Connection connection = null;
             PreparedStatement preparedStatement = null;
@@ -29,12 +29,12 @@ public class CartDaoImpl implements CartDao {
             try {
                 connection = DBUtil.getConnection();
                 preparedStatement = connection.prepareStatement(SELECT_CART_BY_USER_ID);
-                preparedStatement.setInt(1, userId);
+                preparedStatement.setString(1, userName);
                 resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
                     cart.setId(resultSet.getInt("cart_id"));
-                    cart.setUserId(userId);
+                    cart.setUserName(userName);
                 }
                 DBUtil.close();
             } catch (Exception e) {
@@ -100,14 +100,14 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
-    public void createCartForUser(int userId) {
+    public void createCartForUser(String userName) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = DBUtil.getConnection();
             preparedStatement = connection.prepareStatement(CREATE_CART_FOR_USER);
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(1, userName);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

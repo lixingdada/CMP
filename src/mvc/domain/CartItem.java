@@ -9,7 +9,7 @@ public class CartItem implements Serializable {
     public Item item;   //商品类型
 
     private int quantity;   //商品数量
-    private BigDecimal total;    //总价
+    public BigDecimal total;    //总价
 
     public Item getItem() {
         return item;

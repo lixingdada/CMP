@@ -42,6 +42,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             User user = loginService.getUser(username, password);
             session.setAttribute("user", user);
+            session.setAttribute("username", user.getUsername());
             resp.sendRedirect("main"); // 登录后重定向到主页面
         } else {
             // 用户存在，但密码不正确，返回登录页面并提示错误信息

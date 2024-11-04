@@ -23,16 +23,16 @@ public class RemoveCartItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
+        String username = (String) session.getAttribute("username");
 
-        if (userId == null) {
+        if (username == null) {
             resp.sendRedirect("loginForm");
             return;
         }
 
         Cart cart = null;
         try {
-            cart = cartDao.getCartByUserId(userId);
+            cart = cartDao.getCartByUserName(username);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

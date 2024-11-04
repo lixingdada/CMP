@@ -9,7 +9,7 @@ public class Cart implements Serializable {
 
     public int id;
 
-    public int userId;
+    public String userName;
 
     public int getId() {
         return id;
@@ -19,12 +19,12 @@ public class Cart implements Serializable {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userId) {
+        this.userName = userId;
     }
 
     //提高查询效率

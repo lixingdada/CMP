@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CartDao {
 
-    Cart getCartByUserId(int userId) throws Exception;
+    Cart getCartByUserName(String userName) throws Exception;
 
     void addCartItem(CartItem item, int cartId) throws Exception;
 
@@ -15,7 +15,7 @@ public interface CartDao {
 
     void removeCartItem(String cartItemId) throws Exception;
 
-    void createCartForUser(int userId) throws Exception;
+    void createCartForUser(String userName) throws Exception;
 
     List<CartItem> loadCartItems(int cartId) throws Exception;
 }
