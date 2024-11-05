@@ -54,7 +54,7 @@ public class RegisterServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         } else {
             // 注册失败，提示错误信息并返回登录页面
-            req.setAttribute("errorMessage", "注册失败，请重试");
+            req.setAttribute("errorMessage", "⚠ 注册失败，请重试");
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         }
     }

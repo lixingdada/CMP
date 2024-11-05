@@ -131,6 +131,32 @@
             background-color: lightblue; /* 按下时变为灰色 */
             color: black; /* 按下时文本颜色变为黑色 */
         }
+
+        .login-register {
+            position: relative; /* 设置为相对定位，用于定位错误信息 */
+        }
+        .error-message {
+             color: #d8000c; /* 红色字体 */
+             font-weight: bold; /* 粗体显示 */
+             font-size: 0.5em; /* 字体大小 */
+             padding: 5px; /* 内边距 */
+             background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
+             /*border: 1px solid #d8000c; !* 红色边框 *!*/
+             /*border-radius: 1px; !* 圆角 *!*/
+             display: flex; /* 使用 flexbox */
+             align-items: center; /* 垂直居中对齐 */
+             position: absolute; /* 绝对定位，悬浮在表单上方 */
+             top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
+             left: 83%; /* 水平居中 */
+             transform: translateX(-50%); /* 水平居中偏移 */
+             text-align: left; /* 左对齐文本 */
+             z-index: 1000; /* 确保错误信息在最上层 */
+             width: 10%; /* 调整为更宽的错误框 */
+             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+         }
+
+
+
     </style>
 </head>
 <body>
@@ -147,11 +173,11 @@
 <div class="container">
     <!-- 照片播放墙 -->
     <div class="photo-wall">
-        <img src="img/img01.png" alt="Image 1" class="active">
-        <img src="img/img02.png" alt="Image 2">
-        <img src="img/img03.png" alt="Image 3">
-        <img src="img/img04.png" alt="Image 4">
-        <img src="img/img05.png" alt="Image 5">
+        <img src="${pageContext.request.contextPath}/images/img01.png" alt="Image 1" class="active">
+        <img src="${pageContext.request.contextPath}/images/img02.png" alt="Image 2">
+        <img src="${pageContext.request.contextPath}/images/img03.png" alt="Image 3">
+        <img src="${pageContext.request.contextPath}/images/img04.png" alt="Image 4">
+        <img src="${pageContext.request.contextPath}/images/img05.png" alt="Image 5">
     </div>
 
 <%--<<<<<<< HEAD
@@ -164,6 +190,15 @@
   </div>
 =======--%>
     <!-- 登录注册模块 -->
+
+    <c:if test="${not empty successMessage}">
+    <div>${successMessage}</div>
+    </c:if>
+
+    <c:if test="${not empty errorMessage}">
+    <div class="error-message">${errorMessage}</div>
+    </c:if>
+
     <div class="login-register">
         <!-- Menu Section -->
         <div class="menu">
@@ -172,10 +207,14 @@
         </div>
 
         <!-- 登录表单 -->
-        <!-- 登录表单 -->
         <form id="login-form" action="loginForm" method="post">
             <input type="text" class="input-box" name="username" placeholder="请输入用户名" required>
             <input type="password" class="input-box" name="password" placeholder="请输入密码" required>
+
+            <!-- 验证码输入框和图片 -->
+            <input type="text" class="input-box" name="captcha" placeholder="请输入验证码" required>
+            <img id="validateimg" src="captchaServlet" onclick="clickrefresh()" alt="验证码" title="点击刷新验证码" style="cursor: pointer;">
+
             <button type="submit" class="submit-button" id="login-button">登录</button>
         </form>
 
@@ -185,15 +224,33 @@
             <input type="password" class="input-box" name="newPassword" placeholder="请输入密码" required>
             <button type="submit" class="submit-button" id="register-button">注册</button>
         </form>
-
     </div>
-</div>
-<c:if test="${not empty successMessage}">
-    <div>${successMessage}</div>
-</c:if>
-<c:if test="${not empty errorMessage}">
-    <div>${errorMessage}</div>
-</c:if>
+
+    <script>
+        // 切换显示登录和注册表单
+        // function showLogin() {
+        //
+        //     document.getElementById("login-form").style.display = "block";
+        //     document.getElementById("register-form").style.display = "none";
+        // }
+        //
+        // function showRegister() {
+        //     document.getElementById("register-form").style.display = "block";
+        //     document.getElementById("login-form").style.display = "none";
+        // }
+
+        // 刷新验证码
+        function clickrefresh() {
+            const validateImg = document.getElementById("validateimg");
+            validateImg.src = "captchaServlet?" + new Date().getTime();
+        }
+    </script>
+
+
+
+<%--<c:if test="${not empty errorMessage}">--%>
+<%--    <div>${errorMessage}</div>--%>
+<%--</c:if>--%>
 
 <script>
     // JavaScript to toggle between login and register
