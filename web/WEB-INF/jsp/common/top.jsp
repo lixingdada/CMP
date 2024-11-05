@@ -28,9 +28,8 @@
             <a href="#">Sign Out</a>
             <img align="middle" src="images/separator.gif" />
             <a href="#"> My Account</a>
-
             <img align="middle" src="images/separator.gif" />
-            <a href="help.html">?</a></div>
+            <a href="myOrderForm">?????</a></div>
     </div>
 
     <div id="Search">

@@ -50,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 
         if (registerService.register(user)) {
             // 注册成功，重定向到登录页面，并携带提示信息
-            req.setAttribute("successMessage", "注册成功，请登录");
+            req.setAttribute("successMessage", "\uD83D\uDE0A 注册成功，请登录");
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         } else {
             // 注册失败，提示错误信息并返回登录页面

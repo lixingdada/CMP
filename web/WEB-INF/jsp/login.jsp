@@ -154,6 +154,25 @@
              width: 10%; /* 调整为更宽的错误框 */
              box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
          }
+        .success-message {
+            color: white; /* 白色字体 */
+            font-weight: bold; /* 粗体显示 */
+            font-size: 0.5em; /* 字体大小 */
+            padding: 5px; /* 内边距 */
+            background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
+            /*border: 1px solid #d8000c; !* 红色边框 *!*/
+            /*border-radius: 1px; !* 圆角 *!*/
+            display: flex; /* 使用 flexbox */
+            align-items: center; /* 垂直居中对齐 */
+            position: absolute; /* 绝对定位，悬浮在表单上方 */
+            top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
+            left: 83%; /* 水平居中 */
+            transform: translateX(-50%); /* 水平居中偏移 */
+            text-align: left; /* 左对齐文本 */
+            z-index: 1000; /* 确保错误信息在最上层 */
+            width: 10%; /* 调整为更宽的错误框 */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+        }
 
 
 
@@ -192,7 +211,7 @@
     <!-- 登录注册模块 -->
 
     <c:if test="${not empty successMessage}">
-    <div>${successMessage}</div>
+    <div class="success-message">${successMessage}</div>
     </c:if>
 
     <c:if test="${not empty errorMessage}">

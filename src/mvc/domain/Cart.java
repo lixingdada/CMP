@@ -7,11 +7,31 @@ import java.util.*;
 public class Cart implements Serializable {
     //private static final long serialVersionUID = 8329559983943337176L;
 
+    public int id;
+
+    public String userName;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userId) {
+        this.userName = userId;
+    }
+
     //提高查询效率
-    private final Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<String, CartItem>());
+    private  Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<String, CartItem>());
 
     //存储数据
-    private final List<CartItem> itemList = new ArrayList<CartItem>();
+    private  List<CartItem> itemList = new ArrayList<CartItem>();
 
     public Iterator<CartItem> getCartItems() {
         return itemList.iterator();
@@ -86,5 +106,9 @@ public class Cart implements Serializable {
             subTotal = subTotal.add(listPrice.multiply(quantity));
         }
         return subTotal;
+    }
+
+    public void setItems(List<CartItem> cartItems) {
+        this.itemList=cartItems;
     }
 }
