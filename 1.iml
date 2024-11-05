@@ -22,26 +22,17 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib" />
+          <root url="file://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/jsp-api.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/jstl.jar!/" />
+          <root url="jar://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/jsp-api.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -50,7 +41,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/servlet-api.jar!/" />
+          <root url="jar://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/jstl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -59,7 +50,16 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/standard.jar!/" />
+          <root url="jar://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/servlet-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/standard.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -77,12 +77,15 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/tomcat-api.jar!/" />
+          <root url="jar://$USER_HOME$/tomcat/apache-tomcat-8.5.35/apache-tomcat-8.5.35/lib/tomcat-api.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="library" name="jstl" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-8.0.29" level="project" />
+    <orderEntry type="library" name="mysql-connector-j-9.1.0" level="project" />
   </component>
 </module>

@@ -23,6 +23,7 @@ public class DBUtil {
 
     // 建立返回值为Connection的方法
     public static Connection getConnection() {
+
         try { // 通过访问数据库的URL获取数据库连接对象
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(

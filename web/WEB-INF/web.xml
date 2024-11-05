@@ -75,4 +75,49 @@
         <url-pattern>/productForm</url-pattern>
     </servlet-mapping>-->
 
+    <servlet>
+        <servlet-name>MyOrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.MyOrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyOrderFormServlet</servlet-name>
+        <url-pattern>/myOrderForm</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>OrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.OrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderFormServlet</servlet-name>
+        <url-pattern>/orderForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DetailOrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.DetailOrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DetailOrderFormServlet</servlet-name>
+        <url-pattern>/orderDetailForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConfirmOrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.ConfirmOrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfirmOrderFormServlet</servlet-name>
+        <url-pattern>/confirmOrderForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SubmitOrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.SubmitOrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitOrderFormServlet</servlet-name>
+        <url-pattern>/submitOrderForm</url-pattern>
+    </servlet-mapping>
 </web-app>

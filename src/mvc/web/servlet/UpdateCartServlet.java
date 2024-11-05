@@ -2,6 +2,9 @@ package mvc.web.servlet;
 
 import mvc.domain.Cart;
 import mvc.domain.CartItem;
+import mvc.persistence.CartDao;
+import mvc.persistence.Impl.CartDaoImpl;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,32 +16,47 @@ import java.util.Iterator;
 
 public class UpdateCartServlet extends HttpServlet {
 
-    private static final String CART_FORM="/WEB-INF/jsp/cart/cart.jsp";
+    private static final String CART_FORM = "/WEB-INF/jsp/cart/cart.jsp";
+    private CartDao cartDao = new CartDaoImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String username = (String) session.getAttribute("username");
 
-        HttpSession session=req.getSession();
-        Cart cart=(Cart)session.getAttribute("cart");
-        if(cart!=null) {
+        Cart cart = null;
+        try {
+            cart = cartDao.getCartByUserName(username);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (cart != null) {
             Iterator<CartItem> cartItems = cart.getAllCartItems();
             while (cartItems.hasNext()) {
-                CartItem cartItem = (CartItem) cartItems.next();
+                CartItem cartItem = cartItems.next();
                 String itemId = cartItem.getItem().getItemId();
-
-                int quantity = cartItem.getQuantity();
-
+                int quantity = Integer.parseInt(req.getParameter(itemId));
                 cart.setQuantityByItemId(itemId, quantity);
+                try {
+                    cartDao.updateCartItemQuantity(cartItem.item.getItemId(), quantity);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 if (quantity < 1) {
                     cartItems.remove();
+                    try {
+                        cartDao.removeCartItem(cartItem.item.getItemId());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
-        req.getRequestDispatcher(CART_FORM).forward(req,resp);
+        req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         doPost(req, resp);
     }
 }

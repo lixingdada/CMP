@@ -11,7 +11,7 @@
     <h1>状态: ${sessionScope.item.status}</h1>
     <h1>信息: ${sessionScope.item.attribute1}</h1>
 
-    <form action="" method="post">
+    <form action="addItemToCart" method="post">
         <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
         <button type="submit">加入购物车</button>
     </form>
