@@ -25,6 +25,7 @@
             font-size: 80px;
             color: white;
             margin-bottom: 20px;
+            font-weight: 400;
         }
         .marquee {
             position: absolute;
@@ -152,7 +153,7 @@
              text-align: left; /* 左对齐文本 */
              z-index: 1000; /* 确保错误信息在最上层 */
              width: 10%; /* 调整为更宽的错误框 */
-             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+             /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); !* 增加阴影效果 *!*/
          }
         .success-message {
             color: white; /* 白色字体 */
@@ -184,10 +185,10 @@
 <div class="header">WELCOME TO CMP!</div>
 
 <!-- 滚动字幕条 -->
-<div class="marquee">
-    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>
-    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>
-</div>
+<%--<div class="marquee">--%>
+<%--    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>--%>
+<%--    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>--%>
+<%--</div>--%>
 
 <div class="container">
     <!-- 照片播放墙 -->
@@ -287,19 +288,22 @@
         document.querySelector('.menu button:nth-child(2)').classList.add('active');
     }
 
-    // JavaScript to handle image slideshow
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.photo-wall img');
-    const totalImages = images.length;
+    // 确保 DOM 加载完成后再执行 JavaScript
+    window.onload = function() {
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.photo-wall img');
+        const totalImages = images.length;
 
-    function showNextImage() {
-        images[currentIndex].classList.remove('active');
-        currentIndex = (currentIndex + 1) % totalImages;
-        images[currentIndex].classList.add('active');
-    }
+        // 显示下一张图片
+        function showNextImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % totalImages;
+            images[currentIndex].classList.add('active');
+        }
 
-    // 每2秒更换图片
-    setInterval(showNextImage, 2500);
+        // 每2.5秒更换图片
+        setInterval(showNextImage, 2500);
+    };
 </script>
 
 </body>
