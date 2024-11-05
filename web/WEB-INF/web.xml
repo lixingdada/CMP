@@ -95,6 +95,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>DetailOrderFormServlet</servlet-name>
+        <servlet-class>mvc.web.servlet.DetailOrderFormServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DetailOrderFormServlet</servlet-name>
+        <url-pattern>/orderDetailForm</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ConfirmOrderFormServlet</servlet-name>
         <servlet-class>mvc.web.servlet.ConfirmOrderFormServlet</servlet-class>
     </servlet>
