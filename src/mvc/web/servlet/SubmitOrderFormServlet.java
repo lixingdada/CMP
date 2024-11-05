@@ -18,6 +18,10 @@ public class SubmitOrderFormServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
         Cart cart = (Cart) session.getAttribute("cart");
 
         // 获取用户输入的数据
@@ -27,13 +31,14 @@ public class SubmitOrderFormServlet extends HttpServlet {
 
         // 创建订单对象
         Order newOrder = new Order();
+        newOrder.setUserId(username);
         newOrder.setOrderName(orderName);
         newOrder.setOrderTel(orderTel);
         newOrder.setOrderAddress(orderAddress);
         newOrder.setCart(cart);
 
         // 将订单添加到订单服务中
-        orderDao.saveOrder(newOrder);
+        orderDao.saveOrder(newOrder,username);
 
         // 清空购物车
         session.removeAttribute("cart");

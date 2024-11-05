@@ -23,7 +23,10 @@ public class AddItemToCartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String workingItemId = req.getParameter("workingItemId");
         HttpSession session = req.getSession();
-        String username= (String) session.getAttribute("username");
+
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
 
         if (username == null) {
             resp.sendRedirect("loginForm");

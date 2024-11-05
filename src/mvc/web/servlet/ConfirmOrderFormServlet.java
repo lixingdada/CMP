@@ -16,10 +16,11 @@ public class ConfirmOrderFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //req.getRequestDispatcher(CONFIRMORDER_FORM).forward(req, resp);
+        HttpSession session=req.getSession();
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
 
-        HttpSession session = req.getSession();
-        if (session != null && session.getAttribute("cart") != null) {
+        if (session.getAttribute("cart") != null) {
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart.getNumberOfItems() == 0) {
 
