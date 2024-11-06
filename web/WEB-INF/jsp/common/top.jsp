@@ -1,6 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@
         <div class="nav-links">
             <!-- 判断用户是否登录 -->
             <c:choose>
-                <c:when test="${not empty sessionScope.user}">
+                <c:when test="${sessionScope.user != null}">
                     <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}</span>
                     <a href="logout" class="btn">退出登录</a>
                 </c:when>
