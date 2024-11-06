@@ -3,6 +3,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>top</title>
+    <link rel="stylesheet" href="css/top.css"> <!-- 引入外部CSS -->
+</head>
+<body>
+
+<div class="top-container">
+    <div class="top-bar">
+        <div class="logo">
+            <a href="main">CMP</a>
+        </div>
+
+        <div class="nav-links">
+            <!-- 判断用户是否登录 -->
+            <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}</span>
+                    <a href="" class="btn">退出登录</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="" class="btn">登录</a>
+                    <a href="" class="btn">注册</a>
+                </c:otherwise>
+            </c:choose>
+
+            <a href="" class="cart-link">
+                <span class="cart-icon">&#128722;</span>购物车
+            </a>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
+
+<%--<!DOCTYPE html>
 
 <html>
 
@@ -20,7 +61,7 @@
         <div id="LogoContent">
             <a href="mainForm"><img src="../images/return.png"></a>
         </div>
-    </div>
+    </div>--%>
 
 
                             <%--  待修改  --%>
