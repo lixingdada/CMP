@@ -29,7 +29,7 @@
             <h2>信息: ${sessionScope.item.attribute1}</h2>
 
             <div class="button-container">
-                <form action="" method="post" class="action-form">
+                <form action="addItemToCart" method="post" class="action-form">
                     <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
                     <button type="submit" class="action-button">加入购物车</button>
                 </form>

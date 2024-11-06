@@ -5,6 +5,7 @@ import mvc.domain.Product;
 import java.util.List;
 
 public interface ProductDao {
+
     /*通过商品大类的id获得该商品大类下的所有商品中类列表*/
     List<Product> getProductListByCategory(String categoryId);
 

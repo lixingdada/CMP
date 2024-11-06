@@ -1,5 +1,7 @@
 
+
 /* Category类里面的属性*/
+
 
 package mvc.domain;
 
@@ -8,6 +10,7 @@ import java.io.Serializable;
 public class Category implements Serializable {
 
 /*    private static final long serialVersionUID = 3992469837058393712L;*/
+
 
     private String categoryId;
     private String name;

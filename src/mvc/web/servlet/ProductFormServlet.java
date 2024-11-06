@@ -1,5 +1,4 @@
 package mvc.web.servlet;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,5 +16,6 @@ public class ProductFormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("WEB-INF/jsp/catalog/Product.jsp").forward(req,resp);
+
     }
 }

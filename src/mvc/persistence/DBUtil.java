@@ -7,12 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBUtil {
+
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/cmp?serverTimezone=Asia/Shanghai";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "123456";
 
-    private static Connection con = null; // 声明Connection对象
+    private static Connection connection = null; // 声明Connection对象
     private static PreparedStatement preparedStatement = null;
     private static ResultSet resultSet = null;
 
@@ -22,22 +23,23 @@ public class DBUtil {
 
     // 建立返回值为Connection的方法
     public static Connection getConnection() {
+
         try { // 通过访问数据库的URL获取数据库连接对象
             Class.forName(DRIVER);
-            con = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     URL, USERNAME, PASSWORD);
             System.out.println("数据库连接成功");
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("数据库连接失败");
         }
-        return con;
+        return connection;
     }
 
     //获取命令对象
     public static PreparedStatement getpreparedStatement(String sql) {
         try {
-            con = getConnection();
-            preparedStatement = con.prepareStatement(sql);
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
         } catch (SQLException e) {
             System.out.println("sql语法错误");
         }
@@ -55,7 +57,6 @@ public class DBUtil {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /*有参数的增删查*/
@@ -117,15 +118,21 @@ public class DBUtil {
     }
 
 
+    //测试数据库连接,可忽略
+    //public static void main(String[] args) {
+        //System.out.println("数据库："+getConnection());
+   // }
+
     /*用到这个工具类的方法（除了上面三个close），调用该方法*/
     public static void close()
     {
         try {
-            con.close();
+            connection.close();
             preparedStatement.close();
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 }

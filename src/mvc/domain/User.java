@@ -7,13 +7,9 @@ public class User {
     private String email;
     private int age;
 
-
-
-
     public User(){
 
     }
-
 
     public int getId() {
         return id;
@@ -54,6 +50,5 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
-
 
 }
