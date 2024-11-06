@@ -66,7 +66,8 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             User user = loginService.getUser(username, password);
             session.setAttribute("user", user);
-            resp.sendRedirect("main");
+            System.out.println("user"+user.getUsername());
+            resp.sendRedirect("main");  //doget
         } else {
             req.setAttribute("errorMessage", "⚠ 用户名或密码错误");
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);

@@ -14,11 +14,10 @@ import java.util.List;
 
 @WebServlet(name = "MainServlet" , urlPatterns = {"/main"})
 public class MainServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("mainForm").forward(req,resp);
-    }
-
+     @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+         req.getRequestDispatcher("mainForm").forward(req,resp);
+     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

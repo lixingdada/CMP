@@ -31,6 +31,7 @@
             <div class="button-container">
                 <form action="addItemToCart" method="post" class="action-form">
                     <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
+                    <input type="hidden" name="username" value="${sessionScope.user.username}"/>
                     <button type="submit" class="action-button">加入购物车</button>
                 </form>
 
