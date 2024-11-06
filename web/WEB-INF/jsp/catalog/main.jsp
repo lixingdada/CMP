@@ -1,6 +1,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/top.jsp"%>
+<%--<%@include file="../common/top.jsp"%>--%>
+<jsp:include page="../common/top.jsp" flush="true">
+    <jsp:param name="paramName" value="paramValue" />
+</jsp:include>
 <html>
 <head>
     <title>主页面</title>

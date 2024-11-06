@@ -17,7 +17,6 @@ public class CartFormServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 获取当前用户的会话
         HttpSession session=req.getSession();
-
         // 检查用户是否已登录
         if ( session.getAttribute("username") == null) {
             // 用户未登录，重定向到登录页面
