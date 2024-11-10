@@ -15,4 +15,6 @@ public interface ItemDao {
 
     /*通过小类商品id获得该商品的所有信息*/
     Item getItem(String itemId);
+
+    String getUrlByProductId(String productId);
 }

@@ -81,4 +81,8 @@ public class CatalogService {
         return productDao.searchProductList(keyword);
     }
 
+    public String getUrlByProductId(String productID){
+        return itemDao.getUrlByProductId(productID);
+    }
+
 }

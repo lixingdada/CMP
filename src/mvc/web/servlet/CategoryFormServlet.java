@@ -17,31 +17,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import java.util.List;
-
+@WebServlet(name = "CategoryFormServlet", urlPatterns = {"/categoryForm"})
 public class CategoryFormServlet extends HttpServlet {
-    private static  final  String CATEGORY_FORM = "/WEB-INF/jsp/catalog/category.jsp";
-
-    private CatalogService catalogService;
-
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*获取我点进了哪个商品大类*/
-        String categoryId=req.getParameter("categoryId");
-        catalogService =new CatalogService();
-        Category category=catalogService.getCategory(categoryId);
-        List<Product> productList=catalogService.getProductListByCategory(categoryId);
-
-        /*存入session中*/
-        HttpSession session=req.getSession();
-        session.setAttribute("category",category);
-        session.setAttribute("productList",productList);
-
-        /*展示*/
-        req.getRequestDispatcher(CATEGORY_FORM).forward(req,resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("WEB-INF/jsp/catalog/category.jsp").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/jsp/catalog/Category.jsp").forward(req,resp);
+        req.getRequestDispatcher("WEB-INF/jsp/catalog/category.jsp").forward(req,resp);
     }
 }
