@@ -18,12 +18,12 @@ public class CartFormServlet extends HttpServlet {
         // 获取当前用户的会话
         HttpSession session=req.getSession();
 
-        // 检查用户是否已登录
-        if ( session.getAttribute("username") == null) {
-            // 用户未登录，重定向到登录页面
-            resp.sendRedirect(req.getContextPath() + "/loginForm");
-            return;
-        }
+//        // 检查用户是否已登录
+//        if ( session.getAttribute("username") == null) {
+//            // 用户未登录，重定向到登录页面
+//            resp.sendRedirect(req.getContextPath() + "/loginForm");
+//            return;
+//        }
 
         String username = req.getParameter("username");
         session.setAttribute("username",username);

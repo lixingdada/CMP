@@ -16,6 +16,11 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session=req.getSession();
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
         req.getRequestDispatcher("mainForm").forward(req,resp);
     }
 
@@ -29,6 +34,10 @@ public class MainServlet extends HttpServlet {
         List<Product> productList = catalogService.getSearchProductList(search);
 
         HttpSession session = req.getSession();
+
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
         session.setAttribute("productList",productList);
         session.setAttribute("msg","search");
 
