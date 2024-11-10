@@ -1,5 +1,7 @@
 package mvc.web.servlet;
 
+import mvc.service.LogService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +14,13 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HttpSession session = req.getSession();
+        LogService logService = new LogService();
+
+        String username = (String)session.getAttribute("username");
+        logService.logoutLog(username,username+"退出了登录！");
+
         System.out.println("session已清除");
         session.invalidate();
         resp.sendRedirect("main");
