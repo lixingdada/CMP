@@ -84,12 +84,12 @@
             width: 30%;
             padding: 20px;
             border-radius: 15px;
-            background: black; /* 设置为浅灰色 */
+            background: rgba(0, 0, 0, 0.4); /* 设置为带透明度的黑色背景 */
             display: flex;
             flex-direction: column;
             align-items: center;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7); /* 添加阴影 */
-            color: black; /* 修改字体颜色为黑色，确保与浅灰色背景对比明显 */
+            color: black;
         }
 
         .menu {
@@ -144,32 +144,11 @@
             position: relative; /* 设置为相对定位，用于定位错误信息 */
         }
         .error-message {
-             color: #d8000c; /* 红色字体 */
-             font-weight: bold; /* 粗体显示 */
-             font-size: 0.5em; /* 字体大小 */
-             padding: 5px; /* 内边距 */
-             background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
-             /*border: 1px solid #d8000c; !* 红色边框 *!*/
-             /*border-radius: 1px; !* 圆角 *!*/
-             display: flex; /* 使用 flexbox */
-             align-items: center; /* 垂直居中对齐 */
-             position: absolute; /* 绝对定位，悬浮在表单上方 */
-             top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
-             left: 83%; /* 水平居中 */
-             transform: translateX(-50%); /* 水平居中偏移 */
-             text-align: left; /* 左对齐文本 */
-             z-index: 1000; /* 确保错误信息在最上层 */
-             width: 10%; /* 调整为更宽的错误框 */
-             /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); !* 增加阴影效果 *!*/
-         }
-        .success-message {
-            color: white; /* 白色字体 */
+            color: #d8000c; /* 红色字体 */
             font-weight: bold; /* 粗体显示 */
             font-size: 0.5em; /* 字体大小 */
             padding: 5px; /* 内边距 */
-            background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
-            /*border: 1px solid #d8000c; !* 红色边框 *!*/
-            /*border-radius: 1px; !* 圆角 *!*/
+            background-color: transparent; /* 背景色设置为无色 */
             display: flex; /* 使用 flexbox */
             align-items: center; /* 垂直居中对齐 */
             position: absolute; /* 绝对定位，悬浮在表单上方 */
@@ -179,7 +158,25 @@
             text-align: left; /* 左对齐文本 */
             z-index: 1000; /* 确保错误信息在最上层 */
             width: 10%; /* 调整为更宽的错误框 */
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+            /* box-shadow: none; 取消阴影 */
+        }
+
+        .success-message {
+            color: white; /* 白色字体 */
+            font-weight: bold; /* 粗体显示 */
+            font-size: 0.5em; /* 字体大小 */
+            padding: 5px; /* 内边距 */
+            background-color: transparent; /* 背景色设置为无色 */
+            display: flex; /* 使用 flexbox */
+            align-items: center; /* 垂直居中对齐 */
+            position: absolute; /* 绝对定位，悬浮在表单上方 */
+            top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
+            left: 83%; /* 水平居中 */
+            transform: translateX(-50%); /* 水平居中偏移 */
+            text-align: left; /* 左对齐文本 */
+            z-index: 1000; /* 确保错误信息在最上层 */
+            width: 10%; /* 调整为更宽的错误框 */
+            /* box-shadow: none; 取消阴影 */
         }
 
 
