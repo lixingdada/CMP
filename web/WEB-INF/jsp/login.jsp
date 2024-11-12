@@ -7,7 +7,10 @@
     <title>登录与注册页面</title>
     <style>
         body {
-            background-color: black;
+            background-image: url('${pageContext.request.contextPath}/images/imgback.png'); /* 添加背景图片 */
+            background-size: cover; /* 背景图片自适应屏幕 */
+            background-position: center; /* 背景图片居中 */
+            background-repeat: no-repeat; /* 防止背景图片重复 */
             color: white;
             font-family: Arial, sans-serif;
             font-size: 30px;
@@ -59,6 +62,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
         }
         .photo-wall img {
             width: 100%;
@@ -80,12 +84,14 @@
             width: 30%;
             padding: 20px;
             border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: black; /* 设置为浅灰色 */
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7); /* 添加阴影 */
+            color: black; /* 修改字体颜色为黑色，确保与浅灰色背景对比明显 */
         }
+
         .menu {
             display: flex;
             width: 100%;
@@ -105,18 +111,19 @@
             border-bottom: 2px solid white;
         }
         .input-box {
-            width: 100%;
+            width: 90%;
             margin: 10px 0;
             padding: 10px;
             border-radius: 8px;
             border: 1px solid white;
-            background-color: black;
-            color: white;
+            background-color: rgba(255, 255, 255, 1); /* 设置带有透明度的白色背景 */
+            color: black; /* 修改文本颜色为黑色，以保证在浅色背景上清晰可见 */
             text-align: left;
         }
         .input-box::placeholder {
-            color: #ccc;
+            color: #666; /* 修改占位符颜色为更深的灰色 */
         }
+
         .submit-button {
             width: 100%;
             padding: 10px;
