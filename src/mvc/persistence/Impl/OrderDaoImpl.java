@@ -14,14 +14,14 @@ import java.util.List;
 public class OrderDaoImpl implements OrderDao {
 
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (userId, orderName, orderDate, orderAddress, orderTel) VALUES (?, ?, ?, ?, ?)";
-    private static final String INSERT_ORDER_ITEM_SQL = "INSERT INTO order_items (orderId, itemId, quantity, price) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_ORDER_ITEM_SQL = "INSERT INTO order_items (orderId, itemId, quantity, price,username) VALUES (?,?, ?, ?, ?)";
     private static final String CLEAR_CART_SQL = "DELETE FROM cart WHERE username = ?";
-    private static final String SELECT_ALL_ORDERS_SQL = "SELECT * FROM orders";
+    private static final String SELECT_ALL_ORDERS_SQL = "SELECT * FROM orders WHERE userId = ?";
     private static final String FIND_ORDER_BY_ID_SQL = "SELECT * FROM orders WHERE orderId = ?";
-    private static final String FIND_ORDER_ITEMS_BY_ORDER_ID_SQL = "SELECT * FROM order_items WHERE orderId = ?";
+    private static final String FIND_ORDER_ITEMS_BY_ORDER_ID_SQL = "SELECT * FROM order_items WHERE orderId  = ? AND username = ?";
 
     @Override
-    public void saveOrder(Order order) {
+    public void saveOrder(Order order,String username) {
         Connection connection = null;
         PreparedStatement insertOrderStmt = null;
         PreparedStatement insertOrderItemStmt = null;
@@ -56,6 +56,7 @@ public class OrderDaoImpl implements OrderDao {
                     insertOrderItemStmt.setString(2, cartItem.item.getItemId());
                     insertOrderItemStmt.setInt(3, cartItem.item.getQuantity());
                     insertOrderItemStmt.setBigDecimal(4, cartItem.total);
+                    insertOrderItemStmt.setString(5,username);
                     insertOrderItemStmt.addBatch();
                 }
                 insertOrderItemStmt.executeBatch();
@@ -117,14 +118,15 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public MyOrder getAllOrders() {
-        MyOrder myOrder = new MyOrder();
-        List<Order> orderList = myOrder.getOrderList();
+    public List<Order> getAllOrders(String username) {
+
+        List<Order> orderList =new ArrayList<>();
 
         try {
             Connection connection = DBUtil.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_ORDERS_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ORDERS_SQL);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Order order = new Order();
@@ -137,31 +139,36 @@ public class OrderDaoImpl implements OrderDao {
                 orderList.add(order);
             }
             resultSet.close();
-            statement.close();
+            preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return myOrder;
+        return orderList;
     }
 
     @Override
-    public List<OrderItem> findOrderItemsByOrderId(int orderId) {
+    public List<OrderItem> findOrderItemsByOrderId(int orderId,String username) {
         List<OrderItem> orderItems = new ArrayList<>();
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(FIND_ORDER_ITEMS_BY_ORDER_ID_SQL)) {
-            ps.setInt(1, orderId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
+
+            try  {
+                Connection connection = DBUtil.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDER_ITEMS_BY_ORDER_ID_SQL);
+                preparedStatement.setInt(1,orderId);
+                preparedStatement.setString(2, username);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setItemId(rs.getString("itemId"));
-                    orderItem.setQuantity(rs.getInt("quantity"));
-                    orderItem.setPrice(rs.getBigDecimal("price"));
+                    orderItem.setItemId(resultSet.getString("itemId"));
+                    orderItem.setQuantity(resultSet.getInt("quantity"));
+                    orderItem.setPrice(resultSet.getBigDecimal("price"));
                     orderItems.add(orderItem);
                 }
-            }
-        } catch (SQLException e) {
+                resultSet.close();
+                preparedStatement.close();
+                connection.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return orderItems;

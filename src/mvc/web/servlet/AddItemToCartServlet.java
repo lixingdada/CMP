@@ -21,9 +21,13 @@ public class AddItemToCartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String workingItemId = req.getParameter("workingItemId");
+        String workingItemId = req.getParameter("itemId");
         HttpSession session = req.getSession();
-        String username= (String) session.getAttribute("username");
+
+        String username = req.getParameter("username");
+        System.out.println("username"+username);
+        session.setAttribute("username",username);
+
 
         if (username == null) {
             resp.sendRedirect("loginForm");
@@ -66,5 +70,11 @@ public class AddItemToCartServlet extends HttpServlet {
 
         session.setAttribute("cart", cart);
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doGet(req,resp);
     }
 }

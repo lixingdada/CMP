@@ -1,6 +1,7 @@
 package mvc.web.servlet;
 
 
+import mvc.service.LogService;
 import mvc.service.LoginService;
 import mvc.domain.User;
 import org.w3c.dom.ls.LSOutput;
@@ -33,10 +34,12 @@ import java.util.Random;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/loginForm"})
 public class LoginServlet extends HttpServlet {
     private LoginService loginService;
+    private LogService logService;
 
     @Override
     public void init() throws ServletException {
         loginService = new LoginService();
+        logService = new LogService();
     }
 
     @Override
@@ -66,7 +69,12 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             User user = loginService.getUser(username, password);
             session.setAttribute("user", user);
-            resp.sendRedirect("main");
+            session.setAttribute("username", user.getUsername());
+            //System.out.println("user"+user.getUsername());
+
+            logService.loginLog(user.getUsername(),user.getUsername()+"刚刚登陆了！");
+
+            resp.sendRedirect("main");  //doget
         } else {
             req.setAttribute("errorMessage", "⚠ 用户名或密码错误");
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);

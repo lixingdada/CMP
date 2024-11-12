@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface OrderDao {
 
-        void saveOrder(Order order);
+        void saveOrder(Order order,String username);
 
-        MyOrder getAllOrders();
+        List<Order> getAllOrders(String username);
 
-        public List<OrderItem> findOrderItemsByOrderId(int orderId);
+        public List<OrderItem> findOrderItemsByOrderId(int orderId,String username);
 }

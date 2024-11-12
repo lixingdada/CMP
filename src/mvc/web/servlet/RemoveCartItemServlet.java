@@ -22,8 +22,10 @@ public class RemoveCartItemServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String username = (String) session.getAttribute("username");
+        HttpSession session=req.getSession();
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
 
         if (username == null) {
             resp.sendRedirect("loginForm");
