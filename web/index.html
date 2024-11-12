@@ -9,11 +9,43 @@
 <div id="Content">
     <h2>欢迎访问CMP！</h2>
 
-    <p><a href="main">进入CMP</a></p>
-    <p><a href="loginForm">登录/注册</a></p>
+    <div class="link-container">
+        <p><a href="main">进入CMP</a></p>
+        <p><a href="loginForm">登录/注册</a></p>
+    </div>
+    <div class="container">
+        <!-- 照片播放墙 -->
+        <div class="photo-wall">
+            <img src="images/img01.png" alt="Image 1" class="active">
+            <img src="images/img02.png" alt="Image 2">
+            <img src="images/img03.png" alt="Image 3">
+            <img src="images/img04.png" alt="Image 4">
+            <img src="images/img05.png" alt="Image 5">
+        </div>
 
-    <p><sub>Copyright Central South University. </sub></p>
-
+    <p class="footer"><sub>Copyright Central South University.</sub></p>
 </div>
-</body>
+
+    <script>
+
+
+        // 确保 DOM 加载完成后再执行 JavaScript
+        window.onload = function() {
+            let currentIndex = 0;
+            const images = document.querySelectorAll('.photo-wall img');
+            const totalImages = images.length;
+
+            // 显示下一张图片
+            function showNextImage() {
+                images[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % totalImages;
+                images[currentIndex].classList.add('active');
+            }
+
+            // 每2.5秒更换图片
+            setInterval(showNextImage, 2500);
+        };
+    </script>
+
+ </body>
 </html>

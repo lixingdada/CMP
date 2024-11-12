@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,12 @@ public class MyOrderFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 从数据库中获取订单列表
-        List<Order> orderList = orderDao.getAllOrders().orderList;
+        HttpSession session = req.getSession();
+        String username = req.getParameter("username");
+        session.setAttribute("username", username);
+
+        // 从数据库中获取特定用户名的订单列表
+        List<Order> orderList = orderDao.getAllOrders(username);
 
         // 将订单列表放入请求属性
         req.setAttribute("myOrder", orderList);
@@ -28,3 +33,4 @@ public class MyOrderFormServlet extends HttpServlet {
         req.getRequestDispatcher(MYORDER_FORM).forward(req, resp);
     }
 }
+

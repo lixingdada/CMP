@@ -15,6 +15,8 @@ public class ItemDaoImpl implements ItemDao {
     private static  final String GET_ITEM_LIST = "  SELECT * FROM item WHERE  productid= ?";
     private static  final String GET_ITEM = "  SELECT * FROM item WHERE itemid = ?";
 
+    private static final String GET_URL_BY_PRODUCT_ID = "SELECT *from item where attr2 LIKE ?";
+
 
     private Item resultSetToItem(ResultSet resultSet) {
         Item item = new Item();
@@ -92,5 +94,23 @@ public class ItemDaoImpl implements ItemDao {
         }
         DBUtil.close();
         return item;
+    }
+
+    @Override
+    public String getUrlByProductId(String productId) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        String s = productId.charAt(0)+productId.substring(2);
+        String url =  "";
+        arrayList.add("%"+s+"%");
+        ResultSet resultSet = DBUtil.executeQuery(GET_URL_BY_PRODUCT_ID,arrayList);
+        try {
+            if (resultSet.next()){
+                url = resultSet.getString("attr2");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        DBUtil.close();
+        return url;
     }
 }

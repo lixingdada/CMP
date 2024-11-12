@@ -14,15 +14,15 @@ import java.util.List;
 
 @WebServlet(name = "MainServlet" , urlPatterns = {"/main"})
 public class MainServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("mainForm").forward(req,resp);
-    }
-
+     @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+         req.getRequestDispatcher("mainForm").forward(req,resp);
+     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String search = req.getParameter("information");
+        req.setAttribute("information",search);
 
         //System.out.println("搜索信息："+search);
         CatalogService catalogService = new CatalogService();
@@ -30,7 +30,7 @@ public class MainServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.setAttribute("productList",productList);
-        session.setAttribute("msg","search");
+        session.setAttribute("msg","null");
 
         req.getRequestDispatcher("category").forward(req,resp);
     }

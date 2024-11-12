@@ -22,7 +22,10 @@ public class UpdateCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String username = (String) session.getAttribute("username");
+        
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
 
         Cart cart = null;
         try {
