@@ -16,7 +16,7 @@
 </div>
 
 <div id="Catalog">
-  <div id="Cart">
+  <div id="Cart" class="centered-text">
     <p class="centered-text">您的购物车为空，无法提交订单。</p>
     <a href="cartForm?username=${sessionScope.username}" class="Button centered-text">确定</a>
   </div>

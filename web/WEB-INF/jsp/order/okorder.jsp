@@ -15,7 +15,7 @@
 </div>
 
 <div id="Catalog">
-    <div id="Cart">
+    <div id="Cart" class="centered-text">
         <p class="centered-text">订单提交成功</p>
         <a href="cartForm?username=${sessionScope.username}" class="Button centered-text">确定</a>
     </div>

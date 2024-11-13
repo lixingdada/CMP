@@ -21,7 +21,7 @@
     <tr class="centered-text">
         <th class="centered-text">商品ID</th>
         <th class="centered-text">数量</th>
-        <th class="centered-text">价格</th>
+        <th class="centered-text">金额</th>
     </tr>
 
     <c:forEach var="item" items="${sessionScope.orderItems}">

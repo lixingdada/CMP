@@ -46,37 +46,37 @@
             </td>
         </tr>
 
-        <tr>
-            <th class="centered-text"><b>名称</b></th>
-            <th class="centered-text"><b>数量</b></th>
-            <th class="centered-text"><b>单价</b></th>
-            <th class="centered-text"><b>总价</b></th>
-        </tr>
+<%--        <tr>--%>
+<%--            <th class="centered-text"><b>名称</b></th>--%>
+<%--            <th class="centered-text"><b>数量</b></th>--%>
+<%--            <th class="centered-text"><b>单价</b></th>--%>
+<%--            <th class="centered-text"><b>总价</b></th>--%>
+<%--        </tr>--%>
 
-        <c:forEach var="cartItem" items="${sessionScope.cart.cartItems}">
-            <tr>
-                <td class="centered-text">
-                    ${cartItem.item.itemId}
-                </td>
+<%--        <c:forEach var="cartItem" items="${sessionScope.cart.cartItems}">--%>
+<%--            <tr>--%>
+<%--                <td class="centered-text">--%>
+<%--                    ${cartItem.item.itemId}--%>
+<%--                </td>--%>
 
-                <td class="centered-text">
-                   ${cartItem.quantity}"
-                </td>
+<%--                <td class="centered-text">--%>
+<%--                   ${cartItem.quantity}"--%>
+<%--                </td>--%>
 
-                <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"
-                                                            pattern="$#,##0.00" /></td>
+<%--                <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"--%>
+<%--                                                            pattern="$#,##0.00" /></td>--%>
 
-                <td class="centered-text"><fmt:formatNumber value="${cartItem.total}"
-                                                            pattern="$#,##0.00" /></td>
+<%--                <td class="centered-text"><fmt:formatNumber value="${cartItem.total}"--%>
+<%--                                                            pattern="$#,##0.00" /></td>--%>
 
-            </tr>
-        </c:forEach>
+<%--            </tr>--%>
+<%--        </c:forEach>--%>
 
-        <tr>
-            <td colspan="5" class="centered-text">
-                合计: <fmt:formatNumber value="${sessionScope.cart.getSubTotal()}" pattern="$#,##0.00" />
-            </td>
-        </tr>
+<%--        <tr>--%>
+<%--            <td colspan="5" class="centered-text">--%>
+<%--                合计: <fmt:formatNumber value="${sessionScope.cart.getSubTotal()}" pattern="$#,##0.00" />--%>
+<%--            </td>--%>
+<%--        </tr>--%>
 
         <tr class="centered-text">
             <td colspan="2" class="centered-text">

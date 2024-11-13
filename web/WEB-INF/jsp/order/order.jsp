@@ -28,7 +28,7 @@
                 <td>
                     姓名
                 </td>
-                <td class="centered-text">
+                <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderName}"
                 </td>
             </tr>
@@ -37,7 +37,7 @@
                 <td>
                     电话
                 </td>
-                <td class="centered-text">
+                <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderTel}"
                 </td>
             </tr>
@@ -46,19 +46,49 @@
                 <td>
                     地址
                 </td>
-                <td class="centered-text">
+                <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderAddress}"
                 </td>
             </tr>
 
-                    <%--  罗列具体商品信息   --%>
-
 
             <tr>
-                <td  class="centered-text">
+                <th class="centered-text"><b>名称</b></th>
+                <th class="centered-text"><b>数量</b></th>
+                <th class="centered-text"><b>单价</b></th>
+                <th class="centered-text"><b>总价</b></th>
+            </tr>
+                    <%--  罗列具体商品信息   --%>
+           <c:forEach var="cartItem" items="${sessionScope.order.getCart().getCartItemList()}">
+               <tr>
+                   <td class="centered-text">
+                           ${cartItem.item.itemId}
+                   </td>
+
+                   <td class="centered-text">
+                           ${cartItem.quantity}"
+                   </td>
+
+                   <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"
+                                                               pattern="$#,##0.00" /></td>
+
+                   <td class="centered-text"><fmt:formatNumber value="${cartItem.total}"
+                                                               pattern="$#,##0.00" /></td>
+
+               </tr>
+           </c:forEach>
+
+            <tr>
+                <td colspan="5" class="centered-text">
+                    合计: <fmt:formatNumber value="${sessionScope.order.getCart().getSubTotal()}" pattern="$#,##0.00" />
+                </td>
+            </tr>
+
+            <tr>
+                <td  class="centered-text" colspan="2">
                     <a href="confirmOrderForm?username=${sessionScope.username}" class="Button centered-text">返回</a>
                 </td>
-                <td  class="centered-text">
+                <td  class="centered-text" colspan="3">
                     <input type="submit" value="去支付" class="Button centered-text">
                 </td>
             </tr>

@@ -29,7 +29,7 @@
                     <th class="centered-text"><b>数量</b></th>
                     <th class="centered-text"><b>单价</b></th>
                     <th class="centered-text"><b>总价</b></th>
-                    <th class="centered-text">&nbsp;</th>
+                    <th class="centered-text"><b>移出购物车</b></th>
                 </tr>
 
                 <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart ==null}">
@@ -83,11 +83,11 @@
                         <input type="submit" value="更新">
                     </td>
 
-                    <td colspan="2" class="centered-text">
+                    <td colspan="3" class="centered-text">
                         <a href="mainForm?username=${sessionScope.username}" class="Button centered-text">继续购物</a>
                     </td>
 
-                    <td colspan="2" class="centered-text">
+                    <td colspan="1" class="centered-text">
                         <a href="confirmOrderForm?username=${sessionScope.username}" class="Button centered-text">提交订单</a>
                     </td>
                 </tr>
