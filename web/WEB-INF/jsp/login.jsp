@@ -7,7 +7,10 @@
     <title>登录与注册页面</title>
     <style>
         body {
-            background-color: black;
+            background-image: url('${pageContext.request.contextPath}/images/imgback.png'); /* 添加背景图片 */
+            background-size: cover; /* 背景图片自适应屏幕 */
+            background-position: center; /* 背景图片居中 */
+            background-repeat: no-repeat; /* 防止背景图片重复 */
             color: white;
             font-family: Arial, sans-serif;
             font-size: 30px;
@@ -25,6 +28,7 @@
             font-size: 80px;
             color: white;
             margin-bottom: 20px;
+            font-weight: 400;
         }
         .marquee {
             position: absolute;
@@ -58,6 +62,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
         }
         .photo-wall img {
             width: 100%;
@@ -79,12 +84,14 @@
             width: 30%;
             padding: 20px;
             border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4); /* 设置为带透明度的黑色背景 */
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7); /* 添加阴影 */
+            color: black;
         }
+
         .menu {
             display: flex;
             width: 100%;
@@ -104,18 +111,19 @@
             border-bottom: 2px solid white;
         }
         .input-box {
-            width: 100%;
+            width: 90%;
             margin: 10px 0;
             padding: 10px;
             border-radius: 8px;
             border: 1px solid white;
-            background-color: black;
-            color: white;
+            background-color: rgba(255, 255, 255, 1); /* 设置带有透明度的白色背景 */
+            color: black; /* 修改文本颜色为黑色，以保证在浅色背景上清晰可见 */
             text-align: left;
         }
         .input-box::placeholder {
-            color: #ccc;
+            color: #666; /* 修改占位符颜色为更深的灰色 */
         }
+
         .submit-button {
             width: 100%;
             padding: 10px;
@@ -136,32 +144,11 @@
             position: relative; /* 设置为相对定位，用于定位错误信息 */
         }
         .error-message {
-             color: #d8000c; /* 红色字体 */
-             font-weight: bold; /* 粗体显示 */
-             font-size: 0.5em; /* 字体大小 */
-             padding: 5px; /* 内边距 */
-             background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
-             /*border: 1px solid #d8000c; !* 红色边框 *!*/
-             /*border-radius: 1px; !* 圆角 *!*/
-             display: flex; /* 使用 flexbox */
-             align-items: center; /* 垂直居中对齐 */
-             position: absolute; /* 绝对定位，悬浮在表单上方 */
-             top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
-             left: 83%; /* 水平居中 */
-             transform: translateX(-50%); /* 水平居中偏移 */
-             text-align: left; /* 左对齐文本 */
-             z-index: 1000; /* 确保错误信息在最上层 */
-             width: 10%; /* 调整为更宽的错误框 */
-             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
-         }
-        .success-message {
-            color: white; /* 白色字体 */
+            color: #d8000c; /* 红色字体 */
             font-weight: bold; /* 粗体显示 */
             font-size: 0.5em; /* 字体大小 */
             padding: 5px; /* 内边距 */
-            background-color: rgba(255, 210, 210, 0); /* 浅红色背景，带有透明度 */
-            /*border: 1px solid #d8000c; !* 红色边框 *!*/
-            /*border-radius: 1px; !* 圆角 *!*/
+            background-color: transparent; /* 背景色设置为无色 */
             display: flex; /* 使用 flexbox */
             align-items: center; /* 垂直居中对齐 */
             position: absolute; /* 绝对定位，悬浮在表单上方 */
@@ -171,7 +158,25 @@
             text-align: left; /* 左对齐文本 */
             z-index: 1000; /* 确保错误信息在最上层 */
             width: 10%; /* 调整为更宽的错误框 */
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+            /* box-shadow: none; 取消阴影 */
+        }
+
+        .success-message {
+            color: white; /* 白色字体 */
+            font-weight: bold; /* 粗体显示 */
+            font-size: 0.5em; /* 字体大小 */
+            padding: 5px; /* 内边距 */
+            background-color: transparent; /* 背景色设置为无色 */
+            display: flex; /* 使用 flexbox */
+            align-items: center; /* 垂直居中对齐 */
+            position: absolute; /* 绝对定位，悬浮在表单上方 */
+            top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
+            left: 83%; /* 水平居中 */
+            transform: translateX(-50%); /* 水平居中偏移 */
+            text-align: left; /* 左对齐文本 */
+            z-index: 1000; /* 确保错误信息在最上层 */
+            width: 10%; /* 调整为更宽的错误框 */
+            /* box-shadow: none; 取消阴影 */
         }
 
 
@@ -184,10 +189,10 @@
 <div class="header">WELCOME TO CMP!</div>
 
 <!-- 滚动字幕条 -->
-<div class="marquee">
-    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>
-    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>
-</div>
+<%--<div class="marquee">--%>
+<%--    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>--%>
+<%--    <span>join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) join us for better coding ! :-) </span>--%>
+<%--</div>--%>
 
 <div class="container">
     <!-- 照片播放墙 -->
@@ -287,19 +292,22 @@
         document.querySelector('.menu button:nth-child(2)').classList.add('active');
     }
 
-    // JavaScript to handle image slideshow
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.photo-wall img');
-    const totalImages = images.length;
+    // 确保 DOM 加载完成后再执行 JavaScript
+    window.onload = function() {
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.photo-wall img');
+        const totalImages = images.length;
 
-    function showNextImage() {
-        images[currentIndex].classList.remove('active');
-        currentIndex = (currentIndex + 1) % totalImages;
-        images[currentIndex].classList.add('active');
-    }
+        // 显示下一张图片
+        function showNextImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % totalImages;
+            images[currentIndex].classList.add('active');
+        }
 
-    // 每2秒更换图片
-    setInterval(showNextImage, 2500);
+        // 每2.5秒更换图片
+        setInterval(showNextImage, 2500);
+    };
 </script>
 
 </body>

@@ -13,4 +13,8 @@ public class RegisterService {
     public boolean register(User user) {
         return userDao.insertUser(user);
     }
+
+    public int createAccount(String username){
+        return userDao.insertAccount(username);
+    }
 }

@@ -1,0 +1,169 @@
+/* 个人信息卡片样式 */
+.profile-card {
+    width: 50%; /* 宽度占屏幕二分之一 */
+    margin: 20px auto; /* 居中 */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    text-align: left; /* 使内容左对齐 */
+}
+
+.profile-header h2 {
+    color: #007BFF;
+    margin-top: 0;
+}
+
+.profile-content p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 收货地址卡片样式 */
+.address-card {
+    width: 50%; /* 宽度占屏幕二分之一 */
+    margin: 20px auto; /* 居中 */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.address-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007BFF;
+    margin-bottom: 15px;
+}
+
+.address-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.address-info {
+    flex: 1;
+    text-align: left; /* 保证内容左对齐 */
+}
+
+.address-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.address-item button {
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.address-item button:hover {
+    background-color: #218838;
+}
+
+.address-card .btn {
+    margin-top: 20px;
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.address-card .btn:hover {
+    background-color: #0056b3;
+}
+
+/* 模态窗口样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 表单样式 */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+form input {
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
