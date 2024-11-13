@@ -17,8 +17,9 @@ body, html {
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #ffffff; /* 白色背景 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 更明显的阴影 */
+    border-radius: 10px; /* 增加圆角 */
 }
 
 .logo a {

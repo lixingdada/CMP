@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../common/top.jsp"%>
@@ -12,9 +11,12 @@
 <div class="search-form">
     <form action="./main" method="post">
         <input type="text" name="information" placeholder="输入关键字搜索"/>
-        <button type="submit">搜索</button>
+        <button type="submit" class="image-button">
+            <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
+        </button>
     </form>
 </div>
+
 
 <div class="category-container">
     <a href="./category?category=PYTHON" class="category-box">
@@ -34,9 +36,6 @@
         <div class="category-text">C++</div>
     </a>
 </div>
-
-
-
 
 </body>
 </html>
