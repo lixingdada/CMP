@@ -21,57 +21,50 @@ public class AddItemToCartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String workingItemId = req.getParameter("itemId");
-        HttpSession session = req.getSession();
 
+        HttpSession session = req.getSession();
+        String workingItemId = req.getParameter("itemId");
         String username = req.getParameter("username");
+
         System.out.println("username"+username);
         session.setAttribute("username",username);
 
+        CatalogService catalogService = new CatalogService();
+        CartItem cartItem = new CartItem();
+        cartItem.item = catalogService.getItem(workingItemId);
 
         if (username == null) {
             resp.sendRedirect("loginForm");
             return;
         }
 
-        Cart cart = null;
+        Cart cart ;
         try {
-            cart = cartDao.getCartByUserName(username);
+            cart = cartDao.getCartByUserName(username);    //尝试数据库中获取cart
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         if (cart == null) {
             try {
-                cartDao.createCartForUser(username);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                cart = cartDao.getCartByUserName(username);
+                cartDao.createCartForUser(username);   //数据库中创建cart
+                //cart = cartDao.getCartByUserName(username);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
-        CatalogService catalogService = new CatalogService();
-        CartItem cartItem = new CartItem();
-        cartItem.item = catalogService.getItem(workingItemId);
-
-        if (cart.containsItemId(workingItemId)) {
-            cart.incrementQuantityByItemId(workingItemId);
-        } else {
-            cart.addItem(cartItem.item);
-            try {
-                cartDao.addCartItem(cartItem, cart.getId());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            cartDao.addCartItem(cartItem,username);  //数据库中对应cart_item
+            cart = cartDao.getCartByUserName(username);
+            //cart.incrementQuantityByItemId(cartItem.item);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         session.setAttribute("cart", cart);
+
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

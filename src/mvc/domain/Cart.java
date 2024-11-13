@@ -1,5 +1,8 @@
 package mvc.domain;
 
+import mvc.persistence.CartDao;
+import mvc.service.CatalogService;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -64,11 +67,20 @@ public class Cart implements Serializable {
         if (cartItem == null) {
             cartItem = new CartItem();
             cartItem.setItem(item);
-            cartItem.setQuantity(0);
             itemMap.put(item.getItemId(), cartItem);
             itemList.add(cartItem);
         }
-        cartItem.incrementQuantity();
+    }
+
+    //增加购物车某商品数量(确定商品存在）
+    public void incrementQuantityByItemId(Item item) throws Exception {
+        CartItem cartItem = this.itemMap.get(item.getItemId());
+        if (cartItem != null) {
+            cartItem.incrementQuantity();
+        } else {
+            // 处理未找到的情况
+            System.out.println("未找到" + item.getItemId());
+        }
     }
 
     //通过ID移除购物车商品
@@ -82,11 +94,6 @@ public class Cart implements Serializable {
         }
     }
 
-    //增加购物车某商品数量(确定商品存在）
-    public void incrementQuantityByItemId(String itemId) {
-        CartItem cartItem = (CartItem) itemMap.get(itemId);
-        cartItem.incrementQuantity();
-    }
 
     //设置购物车某商品数量
     public void setQuantityByItemId(String itemId, int quantity) {

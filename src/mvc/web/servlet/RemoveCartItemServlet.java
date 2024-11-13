@@ -26,6 +26,7 @@ public class RemoveCartItemServlet extends HttpServlet {
         String username = req.getParameter("username");
         session.setAttribute("username",username);
 
+        System.out.println(username);
 
         if (username == null) {
             resp.sendRedirect("loginForm");
@@ -41,12 +42,19 @@ public class RemoveCartItemServlet extends HttpServlet {
         String workingItemId = req.getParameter("workingItemId");
         CartItem cartItem=new CartItem();
         cartItem.item = cart.removeItemById(workingItemId);
+
         if (cartItem.item == null) {
             session.setAttribute("errorMsg", "Attempted to remove null CartItem from Cart.");
             req.getRequestDispatcher(ERROR_FORM).forward(req, resp);
         } else {
             try {
-                cartDao.removeCartItem(cartItem.item.getItemId());
+                cartDao.removeCartItem(cartItem.item.getItemId(),username);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                cart = cartDao.getCartByUserName(username);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

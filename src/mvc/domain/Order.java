@@ -18,6 +18,15 @@ public class Order implements Serializable {
     private String orderAddress;
     private String orderTel;
     private Cart cart;
+    private List<OrderItem> orderItems;
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
 
     public String getUserId() {
         return userId;
@@ -75,7 +84,7 @@ public class Order implements Serializable {
         this.cart = cart;
     }
 
-    public Order() {}
+    public Order() {orderDate = new Date();}
 
     public Order(User user, Cart cart) {
         orderName = user.getUsername();

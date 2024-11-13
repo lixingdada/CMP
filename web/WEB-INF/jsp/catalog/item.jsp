@@ -36,10 +36,10 @@
                     <button type="submit" class="action-button">加入购物车</button>
                 </form>
 
-                <form action="" method="post" class="action-form">
-                    <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
-                    <button type="submit" class="action-button">购买</button>
-                </form>
+<%--                <form action="" method="post" class="action-form">--%>
+<%--                    <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>--%>
+<%--                    <button type="submit" class="action-button">购买</button>--%>
+<%--                </form>--%>
             </div>
 
             <h2><a href="product" class="return-link">返回</a></h2>
