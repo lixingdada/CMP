@@ -1,22 +1,67 @@
 package mvc.domain;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class User {
-    private int id;
     private String username;
+
     private String password;
+
+    private String virtualName;
+
+    private LocalDate birthday;
+
     private String email;
-    private int age;
+
+    private String phone;
+
+    private String avatar;
+    //private int age;
+    private ArrayList<Address> addresses;
+
+    public ArrayList<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(ArrayList<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public User(){
 
     }
 
-    public int getId() {
-        return id;
+    public String getVirtualName() {
+        return virtualName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVirtualName(String virtualName) {
+        this.virtualName = virtualName;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -41,14 +86,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
 }

@@ -15,6 +15,8 @@ public class LoginService {
         return user != null; // 如果用户不为null，则登录成功
     }
 
+
+
     public User getUser(String username, String password) {
         return userDao.findUserByUsernameAndPassword(username, password);
     }

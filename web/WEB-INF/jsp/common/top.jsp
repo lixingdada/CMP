@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>top</title>
+    <title>CMP</title>
     <link rel="stylesheet" href="css/top.css"> <!-- 引入外部CSS -->
 </head>
 <body>
@@ -21,7 +21,8 @@
             <!-- 判断用户是否登录 -->
             <c:choose>
                 <c:when test="${sessionScope.user != null}">
-                    <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}</span>
+                    <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}   </span>
+                    <a href="userInfo" class="btn">个人信息</a>
                     <a href="logout" class="btn">退出登录</a>
                 </c:when>
                 <c:otherwise>
@@ -35,6 +36,8 @@
             <c:if test="${empty sessionScope.user}">
                 <a href="loginForm" class="btn">登录/注册</a>
             </c:if>--%>
+
+
             <a href="cartForm" class="cart-link">
                 <span class="cart-icon">&#128722;</span>购物车
             </a>

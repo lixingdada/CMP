@@ -4,6 +4,7 @@ package mvc.web.servlet;
 import mvc.service.LogService;
 import mvc.service.LoginService;
 import mvc.domain.User;
+import mvc.service.UserInfoService;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.imageio.ImageIO;
@@ -35,11 +36,13 @@ import java.util.Random;
 public class LoginServlet extends HttpServlet {
     private LoginService loginService;
     private LogService logService;
+    private UserInfoService userInfoService;
 
     @Override
     public void init() throws ServletException {
         loginService = new LoginService();
         logService = new LogService();
+        userInfoService = new UserInfoService();
     }
 
     @Override
@@ -68,6 +71,8 @@ public class LoginServlet extends HttpServlet {
         } else if (loginService.login(username, password)) {
             HttpSession session = req.getSession();
             User user = loginService.getUser(username, password);
+            userInfoService.loadUser(user,username);
+            userInfoService.findAddress(user,username);
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());
             //System.out.println("user"+user.getUsername());
