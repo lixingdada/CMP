@@ -1,8 +1,8 @@
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
+    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
+    background-size: cover; /* 让背景图充满整个页面 */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* 使背景固定在视口 */
 }
 
 #BackLink {

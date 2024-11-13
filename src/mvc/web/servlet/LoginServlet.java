@@ -81,8 +81,8 @@ public class LoginServlet extends HttpServlet {
 
 
             //黄程杰的，有冲突，一用就崩 :(
-            //userInfoService.loadUser(user,username);
-            //userInfoService.findAddress(user,username);
+            userInfoService.loadUser(user,username);
+            userInfoService.findAddress(user,username);
 
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());
