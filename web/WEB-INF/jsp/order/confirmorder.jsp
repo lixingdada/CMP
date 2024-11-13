@@ -18,65 +18,52 @@
 <div>
     <h2 class="centered-text">请输入具体信息</h2>
     <form action="orderForm?username=${sessionScope.username}" method="post" class="centered-text">
-    <table class="centered-text">
+
+        <table class="centered-text">
+            <tr class="centered-text">
+                <td class="centered-text">
+                    <label for="receiverSelect" class="centered-text"><b>请选择</b></label>
+                </td>
+                <td class="centered-text" colspan="4">
+                    <select id="receiverSelect" name="selectedReceiver">
+                        <c:forEach var="receiver" items="${sessionScope.receivers}">
+                            <option value="${receiver.receiverName},${receiver.receiverPhone},${receiver.receiverAddress}">
+                                    ${receiver.receiverName} - ${receiver.receiverPhone} - ${receiver.receiverAddress}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+
+        <table class="centered-text">
         <tr class="centered-text">
-            <td>
-                姓名
+            <td class="centered-text">
+                <b>收货人</b>
             </td>
             <td class="centered-text" colspan="4">
-                <input type="text" name="orderName" >
+                <input type="text" name="orderName" id="orderName" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverName : ''}">
             </td>
         </tr>
 
         <tr class="centered-text">
-            <td>
-                电话
+            <td class="centered-text">
+                <b>电话</b>
             </td>
             <td class="centered-text" colspan="4">
-                <input type="text" name="orderTel" >
+                <input type="text" name="orderTel" id="orderTel" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverPhone : ''}">
             </td>
         </tr>
 
         <tr class="centered-text">
-            <td>
-                地址
+            <td class="centered-text">
+                <b>地址</b>
             </td>
             <td class="centered-text" colspan="4">
-                <input type="text" name="orderAddress" >
+                <input type="text" name="orderAddress" id="orderAddress" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverAddress : ''}">
             </td>
         </tr>
-
-<%--        <tr>--%>
-<%--            <th class="centered-text"><b>名称</b></th>--%>
-<%--            <th class="centered-text"><b>数量</b></th>--%>
-<%--            <th class="centered-text"><b>单价</b></th>--%>
-<%--            <th class="centered-text"><b>总价</b></th>--%>
-<%--        </tr>--%>
-
-<%--        <c:forEach var="cartItem" items="${sessionScope.cart.cartItems}">--%>
-<%--            <tr>--%>
-<%--                <td class="centered-text">--%>
-<%--                    ${cartItem.item.itemId}--%>
-<%--                </td>--%>
-
-<%--                <td class="centered-text">--%>
-<%--                   ${cartItem.quantity}"--%>
-<%--                </td>--%>
-
-<%--                <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"--%>
-<%--                                                            pattern="$#,##0.00" /></td>--%>
-
-<%--                <td class="centered-text"><fmt:formatNumber value="${cartItem.total}"--%>
-<%--                                                            pattern="$#,##0.00" /></td>--%>
-
-<%--            </tr>--%>
-<%--        </c:forEach>--%>
-
-<%--        <tr>--%>
-<%--            <td colspan="5" class="centered-text">--%>
-<%--                合计: <fmt:formatNumber value="${sessionScope.cart.getSubTotal()}" pattern="$#,##0.00" />--%>
-<%--            </td>--%>
-<%--        </tr>--%>
 
         <tr class="centered-text">
             <td colspan="2" class="centered-text">
@@ -89,6 +76,16 @@
     </table>
     </form>
 </div>
+
+<script>
+    document.getElementById('receiverSelect').addEventListener('change', function() {
+        const selectedValue = this.value.split(',');
+        document.getElementById('orderName').value = selectedValue[0];
+        document.getElementById('orderTel').value = selectedValue[1];
+        document.getElementById('orderAddress').value = selectedValue[2];
+    });
+</script>
+
 </body>
 </html>
 

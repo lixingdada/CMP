@@ -46,7 +46,7 @@
                         </td>
 
                         <td class="centered-text">
-                            <input type="text2" name="${cartItem.item.itemId}" value="${cartItem.quantity}">
+                            <input class="text2" name="${cartItem.item.itemId}" value="${cartItem.quantity}">
                         </td>
 
                         <td class="centered-text"><fmt:formatNumber value="${cartItem.item.listPrice}"

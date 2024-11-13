@@ -1,8 +1,14 @@
+select {
+    width: 500px; /* 增大宽度 */
+    height: 30px; /* 增大高度 */
+    text-align: center; /* 使文字居中 */
+    font-size: 16px; /* 调整字体大小以提高可读性 */
+}
+
 body {
-    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
-    background-size: cover; /* 让背景图充满整个页面 */
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* 使背景固定在视口 */
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
 }
 
 #BackLink {
@@ -51,7 +57,8 @@ input[type="text"] {
     height: 30px; /* 增大高度 */
     text-align: center;
 }
-input[type="text2"] {
+
+.text2{
     width: 100px; /* 增大宽度 */
     height: 30px; /* 增大高度 */
     text-align: center;
