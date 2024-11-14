@@ -8,8 +8,12 @@ public class CartItem implements Serializable {
 
     public Item item;   //商品类型
 
-    private int quantity;   //商品数量
+    public int quantity;   //商品数量
     public BigDecimal total;    //总价
+
+    public BigDecimal getTotal() { // 添加 getter 方法
+        return total;
+    }
 
     public Item getItem() {
         return item;
@@ -21,7 +25,7 @@ public class CartItem implements Serializable {
     }
 
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(int quantity) {
@@ -31,15 +35,15 @@ public class CartItem implements Serializable {
 
 //计算总价
     public void incrementQuantity() {
-        quantity++;
+        this.quantity++;
         calculateTotal();
     }
 
     private void calculateTotal() {
-        if (item != null && item.getListPrice() != null) {
-            total = item.getListPrice().multiply(new BigDecimal(quantity));
+        if (this.item != null && this.item.getListPrice() != null) {
+            this.total = this.item.getListPrice().multiply(new BigDecimal(this.quantity));
         } else {
-            total = null;
+            this.total = null;
         }
     }
 }

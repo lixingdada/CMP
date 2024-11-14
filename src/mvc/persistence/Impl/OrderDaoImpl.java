@@ -54,7 +54,7 @@ public class OrderDaoImpl implements OrderDao {
                 for (CartItem cartItem : order.getCart().getCartItemList()) {
                     insertOrderItemStmt.setInt(1, order.getOrderId());
                     insertOrderItemStmt.setString(2, cartItem.item.getItemId());
-                    insertOrderItemStmt.setInt(3, cartItem.item.getQuantity());
+                    insertOrderItemStmt.setInt(3, cartItem.getQuantity());
                     insertOrderItemStmt.setBigDecimal(4, cartItem.total);
                     insertOrderItemStmt.setString(5,username);
                     insertOrderItemStmt.addBatch();
@@ -121,28 +121,70 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getAllOrders(String username) {
 
         List<Order> orderList =new ArrayList<>();
+        List<Integer> orderIds = new ArrayList<>();
+
+        Connection connection=null;
+        PreparedStatement preparedStatement1=null;
+        PreparedStatement preparedStatement2=null;
+        ResultSet resultSet1=null;
+        ResultSet resultSet2=null;
 
         try {
-            Connection connection = DBUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ORDERS_SQL);
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            connection = DBUtil.getConnection();
+            connection.setAutoCommit(false); // 开启事务
 
-            while (resultSet.next()) {
+            preparedStatement1 = connection.prepareStatement(SELECT_ALL_ORDERS_SQL);
+            preparedStatement1.setString(1, username);
+            resultSet1 = preparedStatement1.executeQuery();
+
+            while (resultSet1.next()) {
+                int orderId = resultSet1.getInt("orderId");
+                orderIds.add(orderId);
+            }
+
+
+            // 遍历每个订单ID，获取详细信息
+            for (int orderId : orderIds) {
                 Order order = new Order();
-                order.setOrderId(resultSet.getInt("orderId"));
-                order.setUserId(resultSet.getString("userId"));
-                order.setOrderName(resultSet.getString("orderName"));
-                order.setOrderDate(resultSet.getDate("orderDate"));
-                order.setOrderAddress(resultSet.getString("orderAddress"));
-                order.setOrderTel(resultSet.getString("orderTel"));
+
+                // 设置订单基本信息
+                preparedStatement2 = connection.prepareStatement(FIND_ORDER_BY_ID_SQL);
+                preparedStatement2.setInt(1, orderId);
+                resultSet2 = preparedStatement2.executeQuery();
+
+            if (resultSet2.next()) {
+                order.setOrderId(resultSet2.getInt("orderId"));
+                order.setUserId(resultSet2.getString("userId"));
+                order.setOrderName(resultSet2.getString("orderName"));
+                order.setOrderDate(resultSet2.getDate("orderDate"));
+                order.setOrderAddress(resultSet2.getString("orderAddress"));
+                order.setOrderTel(resultSet2.getString("orderTel"));
+                //orderList.add(order);
+            }
+                // 获取订单项
+                List<OrderItem> orderItems = findOrderItemsByOrderId(orderId, username);
+                order.setOrderItems(orderItems);
+
                 orderList.add(order);
             }
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
+
+            connection.commit();
+
         } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // 回滚事务
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        }finally {
+            DBUtil.closeResultSet(resultSet2);
+            DBUtil.closeResultSet(resultSet1);
+            DBUtil.closePreparedStatement(preparedStatement2);
+            DBUtil.closePreparedStatement(preparedStatement1);
+            DBUtil.closeConnection(connection);
         }
 
         return orderList;

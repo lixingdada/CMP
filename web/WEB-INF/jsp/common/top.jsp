@@ -36,15 +36,16 @@
             <c:if test="${empty sessionScope.user}">
                 <a href="loginForm" class="btn">登录/注册</a>
             </c:if>--%>
+            <a href="cartForm?username=${sessionScope.user.username}" class="cart-link">
 
-
-            <a href="cartForm" class="cart-link">
                 <span class="cart-icon">&#128722;</span>购物车
+            </a>
+            <a href="myOrderForm?username=${sessionScope.user.username}" class="cart-link">
+                我的订单
             </a>
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

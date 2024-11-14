@@ -47,6 +47,11 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session=req.getSession();
+        String username = req.getParameter("username");
+        session.setAttribute("username",username);
+
         req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
     }
 
@@ -71,8 +76,14 @@ public class LoginServlet extends HttpServlet {
         } else if (loginService.login(username, password)) {
             HttpSession session = req.getSession();
             User user = loginService.getUser(username, password);
+
+            session.setAttribute("username",username);
+
+
+            //黄程杰的，有冲突，一用就崩 :(
             userInfoService.loadUser(user,username);
             userInfoService.findAddress(user,username);
+
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());
             //System.out.println("user"+user.getUsername());

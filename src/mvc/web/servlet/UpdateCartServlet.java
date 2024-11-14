@@ -4,6 +4,7 @@ import mvc.domain.Cart;
 import mvc.domain.CartItem;
 import mvc.persistence.CartDao;
 import mvc.persistence.Impl.CartDaoImpl;
+import mvc.service.CatalogService;
 
 
 import javax.servlet.ServletException;
@@ -26,6 +27,7 @@ public class UpdateCartServlet extends HttpServlet {
         String username = req.getParameter("username");
         session.setAttribute("username",username);
 
+        System.out.println(username);
 
         Cart cart = null;
         try {
@@ -36,25 +38,35 @@ public class UpdateCartServlet extends HttpServlet {
         if (cart != null) {
             Iterator<CartItem> cartItems = cart.getAllCartItems();
             while (cartItems.hasNext()) {
+
                 CartItem cartItem = cartItems.next();
-                String itemId = cartItem.getItem().getItemId();
-                int quantity = Integer.parseInt(req.getParameter(itemId));
-                cart.setQuantityByItemId(itemId, quantity);
+                String itemId = String.valueOf(cartItem.item.getItemId());
+
+                String quantityStr = req.getParameter(itemId);
+                int quantity = Integer.parseInt(quantityStr != null ? quantityStr : "0");
+
                 try {
-                    cartDao.updateCartItemQuantity(cartItem.item.getItemId(), quantity);
+                    cartDao.updateCartItemQuantity(itemId, quantity,username);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
                 if (quantity < 1) {
                     cartItems.remove();
                     try {
-                        cartDao.removeCartItem(cartItem.item.getItemId());
+                        cartDao.removeCartItem(cartItem.item.getItemId(),username);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         }
+
+        try {
+            cart = cartDao.getCartByUserName(username);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        session.setAttribute("cart", cart);
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
 

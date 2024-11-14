@@ -19,19 +19,19 @@ public class DetailOrderFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String orderIdStr = req.getParameter("orderId");
+        req.setCharacterEncoding("UTF-8");
 
         HttpSession session=req.getSession();
         String username = req.getParameter("username");
-        session.setAttribute("username",username);
 
-
+        String orderIdStr = req.getParameter("orderId");
         int orderId = Integer.parseInt(orderIdStr);
 
         // 获取订单项信息
         List<OrderItem> orderItems = orderDao.findOrderItemsByOrderId(orderId,username);
 
-        req.setAttribute("orderItems", orderItems);
+        session.setAttribute("orderItems", orderItems);
+        session.setAttribute("username",username);
         req.getRequestDispatcher(LORDERDETAI_FORM).forward(req, resp);
     }
 }

@@ -19,15 +19,17 @@ public class MyOrderFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
         String username = req.getParameter("username");
-        session.setAttribute("username", username);
+
 
         // 从数据库中获取特定用户名的订单列表
         List<Order> orderList = orderDao.getAllOrders(username);
 
         // 将订单列表放入请求属性
-        req.setAttribute("myOrder", orderList);
+        session.setAttribute("myOrder", orderList);
+        session.setAttribute("username", username);
 
         // 请求转发到 JSP 页面
         req.getRequestDispatcher(MYORDER_FORM).forward(req, resp);

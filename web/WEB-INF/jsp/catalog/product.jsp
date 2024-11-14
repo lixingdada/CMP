@@ -32,14 +32,14 @@
     </tr>--%>
 <div class="item-container">
     <c:forEach items="${sessionScope.ItemList}" var="item">
-        <%--  <tr>
-              <td>${item.itemId}</td>
-              <td>${item.productId}</td>
-              <td>${item.listPrice}</td>
-              <td>${item.supplierId}</td>
-              <td>${item.attribute1}</td>
-              <td><a href="./item?itemId=${item.itemId}">查看</a></td>
-          </tr>--%>
+      <%--  <tr>
+            <td>${item.itemId}</td>
+            <td>${item.productId}</td>
+            <td>${item.listPrice}</td>
+            <td>${item.supplierId}</td>
+            <td>${item.attribute1}</td>
+            <td><a href="./item?itemId=${item.itemId}">查看</a></td>
+        </tr>--%>
         <div class="item-card">
             <img src="images/${item.attribute2}" alt="${sessionScope.productName}">
             <div class="item-details">
