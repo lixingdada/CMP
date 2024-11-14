@@ -26,7 +26,7 @@
         <table class="centered-text">
             <tr class="centered-text">
                 <td>
-                    姓名
+                    <b>姓名</b>
                 </td>
                 <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderName}"
@@ -35,7 +35,7 @@
 
             <tr class="centered-text">
                 <td>
-                    电话
+                    <b>电话</b>
                 </td>
                 <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderTel}"
@@ -44,7 +44,7 @@
 
             <tr class="centered-text">
                 <td>
-                    地址
+                    <b>地址</b>
                 </td>
                 <td class="centered-text" colspan="4">
                     ${sessionScope.order.orderAddress}"
