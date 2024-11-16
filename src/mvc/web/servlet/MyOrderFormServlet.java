@@ -19,6 +19,12 @@ public class MyOrderFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if(req.getParameter("username")==null||req.getParameter("username").equals("")){
+            req.getRequestDispatcher("loginForm").forward(req, resp);
+            return;
+        }
+
         req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
         String username = req.getParameter("username");

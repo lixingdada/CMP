@@ -9,12 +9,13 @@
 </head>
 <body>
 
-<div class="search-form">
-    <form action="./main" method="post">
-        <input type="text" name="information" placeholder="${requestScope.information}"/>
-        <button type="submit">搜索</button>
-    </form>
-</div>
+<form action="./main" method="post" class="search-form">
+    <input type="text" name="information" placeholder="${requestScope.information}"/>
+
+    <button type="submit" class="image-button">
+        <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
+    </button>
+</form>
 <br>
 <div class="item-details-container">
     <div class="item-content">
@@ -28,33 +29,34 @@
             <h2>供应商: ${sessionScope.item.supplierId}</h2>
             <h2>状态: ${sessionScope.item.status}</h2>
             <h2>信息: ${sessionScope.item.attribute1}</h2>
-
-            <div class="button-container">
-                <form action="addItemToCart" method="post" class="action-form">
-                    <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
-                    <input type="hidden" name="username" value="${sessionScope.user.username}"/>
-                    <button type="submit" class="action-button">加入购物车</button>
-                </form>
-
-<%--                <form action="" method="post" class="action-form">--%>
-<%--                    <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>--%>
-<%--                    <button type="submit" class="action-button">购买</button>--%>
-<%--                </form>--%>
-            </div>
-
-            <h2><a href="product" class="return-link">返回</a></h2>
         </div>
+    </div>
+
+    <!-- 加入购物车按钮 -->
+    <div class="button-container">
+        <form action="addItemToCart" method="post" class="action-form">
+            <input type="hidden" name="itemId" value="${sessionScope.item.itemId}"/>
+            <input type="hidden" name="username" value="${sessionScope.user.username}"/>
+            <button type="submit" class="action-button">加入购物车</button>
+        </form>
     </div>
 </div>
 
-<!-- 模态框结构 -->
+<!-- 返回按钮 -->
+<div class="back-link-container">
+    <form action="product" method="post">
+        <button type="submit" class="back-link">返回</button>
+    </form>
+</div>
+
+<!-- 模态框 -->
 <div id="imageModal" class="modal">
     <span class="close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage">
 </div>
 
 <script>
-    // 打开模态框并设置大图
+    // 打开模态框
     function openModal() {
         const modal = document.getElementById("imageModal");
         const modalImage = document.getElementById("modalImage");
@@ -67,6 +69,7 @@
         document.getElementById("imageModal").style.display = "none";
     }
 </script>
+
 
 
 </body>

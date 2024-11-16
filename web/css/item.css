@@ -1,11 +1,20 @@
 /* product.css */
+body, html {
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    background-color: #f9f9f9;
+    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
+    background-size: cover; /* 让背景图充满整个页面 */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* 使背景固定在视口 */
     font-family: Arial, sans-serif;
     padding: 20px;
 }
 
+/* 商品详情外部容器 */
+/* 外部容器 */
 .item-details-container {
     max-width: 800px;
     margin: 0 auto;
@@ -13,65 +22,86 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
+/* 卡片内容 */
 .item-content {
     display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
+/* 图片样式 */
 .item-image {
     flex: 1;
-    max-width: 300px;
-    margin-right: 20px;
-    cursor: pointer;
+    max-width: 250px;
+    height: auto;
 }
 
 .item-image img {
     width: 100%;
+    height: auto;
     border-radius: 5px;
+    cursor: pointer;
 }
 
+/* 信息样式 */
 .item-info {
     flex: 2;
 }
 
 h1, h2 {
+    margin: 10px 0;
     color: #333;
     font-size: 18px;
-    margin: 10px 0;
 }
 
+/* 加入购物车按钮容器 */
 .button-container {
-    display: flex;
-    gap: 15px;
     margin-top: 20px;
+    text-align: center;
 }
 
+/* 按钮样式 */
 .action-button {
     background-color: #007BFF;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    width: 200px;
+    font-size: 16px;
     transition: background-color 0.3s ease;
-    flex: 1;
 }
 
 .action-button:hover {
     background-color: #0056b3;
 }
 
-.return-link {
-    display: inline-block;
-    margin-top: 20px;
-    color: #007BFF;
-    text-decoration: none;
-    font-weight: bold;
+/* 返回按钮 */
+.back-link-container {
+    text-align: center;
+    margin-top: 30px;
 }
 
-.return-link:hover {
-    text-decoration: underline;
+.back-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.back-link:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 /* 模态框样式 */
@@ -79,29 +109,30 @@ h1, h2 {
     display: none;
     position: fixed;
     z-index: 1000;
-    padding-top: 60px;
+    padding-top: 50px;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.7);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
-    margin: auto;
     display: block;
-    width: 80%;
-    max-width: 600px;
+    margin: auto;
+    max-width: 80%;
+    max-height: 80vh;
     border-radius: 8px;
+    object-fit: contain;
 }
 
 .close {
     position: absolute;
-    top: 20px;
-    right: 35px;
-    color: white;
+    top: 10px;
+    right: 20px;
     font-size: 30px;
-    font-weight: bold;
+    color: white;
     cursor: pointer;
 }
 
@@ -110,30 +141,46 @@ h1, h2 {
 }
 
 
+
 .search-form {
-    margin-top: 30px;
+    margin-top: 75px;
     text-align: center;
+    display: flex; /* 使用flex布局 */
+    justify-content: center;
+    align-items: center;
 }
 
 .search-form input[type="text"] {
-    padding: 8px;
-    width: 200px;
+    padding: 10px;
+    width: 700px; /* 调整宽度使搜索框更长 */
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 20px; /* 圆角风格 */
     border: 1px solid #ccc;
+    height: 30px; /* 设置输入框高度 */
+    outline: none; /* 去掉聚焦时的边框 */
 }
 
 .search-form button {
-    padding: 8px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
+    padding: 10px;
     background-color: #007BFF;
-    color: white;
+    border: none;
+    border-radius: 50%; /* 按钮圆形 */
+    display: flex; /* 使用flex布局确保图标居中 */
+    justify-content: center;
+    align-items: center;
+    height: 40px; /* 确保按钮和输入框高度一致 */
+    width: 40px; /* 按钮宽度 */
+    margin-left: 10px; /* 按钮与输入框的间距 */
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.search-form button img {
+    width: 20px; /* 图标大小 */
+    height: 20px;
 }
 
 .search-form button:hover {
     background-color: #0056b3;
 }
+

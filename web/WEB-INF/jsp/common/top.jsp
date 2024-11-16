@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -18,10 +17,20 @@
         </div>
 
         <div class="nav-links">
-            <!-- 判断用户是否登录 -->
+            <!-- 基于登录状态显示问候语或登录注册按钮 -->
             <c:choose>
                 <c:when test="${sessionScope.user != null}">
-                    <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}   </span>
+                    <span class="greeting">
+                        <script>
+                            // 获取当前时间并显示问候语
+                            const currentHour = new Date().getHours();
+                            const greeting =
+                                currentHour < 12 ? "上午好" :
+                                    currentHour < 18 ? "下午好" : "晚上好";
+
+                            document.write(greeting + ", ${sessionScope.user.username}");
+                        </script>
+                    </span>
                     <a href="userInfo" class="btn">个人信息</a>
                     <a href="logout" class="btn">退出登录</a>
                 </c:when>
@@ -29,83 +38,32 @@
                     <a href="loginForm" class="btn">登录/注册</a>
                 </c:otherwise>
             </c:choose>
-            <%--<c:if test="${not empty sessionScope.user}">
-                <span style="color: #007BFF;">欢迎, ${sessionScope.user.username}</span>
-                <a href="logout" class="btn">退出登录</a>
-            </c:if>
-            <c:if test="${empty sessionScope.user}">
-                <a href="loginForm" class="btn">登录/注册</a>
-            </c:if>--%>
-            <a href="cartForm?username=${sessionScope.user.username}" class="cart-link">
 
-                <span class="cart-icon">&#128722;</span>购物车
-            </a>
-            <a href="myOrderForm?username=${sessionScope.user.username}" class="cart-link">
-                我的订单
-            </a>
+            <div class="button-group">
+                <a href="javascript:void(0)" class="btn" onclick="handleRedirect('cartForm?username=${sessionScope.user.username}')">
+                    &#128722; 购物车
+                </a>
+                <a href="javascript:void(0)" class="btn" onclick="handleRedirect('myOrderForm?username=${sessionScope.user.username}')">
+                    我的订单
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    // 检查用户是否已登录
+    const isUserLogIn = ${not empty sessionScope.user.username ? true : false};
+
+    function handleRedirect(url) {
+        if (!isUserLogIn) {
+            alert("您尚未登录，点击确认后1秒后自动跳转！");
+            setTimeout(() => window.location.href = "loginForm", 1000);
+        } else {
+            window.location.href = url;
+        }
+    }
+</script>
 
 </body>
 </html>
-
-
-
-<%--<!DOCTYPE html>
-
-<html>
-
-<head>
-    <title>CMP</title>
-    <link rel="StyleSheet" href="css/1.css" type="text/css"
-          media="screen" />
-</head>
-
-<body>
-
-<div id="Header">
-
-    <div id="Logo">
-        <div id="LogoContent">
-            <a href="mainForm"><img src="images/logo-topbar.gif" alt="返回"></a>
-        </div>
-    </div>--%>
-
-   <%-- <div id="Menu">
-        <div id="MenuContent">
-            <a href="cartForm"><img align="middle" name="img_cart" src="images/cart.gif" /></a>
-            <img align="middle" src="images/separator.gif" />
-            <a href="loginForm">Sign In</a>
-            <a href="#">Sign Out</a>
-            <img align="middle" src="images/separator.gif" />
-            <a href="#"> My Account</a>
-            <img align="middle" src="images/separator.gif" />
-            <a href="myOrderForm">?????</a></div>
-    </div>
-
-    <div id="Search">
-        <div id="SearchContent">
-            <form action="" method="post">
-                <input type="text" name="keyword" size="14">
-                <input type="submit" value="search">
-            </form>
-        </div>
-    </div>
-
-    <div id="QuickLinks">
-        <a href=""><img src="images/sm_fish.gif" /></a>
-        <img src="images/separator.gif" />
-        <a href=""> <img src="images/sm_dogs.gif" /></a>
-        <img src="images/separator.gif" />
-        <a href=""><img src="images/sm_reptiles.gif" /></a>
-        <img src="images/separator.gif" />
-        <a href=""><img src="images/sm_cats.gif" /></a>
-        <img src="images/separator.gif" />
-        <a href=""> <img src="images/sm_birds.gif" /></a>
-        <img src="images/separator.gif" />
-    </div>
-
-</div>
-
-<div id="Content" ></div>--%>

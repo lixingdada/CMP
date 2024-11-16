@@ -1,15 +1,18 @@
 /* top.css */
-
 body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+    margin: 0; /* 清除默认外边距 */
+    padding: 0; /* 清除默认内边距 */
 }
 
 .top-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
+    background-color: white; /* 确保背景色为白色 */
+    position: fixed; /* 固定导航栏 */
+    top: 0;
+    width: 100%; /* 宽度覆盖整个页面 */
+    z-index: 1000; /* 确保导航栏在最上层 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
 }
 
 .top-bar {
@@ -17,21 +20,15 @@ body, html {
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    background-color: #ffffff; /* 白色背景 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 更明显的阴影 */
-    border-radius: 10px; /* 增加圆角 */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .logo a {
-    color: #007BFF; /* Blue color */
-    font-size: 28px;
-    text-decoration: none;
+    font-size: 24px;
     font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.logo a:hover {
-    color: #0056b3; /* Darker blue on hover */
+    text-decoration: none;
+    color: #007BFF; /* 蓝色文本 */
 }
 
 .nav-links {
@@ -40,28 +37,32 @@ body, html {
     gap: 15px;
 }
 
-.nav-links .btn {
+.greeting {
+    font-size: 16px;
+    color: #333; /* 深色问候语 */
+    margin-right: 15px; /* 与按钮的间距 */
+}
+
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
     color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    background-color: #007BFF; /* Button background color */
+    background-color: #007BFF; /* 按钮背景色 */
+    border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-links .btn:hover {
-    background-color: #0056b3; /* Darker button color on hover */
+.btn:hover {
+    background-color: #0056b3; /* 深蓝色悬停效果 */
+    transform: scale(1.05); /* 悬停时略微放大 */
 }
 
-.nav-links .cart-link {
+.button-group {
     display: flex;
     align-items: center;
-    color: #007BFF; /* Blue color */
-    text-decoration: none;
-    font-weight: bold;
-    gap: 5px;
-}
-
-.nav-links .cart-icon {
-    font-size: 20px;
+    gap: 10px; /* 按钮之间的间距 */
 }

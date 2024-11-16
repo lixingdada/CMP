@@ -16,8 +16,8 @@
         <h2>个人信息</h2>
     </div>
     <div class="profile-content">
-        <p><strong>头像:</strong> <img src="" alt="头像" class="avatar"></p>
-        <p><strong>账号:</strong> ${sessionScope.username}</p>
+        <p><strong>头像:</strong> <img src="images/${sessionScope.user.avatar}" alt="头像" class="avatar"></p>
+        <p><strong>账号:</strong> ${sessionScope.user.username}</p>
         <p><strong>昵称:</strong> ${sessionScope.user.virtualName}</p>
         <p><strong>生日:</strong> ${sessionScope.user.birthday}</p>
         <p><strong>邮箱:</strong> ${sessionScope.user.email}</p>
@@ -31,7 +31,40 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('editProfileModal')">&times;</span>
         <h2>编辑个人信息</h2>
-        <form action="userInfo" method="post">
+        <form action="userInfo" method="post" >
+         <%--   <form action="userInfo" method="post" enctype="multipart/form-data">--%>
+
+            <%--<label for="avatar">头像:</label>
+            <div class="avatar-container">
+                <img id="preview-avatar" src="images/${sessionScope.user.avatar}" alt="当前头像" class="avatar" title="点击更换头像">
+                <input type="file" id="avatar-input" name="avatar" accept="image/*" style="display: none;">
+                <script>
+                    // 获取头像相关元素
+                    const avatarElement = document.getElementById("preview-avatar");
+                    const avatarInput = document.getElementById("avatar-input");
+
+                    // 点击头像时触发文件选择器
+                    avatarElement.addEventListener("click", () => {
+                        avatarInput.click(); // 触发隐藏的文件选择器
+                    });
+
+                    // 监听文件选择事件，实时预览选择的图片
+                    avatarInput.addEventListener("change", (event) => {
+                        const file = event.target.files[0]; // 获取选中的文件
+
+                        if (file) {
+                            const reader = new FileReader(); // 创建文件读取器
+                            reader.onload = function (e) {
+                                // 更新头像图片为预览结果
+                                avatarElement.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file); // 读取文件为 Data URL
+                            console.info("avatar:");
+                        }
+                    });
+                </script>
+            </div>--%>
+
             <label for="virtualName">昵称:</label>
             <input type="text" id="virtualName" name="virtualName" value="${sessionScope.user.virtualName}" required>
             <label for="birthday">生日:</label>
@@ -171,8 +204,7 @@
         document.getElementById('receiverPhone').value = receiverPhone;
         document.getElementById('receiverAddress').value = receiverAddress;
 
-
-
+        //先赋值再显示悬浮窗口
         document.getElementById('editAddressModal').style.display = 'block';
     }
 

@@ -79,8 +79,6 @@ public class LoginServlet extends HttpServlet {
 
             session.setAttribute("username",username);
 
-
-            //黄程杰的，有冲突，一用就崩 :(
             userInfoService.loadUser(user,username);
             userInfoService.findAddress(user,username);
 
@@ -88,7 +86,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("username", user.getUsername());
             //System.out.println("user"+user.getUsername());
 
-            logService.loginLog(user.getUsername(),user.getUsername()+"刚刚登陆了！");
+            session.setAttribute("isLogIn", true); // 标记用户登录状态
 
             resp.sendRedirect("main");  //doget
         } else {

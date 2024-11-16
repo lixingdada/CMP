@@ -65,12 +65,15 @@ h2 {
 
 /* 左侧的照片播放墙 */
 .photo-wall {
-    width: 60%;
-    height: 400px;
+    width: 60%; /* 保持宽度为60% */
+    height: 50vh; /* 高度设为视口高度的一半 */
     border-radius: 15px;
     overflow: hidden;
     background-color: white;
-    position: relative;
+    position: absolute; /* 使用绝对定位 */
+    top: 50%; /* 使元素垂直居中 */
+    left: 10%; /* 离左边窗口边缘有10%的距离 */
+    transform: translateY(-50%); /* 将元素在垂直方向上向上移动50%的高度，确保垂直居中 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,3 +91,5 @@ h2 {
 .photo-wall img.active {
     opacity: 1;
 }
+
+

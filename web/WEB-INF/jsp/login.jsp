@@ -125,7 +125,7 @@
         }
 
         .submit-button {
-            width: 100%;
+            width: 95.5%;
             padding: 10px;
             font-size: 16px;
             color: black;

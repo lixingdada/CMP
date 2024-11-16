@@ -6,6 +6,11 @@ select {
 }
 
 body {
+    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
+    background-size: cover; /* 让背景图充满整个页面 */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* 使背景固定在视口 */
+    padding-top: 70px; /* 根据导航栏的高度调整 */
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     color: #333;
@@ -44,7 +49,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
 }
 

@@ -17,26 +17,29 @@
 
 <%--如果是搜索的话--%>
 <%--<c:if test="${sessionScope.msg=='search'}">--%>
-<div class="search-form">
-    <form action="./main" method="post">
-        <input type="text" name="information" placeholder="${requestScope.information}"/>
-        <button type="submit">搜索</button>
-    </form>
-</div>
+<form action="./main" method="post" class="search-form">
+    <input type="text" name="information" placeholder="${requestScope.information}"/>
+
+    <button type="submit" class="image-button">
+        <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
+    </button>
+</form>
 <%--<h1>hhh1</h1>--%>
 <%--</c:if>--%>
 
 
 <!-- 中心化显示内容 -->
-<div class="centered-container">
+<div class="breadcrumb-container">
     <c:if test="${sessionScope.msg=='flag'}">
-        <h2 class="centered-title">${sessionScope.category}</h2>
+        <h2 class="breadcrumb-title">以下是有关${sessionScope.category}的内容</h2>
     </c:if>
 
     <c:if test="${empty sessionScope.productList}">
-        <h2 class="centered-title">没找到相关内容</h2>
+        <h2 class="breadcrumb-title">没找到相关内容</h2>
     </c:if>
 </div>
+
+
 
 <c:if test="${not empty sessionScope.productList}">
     <%--<table>
@@ -73,7 +76,7 @@
 
 </div>
 
-<div style="text-align: center;">
+<div class="back-link-container">
     <a href="main" class="back-link">返回</a>
 </div>
 </body>
