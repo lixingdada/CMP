@@ -86,7 +86,10 @@ public class UserDaoImpl implements UserDao {
             try {
                 if (!resultSet.next()) break;
                 user.setVirtualName(resultSet.getString("virtualname"));
-                user.setBirthday(resultSet.getDate("birthday").toLocalDate());
+                Date birthday = resultSet.getDate("birthday");
+                if(birthday!=null){
+                    user.setBirthday(birthday.toLocalDate());
+                }
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
                 user.setAvatar(resultSet.getString("avatar"));

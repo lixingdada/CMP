@@ -27,6 +27,7 @@
                             const greeting =
                                 currentHour < 12 ? "上午好" :
                                     currentHour < 18 ? "下午好" : "晚上好";
+
                             document.write(greeting + ", ${sessionScope.user.username}");
                         </script>
                     </span>

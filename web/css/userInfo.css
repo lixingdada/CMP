@@ -1,5 +1,9 @@
 body {
     padding-top: 70px; /* 根据导航栏的高度调整 */
+    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
+    background-size: cover; /* 让背景图充满整个页面 */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* 使背景固定在视口 */
 }
 /* 个人信息卡片样式 */
 .profile-card {
@@ -23,6 +27,22 @@ body {
     font-size: 16px;
     color: #333;
 }
+
+/*头像*/
+.avatar-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 100px; /* 头像宽度 */
+    height: 100px; /* 头像高度 */
+    border-radius: 50%; /* 圆形效果 */
+    border: 2px solid #ccc; /* 边框 */
+    cursor: pointer; /* 鼠标悬停变成手型 */
+    object-fit: cover; /* 保持图片比例 */
+}
+
 
 /* 收货地址卡片样式 */
 .address-card {
