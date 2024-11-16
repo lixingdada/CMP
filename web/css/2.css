@@ -6,6 +6,7 @@ select {
 }
 
 body {
+    padding-top: 70px; /* 根据导航栏的高度调整 */
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     color: #333;
@@ -44,7 +45,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
 }
 

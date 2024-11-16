@@ -1,6 +1,9 @@
 body {
+    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
+    background-size: cover; /* 让背景图充满整个页面 */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* 使背景固定在视口 */
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,29 +98,80 @@ h2 {
 
 
 .search-form {
-    margin-top: 30px;
+    margin-top: 75px;
     text-align: center;
+    display: flex; /* 使用flex布局 */
+    justify-content: center;
+    align-items: center;
 }
 
 .search-form input[type="text"] {
-    padding: 8px;
-    width: 200px;
+    padding: 10px;
+    width: 700px; /* 调整宽度使搜索框更长 */
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 20px; /* 圆角风格 */
     border: 1px solid #ccc;
+    height: 30px; /* 设置输入框高度 */
+    outline: none; /* 去掉聚焦时的边框 */
 }
 
 .search-form button {
-    padding: 8px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
+    padding: 10px;
     background-color: #007BFF;
-    color: white;
+    border: none;
+    border-radius: 50%; /* 按钮圆形 */
+    display: flex; /* 使用flex布局确保图标居中 */
+    justify-content: center;
+    align-items: center;
+    height: 40px; /* 确保按钮和输入框高度一致 */
+    width: 40px; /* 按钮宽度 */
+    margin-left: 10px; /* 按钮与输入框的间距 */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
+.search-form button img {
+    width: 20px; /* 图标大小 */
+    height: 20px;
+}
+
 .search-form button:hover {
     background-color: #0056b3;
+}
+
+/* 返回按钮整体容器 */
+.back-link-container {
+    text-align: center; /* 居中显示 */
+    margin-top: 20px; /* 与内容保持适当距离 */
+}
+
+/* 返回按钮的表单样式 */
+.return-button-form {
+    display: inline-block; /* 保持按钮整体居中 */
+}
+
+/* 返回按钮样式 */
+.return-button {
+    padding: 10px 20px; /* 按钮的内边距 */
+    background-color: #007BFF; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    border: none; /* 移除默认边框 */
+    border-radius: 5px; /* 圆角效果 */
+    font-size: 16px; /* 文字大小 */
+    cursor: pointer; /* 鼠标指针样式 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 增加交互动效 */
+}
+
+/* 按钮悬停效果 */
+.return-button:hover {
+    background-color: #0056b3; /* 改变悬停时的背景色 */
+    transform: scale(1.05); /* 悬停时轻微放大 */
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .return-button {
+        width: 80%; /* 小屏时按钮更宽，方便点击 */
+        font-size: 14px; /* 字体稍微变小 */
+    }
 }

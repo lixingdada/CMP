@@ -18,8 +18,10 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = req.getSession();
         LogService logService = new LogService();
 
-        String username = (String)session.getAttribute("username");
-        logService.logoutLog(username,username+"退出了登录！");
+        //String username = (String)session.getAttribute("username");
+        session.setAttribute("isLogIn",false);
+
+        session.removeAttribute("user");
 
         System.out.println("session已清除");
         session.invalidate();

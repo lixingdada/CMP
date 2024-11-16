@@ -8,16 +8,14 @@
 </head>
 <body>
 
-<div class="search-form">
-    <form action="./main" method="post">
+    <form action="./main" method="post" class="search-form">
         <input type="text" name="information" placeholder="输入关键字搜索"/>
 
         <button type="submit" class="image-button">
             <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
         </button>
-
     </form>
-</div>
+
 
 
 <div class="category-container">

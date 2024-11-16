@@ -1,3 +1,6 @@
+body {
+    padding-top: 70px; /* 根据导航栏的高度调整 */
+}
 /* 个人信息卡片样式 */
 .profile-card {
     width: 50%; /* 宽度占屏幕二分之一 */

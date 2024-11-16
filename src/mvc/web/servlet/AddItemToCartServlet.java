@@ -3,9 +3,11 @@ package mvc.web.servlet;
 import mvc.domain.Cart;
 import mvc.domain.CartItem;
 import mvc.domain.Item;
+import mvc.domain.Product;
 import mvc.persistence.CartDao;
 import mvc.persistence.Impl.CartDaoImpl;
 import mvc.service.CatalogService;
+import mvc.service.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +20,7 @@ public class AddItemToCartServlet extends HttpServlet {
 
     private static final String CART_FORM = "/WEB-INF/jsp/cart/cart.jsp";
     private CartDao cartDao = new CartDaoImpl();
+    private LogService logService = new LogService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +36,7 @@ public class AddItemToCartServlet extends HttpServlet {
         CartItem cartItem = new CartItem();
         cartItem.item = catalogService.getItem(workingItemId);
 
-        if (username == null) {
+        if (username == null||username.equals("")) {
             resp.sendRedirect("loginForm");
             return;
         }
@@ -62,6 +65,17 @@ public class AddItemToCartServlet extends HttpServlet {
         }
 
         session.setAttribute("cart", cart);
+
+        //日志
+        if(username!=null&&!username.equals("")){
+            Item item = catalogService.getItem(workingItemId);
+            int supplier = item.getSupplierId();
+            Product product = catalogService.getProduct(item.getProductId());
+            String productName = product.getName();
+            System.out.println("加入购物车");
+            logService.addCart(username,workingItemId,username+"将由"+ supplier + "提供的" + productName+"加入了购物车！");
+        }
+
 
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }

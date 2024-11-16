@@ -12,12 +12,13 @@
 <body>
 这是${sessionScope.productName}的item
 
-<div class="search-form">
-    <form action="./main" method="post">
-        <input type="text" name="information" placeholder="${requestScope.information}"/>
-        <button type="submit">搜索</button>
-    </form>
-</div>
+<form action="./main" method="post" class="search-form">
+    <input type="text" name="information" placeholder="${requestScope.information}"/>
+
+    <button type="submit" class="image-button">
+        <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
+    </button>
+</form>
 
 <br>
 
@@ -49,6 +50,7 @@
                 <p>描述: ${item.attribute1}</p>
                 <form action="./item" method="get">
                     <input type="hidden" name="itemId" value="${item.itemId}">
+                    <input type="hidden" name="username" value="${sessionScope.user.username}">
                     <button type="submit" class="view-button">查看</button>
                 </form>
             </div>
@@ -57,9 +59,12 @@
 </div>
 <%--</table>--%>
 
-<form action="category" method="post" class="return-button-form">
-    <button type="submit" class="return-button">返回</button>
-</form>
+<div class="back-link-container">
+    <form action="category" method="post" class="return-button-form">
+        <button type="submit" class="return-button">返回</button>
+    </form>
+</div>
+
 
 
 </body>
