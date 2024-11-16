@@ -23,7 +23,7 @@ public class CartDaoImpl implements CartDao {
     private static final String UPDATE_CART_ITEMS_QUANTITY="UPDATE cart_item SET quantity = ? WHERE cart_id = ? AND item_name = ?";
     private static final String SELECT_CART_ID_BY_USERNAME="SELECT cart_id FROM cart WHERE username = ?";
 
-    private static final String DELETE_ALL_CART = "DELETE FROM cart WHERE user_name = ?";
+    private static final String DELETE_ALL_CART = "DELETE FROM cart WHERE username = ?";
     private static final String DELETE_ALL_CART_ITEM = "DELETE FROM cart_item WHERE cart_id =?";
 
 
