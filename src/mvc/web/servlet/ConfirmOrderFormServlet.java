@@ -25,6 +25,8 @@ public class ConfirmOrderFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        req.setCharacterEncoding("UTF-8");
+
         HttpSession session=req.getSession();
         String username = req.getParameter("username");
 
