@@ -4,70 +4,70 @@ import mvc.domain.Cart;
 import mvc.domain.CartItem;
 import mvc.persistence.CartDao;
 import mvc.persistence.Impl.CartDaoImpl;
-import mvc.service.CatalogService;
 
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Iterator;
 
+
+@WebServlet(name = "UpdateCartServlet", value = "/updateCart")
 public class UpdateCartServlet extends HttpServlet {
 
-    private static final String CART_FORM = "/WEB-INF/jsp/cart/cart.jsp";
-    private CartDao cartDao = new CartDaoImpl();
+     private CartDao cartDao = new CartDaoImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        
+        resp.setCharacterEncoding("UTF-8");
         String username = req.getParameter("username");
-        session.setAttribute("username",username);
+        System.out.println("此时的username:" + username);
 
-        System.out.println(username);
+        String itemId = req.getParameter("itemId");
+        System.out.println("此时的itemId:" + itemId);
 
-        Cart cart = null;
+        String quantityStr = req.getParameter("quantity");
+        System.out.println("此时的quantityStr:" + quantityStr);
+        int quantity = 0;
+
+        resp.setContentType("text/plain");
+        PrintWriter out = resp.getWriter();
+
         try {
-            cart = cartDao.getCartByUserName(username);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        if (cart != null) {
-            Iterator<CartItem> cartItems = cart.getAllCartItems();
-            while (cartItems.hasNext()) {
+            quantity = Integer.parseInt(quantityStr);
+            System.out.println("此时的quantity:" + quantity);
 
-                CartItem cartItem = cartItems.next();
-                String itemId = String.valueOf(cartItem.item.getItemId());
+            Cart cart = cartDao.getCartByUserName(username);
+            if (cart != null) {
+                Iterator<CartItem> cartItems = cart.getAllCartItems();
+                while (cartItems.hasNext()) {
+                    CartItem cartItem = cartItems.next();
 
-                String quantityStr = req.getParameter(itemId);
-                int quantity = Integer.parseInt(quantityStr != null ? quantityStr : "0");
+                    if (cartItem.item.getItemId().toString().equals(itemId)) {
 
-                try {
-                    cartDao.updateCartItemQuantity(itemId, quantity,username);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                if (quantity < 1) {
-                    cartItems.remove();
-                    try {
-                        cartDao.removeCartItem(cartItem.item.getItemId(),username);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        if(quantity == 0){
+                            cartDao.removeCartItem(itemId, username);
+                            //先0后数的逻辑要加
+                        }else{
+                            cartDao.updateCartItemQuantity(itemId, quantity, username);
+                        }
+                        BigDecimal newTotal = cartDao.getCartByUserName(username).getSubTotal();
+                        out.write(String.valueOf(newTotal)); //返回新的总价
+                        break;
                     }
                 }
             }
         }
-
-        try {
-            cart = cartDao.getCartByUserName(username);
-        } catch (Exception e) {
+            catch (Exception e) {
             throw new RuntimeException(e);
         }
-        session.setAttribute("cart", cart);
-        req.getRequestDispatcher(CART_FORM).forward(req, resp);
+
+
     }
 
     @Override

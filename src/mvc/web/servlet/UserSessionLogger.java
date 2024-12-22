@@ -51,6 +51,11 @@ public class UserSessionLogger implements HttpSessionListener, HttpSessionAttrib
 
     }
 
+    @Override
+    public void attributeReplaced(HttpSessionBindingEvent httpSessionBindingEvent) {
+
+    }
+
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
@@ -81,5 +86,15 @@ public class UserSessionLogger implements HttpSessionListener, HttpSessionAttrib
                 logService.browseLog(username, item.getItemId(), username + "浏览了由" + supplier + "提供的" + productName);
             }
         }*/
+    }
+
+    @Override
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+
+    }
+
+    @Override
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+
     }
 }
