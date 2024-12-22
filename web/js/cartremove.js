@@ -8,18 +8,18 @@ var deleteButtons = document.querySelectorAll('button[id="remove"]');
 for (var i = 0, length = deleteButtons.length; i < length; i++) {
     deleteButtons[i].addEventListener('click', function () {
         var itemId = this.closest('tr').querySelector('a[id="itemId"]').textContent;
-        sendRequest(itemId);
+        sendRemoveRequest(itemId);
     });
 }
 
-function sendRequest(itemId) {
+function sendRemoveRequest(itemId) {
     xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = process;
+    xhr.onreadystatechange = processRemove;
     xhr.open('GET', 'removeCartItem?itemId='+itemId+'&username='+username);
     xhr.send(null);
 }
 
-function process() {
+function processRemove() {
     if (xhr.readyState === 4) {
         if (xhr.status === 200) {
             var responseInfo = xhr.responseText;

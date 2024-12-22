@@ -1,5 +1,6 @@
 /* 页面背景，预留图片插入处 */
 body {
+    padding-top: 150px; /* 根据导航栏的高度调整 */
     font-family: Arial, sans-serif;
     background: url("../images/imgback.png") no-repeat center center fixed;
     background-size: cover;

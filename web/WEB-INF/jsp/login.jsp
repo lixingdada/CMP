@@ -152,7 +152,7 @@
             display: flex; /* 使用 flexbox */
             align-items: center; /* 垂直居中对齐 */
             position: absolute; /* 绝对定位，悬浮在表单上方 */
-            top: 550px; /* 向上移动错误信息，您可以根据需要调整这个值 */
+            top: 725px; /* 向上移动错误信息，您可以根据需要调整这个值 */
             left: 83%; /* 水平居中 */
             transform: translateX(-50%); /* 水平居中偏移 */
             text-align: left; /* 左对齐文本 */

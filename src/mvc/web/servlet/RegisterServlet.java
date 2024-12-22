@@ -41,6 +41,9 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+
         String username = req.getParameter("newUsername"); // 确保获取到正确的注册用户名
         String password = req.getParameter("newPassword"); // 确保获取到正确的注册密码
 

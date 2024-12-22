@@ -24,7 +24,9 @@ public class UpdateCartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         resp.setCharacterEncoding("UTF-8");
+
         String username = req.getParameter("username");
         System.out.println("此时的username:" + username);
 
