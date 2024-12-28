@@ -47,6 +47,11 @@
                     我的订单
                 </a>
             </div>
+
+            <!-- 添加圆形框 -->
+            <div class="profile-circle">
+                <img src="images/default-profile.png" alt="-" class="profile-image">
+            </div>
         </div>
     </div>
 </div>

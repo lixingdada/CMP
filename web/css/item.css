@@ -1,186 +1,166 @@
-/* product.css */
+/* 页面和整体布局样式 */
 body, html {
     margin: 0;
     padding: 0;
-}
-
-body {
-    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
-    background-size: cover; /* 让背景图充满整个页面 */
+    background-image: url('../images/imgback.png'); /* 背景图片 */
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* 使背景固定在视口 */
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
     padding: 20px;
 }
 
-/* 商品详情外部容器 */
-/* 外部容器 */
-.item-details-container {
-    max-width: 800px;
+/* 页面整体容器，设置为左右布局 */
+.page-container {
+    display: flex; /* 使用 flex 实现左右布局 */
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
     margin: 0 auto;
-    background: #ffffff;
-    padding: 20px;
+    gap: 20px; /* 左右块之间的间距 */
+}
+
+/* 左侧图片部分 */
+.left-image {
+    flex: 1; /* 左侧占据 50% 宽度 */
+    display: flex;
+    justify-content: center; /* 图片居中 */
+    align-items: center;
+
+}
+
+.left-image img {
+    max-width: 100%; /* 图片宽度适应容器 */
+    height: auto; /* 图片高度自动调整 */
+    border-radius: 8px; /* 圆角 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 动画效果 */
+    cursor: pointer;
+    width: 500px; /* 图片宽度固定为 300px */
+    height: 500px; /* 图片高度固定为 300px */
+}
+
+.left-image img:hover {
+    transform: scale(1.1); /* 鼠标悬停放大 */
+    opacity: 0.8; /* 鼠标悬停透明 */
+}
+
+.right-info {
+    flex: 1;
+    background-color: rgba(128, 128, 128, 0.3); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
+    padding: 30px; /* 调整内边距 */
+    width: 450px; /* 固定宽度 */
+    height: 350px; /* 固定高度 */
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+
+}
+
+/* 新增：覆盖的圆角矩形背景块 */
+.info-overlay {
+    position: absolute;
+    top: 50px; /* 调整顶部位置 */
+    left: 20px; /* 调整左侧位置 */
+    width: 580px; /* 矩形宽度，小于 .right-info */
+    height: 250px; /* 矩形高度，小于 .right-info */
+    background-color: rgba(256,256,256, 0.3);/* 圆角矩形背景色白色 */
+    border-radius: 10px; /* 圆角效果 */
+    z-index: 1; /* 置于底层 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* 轻微阴影效果 */
+}
+
+/* 新增：文字信息样式 */
+.info-content {
+    position: relative; /* 相对定位，以便覆盖到 .info-overlay 上 */
+    z-index: 2; /* 置于顶层 */
+}
+
+.right-info h1, .right-info h2 {
+    margin: 25px 0;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    z-index: 2; /* 置于顶层 */
+}
+
+/* 菜单选项样式 */
+.menu-options {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center; /* 左右居中分布 */
+    align-items: center;
+    gap: 200px; /* 选项之间的间距 */
     position: relative;
 }
 
-/* 卡片内容 */
-.item-content {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-/* 图片样式 */
-.item-image {
-    flex: 1;
-    max-width: 250px;
-    height: auto;
-}
-
-.item-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+/* 左右选项样式 */
+.menu-option {
+    font-size: 25px;
+    color: black; /* 默认文字颜色 */
+    text-decoration: underline; /* 默认无下划线 */
     cursor: pointer;
+
+    text-align: center; /* 文字居中 */
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* 平滑变色过渡 */
 }
 
-/* 信息样式 */
-.item-info {
-    flex: 2;
+/* 鼠标悬停时的样式 */
+.menu-option:hover {
+    color: #007BFF; /* 鼠标悬停变为蓝色 */
 }
 
-h1, h2 {
-    margin: 10px 0;
-    color: #333;
-    font-size: 18px;
+/* 鼠标按下时的样式 */
+.menu-option:active {
+    color: darkblue; /* 鼠标按下变为深蓝色 */
+    text-decoration: underline; /* 鼠标按下加下划线 */
 }
 
-/* 加入购物车按钮容器 */
-.button-container {
-    margin-top: 20px;
-    text-align: center;
+/* 中间竖线样式 */
+.menu-divider {
+    width: 5px;
+    height: 25px; /* 竖线高度，可调整 */
+    background-color: black; /* 竖线颜色 */
+    margin: 4065px; /* 竖线左右间距 */
 }
 
-/* 按钮样式 */
-.action-button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 200px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 返回按钮 */
-.back-link-container {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.back-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.back-link:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-/* 模态框样式 */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    padding-top: 50px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.modal-content {
-    display: block;
-    margin: auto;
-    max-width: 80%;
-    max-height: 80vh;
-    border-radius: 8px;
-    object-fit: contain;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: #bbb;
-}
-
-
-
+/* 搜索框样式 */
 .search-form {
     margin-top: 75px;
     text-align: center;
-    display: flex; /* 使用flex布局 */
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .search-form input[type="text"] {
     padding: 10px;
-    width: 700px; /* 调整宽度使搜索框更长 */
+    width: 700px;
     font-size: 16px;
-    border-radius: 20px; /* 圆角风格 */
+    border-radius: 20px;
     border: 1px solid #ccc;
-    height: 30px; /* 设置输入框高度 */
-    outline: none; /* 去掉聚焦时的边框 */
+    outline: none;
 }
 
 .search-form button {
     padding: 10px;
     background-color: #007BFF;
     border: none;
-    border-radius: 50%; /* 按钮圆形 */
-    display: flex; /* 使用flex布局确保图标居中 */
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px; /* 确保按钮和输入框高度一致 */
-    width: 40px; /* 按钮宽度 */
-    margin-left: 10px; /* 按钮与输入框的间距 */
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .search-form button img {
-    width: 20px; /* 图标大小 */
+    width: 20px;
     height: 20px;
 }
 
 .search-form button:hover {
     background-color: #0056b3;
 }
-

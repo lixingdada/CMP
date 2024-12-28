@@ -49,7 +49,6 @@ public class CategoryDaoImpl implements CategoryDao {
         }
         DBUtil.close();
         return list;
-
     }
 
     @Override
