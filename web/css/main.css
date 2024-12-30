@@ -1,93 +1,139 @@
 body {
-    background-image: url('../images/imgback.png'); /* 替换为你的背景图路径 */
-    background-size: cover; /* 让背景图充满整个页面 */
+    background-image: url('../images/imgback.png');
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* 使背景固定在视口 */
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
 }
 
+.search-form {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form input[type="search"] {
+    padding: 12px; /* 增大内边距，使搜索框更显眼 */
+    width: 900px; /* 增大搜索框长度 */
+    font-size: 18px; /* 调整字体大小 */
+    border-radius: 25px; /* 圆角风格 */
+    border: 1px solid #ccc; /* 添加边框 */
+    height: 50px; /* 调整搜索框高度 */
+    outline: none; /* 去掉聚焦时的蓝色外边框 */
+    transition: border-color 0.3s ease; /* 添加聚焦时的过渡效果 */
+}
+
+.search-form input[type="search"]:focus {
+    border-color: #007BFF; /* 聚焦时边框颜色变为蓝色 */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 添加聚焦时的阴影效果 */
+}
+
+
+/* 菜单容器样式 */
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.3); /* 背景设置为半透明 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 80%; /* 调整宽度 */
+    padding: 10px 0;
+}
+
+.menu-item {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative; /* 为悬浮效果定位做准备 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-item:hover {
+    /* 悬浮时背景变蓝 */
+    color: #fff; /* 悬浮时文字变白 */
+    border-radius: 5px;
+}
+
+/* 在悬浮时显示下方加粗横线 */
+.menu-item:hover::after {
+    content: ""; /* 使用伪元素生成内容 */
+    position: absolute;
+    bottom: 0; /* 定位到菜单项的底部 */
+    left: 10%; /* 从左边留出一点间距 */
+    width: 80%; /* 横线宽度 */
+    height: 3px; /* 横线高度 */
+    background-color: #007BFF; /* 横线颜色与悬浮背景一致 */
+    border-radius: 2px; /* 圆角效果 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+
+/* 悬浮选项卡样式 */
+.hover-card {
+    display: none; /* 默认隐藏 */
+    position: absolute;
+    top: 200px; /* 悬浮位置 */
+    left: 50%; /* 居中 */
+    transform: translateX(-50%);
+    width: 80%; /* 卡片宽度 */
+    height: 150px; /* 卡片高度 */
+    background-color: rgba(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000; /* 确保悬浮层在最上方 */
+}
+
+/* 分类容器样式 */
 .category-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 设置两列布局 */
-    grid-template-rows: repeat(2, 1fr); /* 设置两行布局 */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    width: 80%; /* 调整整体容器宽度以适应页面 */
-    margin: 20px auto; /* 居中 */
+    width: 90%;
+    margin: 20px auto;
 }
 
 .category-box {
     display: flex;
-    flex-direction: column; /* 将布局方向设置为列 */
+    flex-direction: column;
     align-items: center;
-    height: 250px;
-    padding: 20px;
-    background-color: #f9f9f9;
+    justify-content: center;
+    height: 200px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     text-decoration: none;
     color: black;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .category-box:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .category-box img {
-    width: 100%; /* 图片宽度填充父容器 */
-    height: 100%; /* 图片高度填充父容器 */
-    max-width: 200px; /* 限制图片最大宽度 */
-    max-height: 150px; /* 限制图片最大高度 */
-    object-fit: contain; /* 保持图片比例，同时确保图片不会被拉伸 */
-    border-radius: 8px; /* 保持图片圆角效果 */
-    flex-grow: 0; /* 不让图片占据多余空间 */
+    width: 80%;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    border-radius: 8px;
     margin-bottom: 10px;
 }
 
 .category-text {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     color: #333;
-    margin-top: auto; /* 将文字推到模块底部 */
-}
-.search-form {
-    margin-top: 75px;
     text-align: center;
-    display: flex; /* 使用flex布局 */
-    justify-content: center;
-    align-items: center;
 }
-
-.search-form input[type="text"] {
-    padding: 10px;
-    width: 700px; /* 调整宽度使搜索框更长 */
-    font-size: 16px;
-    border-radius: 20px; /* 圆角风格 */
-    border: 1px solid #ccc;
-    height: 30px; /* 设置输入框高度 */
-    outline: none; /* 去掉聚焦时的边框 */
-}
-
-.search-form button {
-    padding: 10px;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 50%; /* 按钮圆形 */
-    display: flex; /* 使用flex布局确保图标居中 */
-    justify-content: center;
-    align-items: center;
-    height: 40px; /* 确保按钮和输入框高度一致 */
-    width: 40px; /* 按钮宽度 */
-    margin-left: 10px; /* 按钮与输入框的间距 */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-form button img {
-    width: 20px; /* 图标大小 */
-    height: 20px;
-}
-
-.search-form button:hover {
-    background-color: #0056b3;
-}
-

@@ -23,7 +23,6 @@ public class DBUtil {
 
     // 建立返回值为Connection的方法
     public static Connection getConnection() {
-
         try { // 通过访问数据库的URL获取数据库连接对象
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(
@@ -46,7 +45,7 @@ public class DBUtil {
         return preparedStatement;
     }
 
-    /*带参数的改，返回影响行数*/
+    /*带参数的改,删，增，返回影响行数*/
     public static int executeUpdate(String sql, ArrayList<Object> params) {
         try {
             preparedStatement = getpreparedStatement(sql);
@@ -59,7 +58,7 @@ public class DBUtil {
         }
     }
 
-    /*有参数的增删查*/
+    /*有参数的查*/
     public static ResultSet executeQuery(String sql, ArrayList<Object> params) {
         preparedStatement = getpreparedStatement(sql);
         try {
