@@ -52,23 +52,62 @@
     text-decoration: underline; /* 添加下划线 */
 }
 
-/* 圆形框样式 */
+/* 圆形头像样式 */
+.profile-container {
+    position: relative; /* 确保悬浮卡片相对于头像定位 */
+    display: inline-block;
+}
+
 .profile-circle {
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* 圆形边框 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    background-color: #ccc; /* 默认背景颜色 */
+    border-radius: 50%; /* 圆形样式 */
+    overflow: hidden; /* 隐藏图片溢出 */
+    background-color: #ccc; /* 默认背景色 */
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 20px; /* 圆形框与按钮组之间的间距 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    transition: all 0.3s ease; /* 平滑过渡 */
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
 }
 
-/* 预留图片样式 */
+.profile-circle:hover {
+    transform: scale(1.5); /* 鼠标悬停时放大 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 增强阴影 */
+}
+
 .profile-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 保证图片比例不变 */
+    object-fit: cover; /* 确保图片按比例缩放 */
+}
+
+/* 悬浮卡片样式 */
+.hover-card1 {
+    display: none; /* 默认隐藏 */
+    position: absolute;
+    top: 50px; /* 卡片相对于头像的位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px; /* 卡片宽度 */
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 阴影 */
+    border-radius: 8px;
+    z-index: 100;
+    text-align: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 卡片显示时 */
+.hover-card1.show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 鼠标移开时恢复原样 */
+.profile-circle.shrink {
+    transform: scale(1); /* 恢复原大小 */
 }

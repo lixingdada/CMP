@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal; //精确的小数，表示价格
 
 /*Item类里面的属性*/
-public class Item implements Serializable {
+public class Item  {
 
 /*    private static final long serialVersionUID = -2159121673445254631L;*/
 

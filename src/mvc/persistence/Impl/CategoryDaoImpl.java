@@ -47,7 +47,6 @@ public class CategoryDaoImpl implements CategoryDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        DBUtil.close();
         return list;
     }
 

@@ -7,29 +7,62 @@ body {
     padding: 0;
 }
 
+/* 搜索表单样式 */
+
 .search-form {
     margin-top: 20px;
-    text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* 表单居中 */
     align-items: center;
 }
 
-.search-form input[type="search"] {
-    padding: 12px; /* 增大内边距，使搜索框更显眼 */
-    width: 900px; /* 增大搜索框长度 */
-    font-size: 18px; /* 调整字体大小 */
-    border-radius: 25px; /* 圆角风格 */
-    border: 1px solid #ccc; /* 添加边框 */
-    height: 50px; /* 调整搜索框高度 */
-    outline: none; /* 去掉聚焦时的蓝色外边框 */
-    transition: border-color 0.3s ease; /* 添加聚焦时的过渡效果 */
+/* 搜索框容器 */
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc; /* 边框 */
+    border-radius: 25px; /* 圆角 */
+    overflow: hidden; /* 隐藏多余内容 */
+    width: 900px; /* 总宽度 */
+    height: 45px; /* 总高度 */
 }
 
-.search-form input[type="search"]:focus {
+/* 搜索框样式 */
+.search-container input[type="search"] {
+    flex: 1; /* 占据剩余空间 */
+    padding: 12px; /* 内边距 */
+    font-size: 15px; /* 字体大小 */
+    border: 1px solid #ccc; /* 添加边框 */
+    outline: none; /* 去除聚焦时的蓝边框 */
+    border-radius: 0; /* 确保与按钮边角一致 */
+}
+
+/* 搜索框聚焦样式 */
+.search-container input[type="search"]:focus {
     border-color: #007BFF; /* 聚焦时边框颜色变为蓝色 */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 添加聚焦时的阴影效果 */
 }
+
+/* 搜索按钮样式 */
+.search-container .search-button {
+    background-color: #007BFF; /* 按钮背景色 */
+    color: #fff; /* 按钮文字颜色 */
+    border: none; /* 去除边框 */
+    font-size: 18px; /* 按钮文字大小 */
+    cursor: pointer; /* 鼠标样式 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* 按钮宽度 */
+    height: 100%; /* 高度与搜索框一致 */
+    transition: background-color 0.3s ease; /* 悬停效果 */
+}
+
+/* 按钮悬停效果 */
+.search-container .search-button:hover {
+    background-color: #0056b3; /* 鼠标悬停时的背景色 */
+}
+
 
 
 /* 菜单容器样式 */
@@ -81,7 +114,7 @@ body {
 .hover-card {
     display: none; /* 默认隐藏 */
     position: absolute;
-    top: 200px; /* 悬浮位置 */
+    top: 240px; /* 悬浮位置 */
     left: 50%; /* 居中 */
     transform: translateX(-50%);
     width: 80%; /* 卡片宽度 */
@@ -136,4 +169,50 @@ body {
     font-weight: bold;
     color: #333;
     text-align: center;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+/* 搜索框的父容器需要相对定位 */
+#search {
+    position: relative; /* 为子元素设置定位参考 */
+}
+
+/* 自动完成容器 */
+#productAutoComplete {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 98%;
+    background: white;
+    width: 873px;
+    z-index: 999;
+    color: black;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 自动完成列表 */
+#productAutoList {
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #007bff;
+}
+
+/* 自动完成项 */
+.productAutoItem {
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    list-style: none;
+    padding-left: 15px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.productAutoItem:hover {
+    background: #ccc;
 }

@@ -11,6 +11,7 @@ import mvc.persistence.Impl.CategoryDaoImpl;
 import mvc.persistence.Impl.ItemDaoImpl;
 import mvc.persistence.Impl.ProductDaoImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogService {
@@ -83,6 +84,29 @@ public class CatalogService {
 
     public String getUrlByProductId(String productID){
         return itemDao.getUrlByProductId(productID);
+    }
+
+    //获取所有商品
+    public List<Item> getItemsList(){
+        List<Item> list= itemDao.getItemsList();
+        return list;
+    }
+
+//    通过搜索获得所有商品(这里是具体商品)
+    public List<Item> getItemListBySearch(String keyword){
+        List<Product> productList =  getSearchProductList(keyword);
+        List<Item> itemList = new ArrayList<>();
+        for(int i = 0; i < productList.size(); i++){
+            List<Item> items = getItemList(productList.get(i).getProductId());
+            if (items != null) {  // 确保 items 不是 null，以避免 NullPointerException
+                itemList.addAll(items);  // 将 items 列表中的所有元素添加到 itemList 中
+            }
+        }
+        return itemList;
+    }
+
+    public String getProductNameByItemId(String itemId){
+        return itemDao.getProductNameByItemId(itemId);
     }
 
 }

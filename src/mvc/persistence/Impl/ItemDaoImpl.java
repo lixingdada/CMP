@@ -1,11 +1,14 @@
 package mvc.persistence.Impl;
 
+import mvc.domain.Category;
 import mvc.domain.Item;
 import mvc.persistence.DBUtil;
 import mvc.persistence.ItemDao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,10 @@ public class ItemDaoImpl implements ItemDao {
     private static  final String GET_ITEM = "  SELECT * FROM item WHERE itemid = ?";
 
     private static final String GET_URL_BY_PRODUCT_ID = "SELECT *from item where attr2 LIKE ?";
+
+    private static final String GET_ITEMS_LIST = "SELECT *from item";
+
+    private static final String GET_PRODUCT_NAME_BY_ITEM_ID ="SELECT p.name FROM item i JOIN product p ON i.productid = p.productid WHERE i.itemid = ?";
 
 
     private Item resultSetToItem(ResultSet resultSet) {
@@ -113,4 +120,44 @@ public class ItemDaoImpl implements ItemDao {
         DBUtil.close();
         return url;
     }
+
+    @Override
+    public List<Item> getItemsList() {
+        List<Item> list = new ArrayList<>();
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_ITEMS_LIST)) {
+
+            while (resultSet.next()) {
+                Item item = resultSetToItem(resultSet);
+                list.add(item);
+            }
+            DBUtil.closeStatement(statement);
+            DBUtil.closeResultSet(resultSet);
+            DBUtil.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();  // 打印出异常堆栈信息
+            throw new RuntimeException("Error retrieving items", e);  // 重新抛出异常以便调用者知道发生了问题
+        }
+        return list;
+    }
+
+    @Override
+    public String getProductNameByItemId(String itemId) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(itemId);
+        ResultSet resultSet = DBUtil.executeQuery(GET_PRODUCT_NAME_BY_ITEM_ID,arrayList);
+        String productName = "";
+        try {
+            if(resultSet.next()){
+                productName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productName;
+    }
+
+
 }
