@@ -10,21 +10,23 @@
 <head>
     <meta charset="UTF-8">
     <title>填写订单信息</title>
-    <link rel="stylesheet" href="css/2.css">
+    <link rel="stylesheet" href="css/confirmorder.css">
 </head>
 
 
 <body>
 <div>
-    <h2 class="centered-text">请输入具体信息</h2>
-    <form action="orderForm?username=${sessionScope.username}" method="post" class="centered-text">
-
-        <table class="centered-text">
-            <tr class="centered-text">
-                <td class="centered-text">
-                    <label for="receiverSelect" class="centered-text"><b>请选择</b></label>
+    <h2>订单详情</h2>
+    <span id="username" style="display:none">${sessionScope.username}</span>
+    <form id="orderForm" action="orderForm?username=${sessionScope.username}" method="POST" >
+        <h3>收货人信息</h3>
+        <div>
+        <table class="main-info">
+            <tr>
+                <td>
+                    <label for="receiverSelect">请选择</label>
                 </td>
-                <td class="centered-text" colspan="4">
+                <td>
                     <select id="receiverSelect" name="selectedReceiver">
                         <c:forEach var="receiver" items="${sessionScope.receivers}">
                             <option value="${receiver.receiverName},${receiver.receiverPhone},${receiver.receiverAddress}">
@@ -34,60 +36,137 @@
                     </select>
                 </td>
             </tr>
-        </table>
 
-
-        <table class="centered-text">
-        <tr class="centered-text">
-            <td class="centered-text">
-                <b>收货人</b>
+        <tr>
+            <td>
+                <label>收货人</label>
             </td>
-            <td class="centered-text" colspan="4">
-                <input type="text" name="orderName" id="orderName" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverName : ''}">
+            <td>
+                <c:if test="${sessionScope.receivers[0] != null}">
+                    <input type="text" name="orderName" id="orderName" value="${sessionScope.receivers[0].receiverName}">
+                </c:if>
+                <c:if test="${sessionScope.receivers[0] == null}">
+                    <input type="text" name="orderName" id="orderName" value="">
+                </c:if>
             </td>
         </tr>
 
-        <tr class="centered-text">
-            <td class="centered-text">
-                <b>电话</b>
+        <tr>
+            <td>
+                <label>电话</label>
             </td>
-            <td class="centered-text" colspan="4">
-                <input type="text" name="orderTel" id="orderTel" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverPhone : ''}">
-            </td>
-        </tr>
-
-        <tr class="centered-text">
-            <td class="centered-text">
-                <b>地址</b>
-            </td>
-            <td class="centered-text" colspan="4">
-                <input type="text" name="orderAddress" id="orderAddress" value="${not empty sessionScope.receivers[0] ? sessionScope.receivers[0].receiverAddress : ''}">
+            <td>
+                <c:if test="${sessionScope.receivers[0] != null}">
+                    <input type="text" name="orderTel" id="orderTel" value="${sessionScope.receivers[0].receiverPhone}">
+                </c:if>
+                <c:if test="${sessionScope.receivers[0] == null}">
+                    <input type="text" name="orderTel" id="orderTel" value="">
+                </c:if>
             </td>
         </tr>
 
-        <tr class="centered-text">
-            <td colspan="2" class="centered-text">
-                <a href="cartForm?username=${sessionScope.username}" class="Button centered-text">返回</a>
+        <tr>
+            <td>
+                <label>地址</label>
             </td>
-            <td colspan="3" class="centered-text">
-                <input type="submit" value="确定" class="Button centered-text">
+            <td>
+                <c:if test="${sessionScope.receivers[0] != null}">
+                    <input type="text" name="orderAddress" id="orderAddress" value="${sessionScope.receivers[0].receiverAddress}">
+                </c:if>
+                <c:if test="${sessionScope.receivers[0] == null}">
+                    <input type="text" name="orderAddress" id="orderAddress" value="">
+                </c:if>
             </td>
         </tr>
     </table>
+        </div>
+
+        <h3>购买详情</h3>
+        <div class="cart-container">
+            <table class="cart-item">
+                <thead class="cart-header">
+                <tr>
+                    <th>图片</th>
+                    <th>名称</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    <c:forEach var="cartItem" items="${sessionScope.cart.getAllCartItems()}">
+                        <c:set var="currentItem" value="${sessionScope.catalogService.getItem(cartItem.item.itemId)}"/>
+                        <tr class="product-details">
+                            <td class="product-image">
+                                <img src="images/${currentItem.getAttribute2()}" alt="">
+                            </td>
+                            <td class="product-name">
+                                <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemId">${cartItem.item.itemId}</a>
+                            </td>
+                            <td class="product-quantity">
+                                <div class="quantity-wrapper">
+                                    ${cartItem.quantity}
+                                </div>
+                            </td>
+                            <td class="product-price" id="itemPrice">${cartItem.item.listPrice}</td>
+                            <td class="product-total item-total" id="itemTotal">${cartItem.total}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+
+                <tfoot class="bottom-part">
+                <tr class="bottom">
+                    <td class="total-label">
+                        合计：
+                    </td>
+                    <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart == null}">
+                        <td class="total-price">
+                            0.00
+                        </td>
+                    </c:if>
+                    <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
+                        <td class="total-price" id="cartTotal">
+                                ${sessionScope.cart.getSubTotal()}
+                        </td>
+                    </c:if>
+                    <td class="text-container">
+                        <a href="cartForm?username=${sessionScope.username}" type="button" class="return-button">返回</a>
+                    </td>
+                    <td class="text-container">
+                        <button id="pay" type="submit" class="pay">去支付</button>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
     </form>
 </div>
-
 <script>
     document.getElementById('receiverSelect').addEventListener('change', function() {
-        const selectedValue = this.value.split(',');
-        document.getElementById('orderName').value = selectedValue[0];
-        document.getElementById('orderTel').value = selectedValue[1];
-        document.getElementById('orderAddress').value = selectedValue[2];
+        var selectedValue = this.value;
+        var values = selectedValue.split(',');
+        document.getElementById('orderName').value = values[0];
+        document.getElementById('orderTel').value = values[1];
+        document.getElementById('orderAddress').value = values[2];
     });
-</script>
 
+    document.getElementById('pay').onclick = function () {
+        console.log('click');
+        var username = document.getElementById('username').innerText;
+        var orderName = document.getElementById('orderName').value;
+        var orderAddress = document.getElementById('orderAddress').value;
+        var orderTel = document.getElementById('orderTel').value;
+        console.log(username+orderName+orderAddress+orderTel);
+        if (orderName === '' || orderAddress === '' || orderTel === '') {
+            alert('请填写完整信息');
+        } else {
+            document.getElementById('orderForm').submit();
+        }
+    }
+</script>
 </body>
 </html>
 
-<%@ include file="../common/bottom.jsp"%>
+
 

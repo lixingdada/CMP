@@ -96,7 +96,7 @@ public class Item implements Serializable {
     }
 
     public String getAttribute2() {
-        return attribute2;
+        return this.attribute2;
     }
 
     public void setAttribute2(String attribute2) {

@@ -1,0 +1,184 @@
+/* 通用样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;    /* 垂直方向为列 */
+    min-height: 100vh;
+}
+
+/* 购物车标题 */
+h2 {
+    text-align: center;
+    margin-top: 82px;
+    margin-bottom: 18px;
+    font-size: 24px;
+    color: #215496;
+}
+
+/* 表头 */
+.cart-header {
+    background-color: #eee;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+/* 购物车表格容器 */
+.cart-container {
+    overflow-y: auto;
+    flex: 1;
+    max-height: calc(100vh - 220px); /* 减去顶部标题和底部部分的高度 */
+}
+
+/* 购物车表格 */
+.cart-item {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-item th,
+.cart-item td {
+    text-align: center;
+    border-bottom: 1px dotted #ddd;
+    padding: 15px;
+}
+
+/* 购物车商品图片 */
+.product-image img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ddd;
+}
+
+/* 购物车商品名称 */
+.product-name a {
+    color: #215496;
+    text-decoration: none;
+}
+
+.product-name a:hover {
+    text-decoration: underline;
+}
+
+/* 购物车商品数量 */
+.quantity-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+/* 购物车商品价格和总价 */
+.product-price,
+.product-total {
+    font-weight: bold;
+}
+
+/* 移除购物车按钮 */
+.product-remove button {
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.product-remove button:hover {
+    background-color: #215496;
+}
+
+/* 购物车空信息 */
+#emptyCartMessage {
+    font-style: italic;
+    color: #999;
+}
+
+/* 底部部分容器 */
+.bottom-part {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #eee;
+    padding: 20px;
+    text-align: center;
+    z-index: 1000; /* 确保它在其他内容之上 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 水平居中 */
+}
+
+.bottom-part td {
+    text-align: center;
+    border-bottom: 0 dotted #ddd;
+    padding: 15px;
+}
+
+/* 总价标签 */
+.total-label {
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 0;
+    vertical-align: middle;
+}
+
+/* 总价 */
+.total-price {
+    font-size: 25px;
+    font-weight: bold;
+    color: #215496;
+    margin-right: 100px;
+    vertical-align: middle;
+}
+
+/* 继续购物按钮 */
+.continue-buy {
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 50px;
+    margin-right:50px;
+}
+
+.continue-buy:hover {
+    background-color: #215496;
+}
+
+/* 提交订单按钮 */
+.submit-order {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right:50px;
+    text-decoration: none;
+}
+
+.submit-order:hover {
+    background-color: #215496;
+}
+
+/* 防止 tbody 和 tfoot 之间的空白 */
+tbody, tfoot {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}

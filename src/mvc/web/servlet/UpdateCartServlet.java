@@ -25,6 +25,7 @@ public class UpdateCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        System.out.println("我走了");
         resp.setCharacterEncoding("UTF-8");
 
         String username = req.getParameter("username");
@@ -54,22 +55,20 @@ public class UpdateCartServlet extends HttpServlet {
 
                         if(quantity == 0){
                             cartDao.removeCartItem(itemId, username);
-                            //先0后数的逻辑要加
+
                         }else{
                             cartDao.updateCartItemQuantity(itemId, quantity, username);
                         }
-                        BigDecimal newTotal = cartDao.getCartByUserName(username).getSubTotal();
-                        out.write(String.valueOf(newTotal)); //返回新的总价
                         break;
                     }
                 }
+                BigDecimal newTotal = cartDao.getCartByUserName(username).getSubTotal();
+                out.write(String.valueOf(newTotal)); //返回新的总价
             }
         }
             catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     @Override

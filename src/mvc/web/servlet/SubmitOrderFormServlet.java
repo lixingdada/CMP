@@ -33,7 +33,6 @@ public class SubmitOrderFormServlet extends HttpServlet {
         String orderName = req.getParameter("orderName");
         String orderTel = req.getParameter("orderTel");
         String orderAddress = req.getParameter("orderAddress");
-        System.out.println("订单数据111："+orderName+orderTel+orderAddress);
 
         Cart cart ;
         try {

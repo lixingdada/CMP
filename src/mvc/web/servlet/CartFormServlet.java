@@ -2,6 +2,7 @@ package mvc.web.servlet;
 
 import mvc.domain.Cart;
 import mvc.domain.CartItem;
+import mvc.domain.Item;
 import mvc.persistence.CartDao;
 import mvc.persistence.Impl.CartDaoImpl;
 import mvc.service.CatalogService;
@@ -36,8 +37,11 @@ public class CartFormServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("cart", cart);
             session.setAttribute("username", username);
+            CatalogService catalogService = new CatalogService();
 
-            req.getRequestDispatcher(CART_FORM).include(req, resp);
+            session.setAttribute("catalogService", catalogService);
+
+            req.getRequestDispatcher(CART_FORM).forward(req, resp);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

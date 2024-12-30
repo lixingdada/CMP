@@ -40,25 +40,35 @@
             </c:choose>
 
             <div class="button-group">
-                <span class="hidden" id="username">${sessionScope.user.username}</span>  <%--存一下username--%>
-                <button id="cartButton" class="btn">
-                    购物车
-                </button>
-                <button id="myOrderButton" class="btn">
+                <a href="javascript:void(0)" class="btn" onclick="handleRedirect('cartForm?username=${sessionScope.user.username}')">
+                    &#128722; 购物车
+                </a>
+                <a href="javascript:void(0)" class="btn" onclick="handleRedirect('myOrderForm?username=${sessionScope.user.username}')">
                     我的订单
-                </button>
+                </a>
+            </div>
+
+            <!-- 添加圆形框 -->
+            <div class="profile-circle">
+                <img src="images/default-profile.png" alt="-" class="profile-image">
             </div>
         </div>
     </div>
 </div>
 
-<div id="cartContainer">
-</div>
-<div id="myOrderContainer">
-</div>
+<script>
+    // 检查用户是否已登录
+    const isUserLogIn = ${not empty sessionScope.user.username ? true : false};
+
+    function handleRedirect(url) {
+        if (!isUserLogIn) {
+            alert("您尚未登录，点击确认后1秒后自动跳转！");
+            setTimeout(() => window.location.href = "loginForm", 1000);
+        } else {
+            window.location.href = url;
+        }
+    }
+</script>
 
 </body>
-
-<script src="js/topcart.js"></script>
-<script src="js/topmyorder.js"></script>
 </html>

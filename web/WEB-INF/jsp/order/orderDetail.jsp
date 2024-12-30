@@ -9,37 +9,60 @@
 <head>
     <meta charset="UTF-8">
     <title>订单详情</title>
-    <link rel="stylesheet" href="css/2.css">
+    <link rel="stylesheet" href="css/orderdetail.css">
 </head>
 
 <body>
 <div>
-<h1 class="centered-text">订单详情</h1>
+<h1>订单详情</h1>
 
-<form class="centered-text">
-<table class="centered-text">
-    <tr class="centered-text">
-        <th class="centered-text">商品ID</th>
-        <th class="centered-text">数量</th>
-        <th class="centered-text">金额</th>
-    </tr>
+    <div class="order-container">
+        <table class="order-item">
+            <thead class="order-header">
+                <tr>
+                    <th>商品ID</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                </tr>
+            </thead>
 
+            <tbody>
     <c:forEach var="item" items="${sessionScope.orderItems}">
-        <tr class="centered-text">
-            <td class="centered-text">${item.itemId}</td>
-            <td class="centered-text">${item.quantity}</td>
-            <td class="centered-text">${item.price}</td>
+        <tr class="order-details">
+            <td class="item-name">
+                <a href="item?itemId=${item.itemId}&username=${sessionScope.username}" id="itemId">${item.itemId}</a>
+            </td>
+            <td class="item-quantity">${item.quantity}</td>
+            <td class="item-price">${item.price}</td>
+            <td class="item-total">${item.quantity * item.price}</td>
         </tr>
     </c:forEach>
-</table>
-</form>
+    <tr class="total">
+        <td colspan="4">
+            合计：${sessionScope.totalPrice}
+        </td>
 
-<div class="centered-text">
-    <a href="myOrderForm?username=${sessionScope.username}" class="Button centered-text">我的订单</a>
-</div>
+    </tr>
+            </tbody>
+
+        <tfoot class="bottom-part">
+        <tr>
+            <td>
+                <a href="myOrderForm?username=${sessionScope.username}" class="return">返回我的订单</a>
+            </td>
+
+        </tr>
+        </tfoot>
+
+</table>
+    </div>
+
+
+
 
 </div>
 </body>
 </html>
-<%@ include file="../common/bottom.jsp" %>
+
 

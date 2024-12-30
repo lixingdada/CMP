@@ -1,98 +1,91 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="../common/top.jsp"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>购物车</title>
-    <link rel="stylesheet" href="css/2.css">
+    <link rel="stylesheet" href="css/cart.css">
 </head>
 
 <body>
+<div id="Cart">
+    <h2>${sessionScope.username}的购物车</h2>
+    <span style="display: none" id="username">${sessionScope.username}</span>
 
-    <div id="BackLink">
-        <a href="mainForm?username=${sessionScope.username}"> 返回主菜单</a>
-    </div>
+    <div class="cart-container">
+        <table class="cart-item">
+            <thead class="cart-header">
+            <tr>
+                <th>图片</th>
+                <th>名称</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>总价</th>
+                <th>移除购物车</th>
+            </tr>
+            </thead>
 
-    <div id="cart">
-        <h2 class="centered-text">${sessionScope.username}的购物车</h2>
-        <form action="updateCart" method="post" class="centered-text">
-            <span class="hidden" id="username">${sessionScope.username}</span>
-            <table class="centered-text">
+            <tbody>
+            <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart == null}">
                 <tr>
-                    <th class="centered-text"><b>名称</b></th>
-                    <th class="centered-text"><b>数量</b></th>
-                    <th class="centered-text"><b>单价</b></th>
-                    <th class="centered-text"><b>总价</b></th>
-                    <th class="centered-text"><b>移出购物车</b></th>
+                    <td id="emptyCartMessage" colspan="6" class="emptyCartMessage">您的购物车空空如也</td>
                 </tr>
-
-                <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart ==null}">
-                    <tr>
-                        <td colspan="5" class="centered-text">您的购物车空空如也</td>
-                    </tr>
-                </c:if>
-
-                <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
-                <c:forEach var="cartItem" items="${sessionScope.cart.cartItems}">
-                    <tr>
-                        <td class="centered-text">
-                            <a href="itemForm?itemId=${cartItem.item.itemId}" id="itemId">${cartItem.item.itemId}</a>
+            </c:if>
+            <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
+                <c:forEach var="cartItem" items="${sessionScope.cart.getAllCartItems()}">
+                    <c:set var="currentItem" value="${sessionScope.catalogService.getItem(cartItem.item.itemId)}"/>
+                    <tr class="product-details">
+                        <td class="product-image">
+                            <img src="images/${currentItem.getAttribute2()}" alt="">
                         </td>
-
-                        <td class="centered-text">
-                            <input class="text2" type="number" id="quantity" name="${cartItem.item.itemId}" value="${cartItem.quantity}" min="0" step="1">
+                        <td class="product-name">
+                            <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemId">${cartItem.item.itemId}</a>
                         </td>
-
-                        <td class="centered-text" id="itemPrice">${cartItem.item.listPrice}</td>
-
-                        <td class="centered-text" id="itemTotal">${cartItem.total}</td>
-
-                        <td class="centered-text">
+                        <td class="product-quantity">
+                            <div class="quantity-wrapper">
+                                <input class="quantity-input" type="number" id="quantity" name="${cartItem.item.itemId}" value="${cartItem.quantity}" min="0" step="1">
+                            </div>
+                        </td>
+                        <td class="product-price" id="itemPrice">${cartItem.item.listPrice}</td>
+                        <td class="product-total item-total" id="itemTotal">${cartItem.total}</td>
+                        <td class="product-remove">
                             <button id="remove" value="${cartItem.item.itemId}" class="Button">移除</button>
                         </td>
                     </tr>
                 </c:forEach>
-                </c:if>
+            </c:if>
+            </tbody>
 
-                <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart ==null}">
-                    <tr>
-                        <td class="centered-text">
-                            合计：
-                        </td>
-                        <td colspan="4" class="centered-text">
-                            $0.00
-                        </td>
-                    </tr>
+            <tfoot class="bottom-part">
+            <tr class="bottom">
+                <td class="total-label">
+                    合计：
+                </td>
+                <c:if test="${sessionScope.cart.getNumberOfItems() == 0 || sessionScope.cart == null}">
+                    <td class="total-price">
+                        0.00
+                    </td>
                 </c:if>
-
                 <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
-                <tr>
-                    <td class="centered-text">
-                        合计：
+                    <td class="total-price" id="cartTotal">
+                            ${sessionScope.cart.getSubTotal()}
                     </td>
-                    <td colspan="4" class="centered-text" id="cartTotal">
-                        ${sessionScope.cart.getSubTotal()}
-                    </td>
-                </tr>
                 </c:if>
-
-                <tr>
-                    <td colspan="3" class="centered-text">
-                        <a href="mainForm?username=${sessionScope.username}" class="Button centered-text">继续购物</a>
-                    </td>
-
-                    <td colspan="2" class="centered-text">
-                        <a href="confirmOrderForm?username=${sessionScope.username}" class="Button centered-text">提交订单</a>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                <td class="text-container">
+                    <a class="continue-buy" href="mainForm?username=${sessionScope.username}">继续购物</a>
+                </td>
+                <td class="text-container">
+                    <a class="submit-order" href="confirmOrderForm?username=${sessionScope.username}">提交订单</a>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
+</div>
 </body>
-<script src="js/cartnumber.js"></script>
-<script src="js/cartremove.js"></script>
+<script src="js/cart.js"></script>
 </html>

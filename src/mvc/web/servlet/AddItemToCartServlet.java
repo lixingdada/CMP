@@ -61,7 +61,6 @@ public class AddItemToCartServlet extends HttpServlet {
         try {
             cartDao.addCartItem(cartItem,username);  //数据库中对应cart_item
             cart = cartDao.getCartByUserName(username);
-            //cart.incrementQuantityByItemId(cartItem.item);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +76,6 @@ public class AddItemToCartServlet extends HttpServlet {
             System.out.println("加入购物车");
             logService.addCart(username,workingItemId,username+"将由"+ supplier + "提供的" + productName+"加入了购物车！");
         }
-
 
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
