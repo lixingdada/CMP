@@ -49,22 +49,23 @@
                     <img src="" alt="头像" class="profile-image">
                 </div>
                 <div class="hover-card1">
-                    <!-- 这里可以放置悬浮卡片的内容 -->
+                    <!-- 登录用户的悬浮卡片内容 -->
                     <c:if test="${not empty sessionScope.user.username}">
-                        <p><a href="userInfo" class="btn">个人信息</a></p>
-                        <p><a href="javascript:void(0)" class="btn" onclick="handleRedirect('cartForm?username=${sessionScope.user.username}')">
-                            &#128722; 购物车
-                        </a></p>
-                        <p> <a href="javascript:void(0)" class="btn" onclick="handleRedirect('myOrderForm?username=${sessionScope.user.username}')">
-                                我的订单
-                            </a></p>
-                        <a href="logout" class="btn">退出登录</a>
+                        <ul class="settings">
+                            <li class="settingItem" data-href="userInfo"><span class="icon">&#128100;</span>个人中心</li>
+                            <li class="settingItem" data-href="cartForm?username=${sessionScope.user.username}"><span class="icon">&#128722;</span>购物车</li>
+                            <li class="settingItem" data-href="myOrderForm?username=${sessionScope.user.username}"><span class="icon">&#128197;</span>我的订单</li>
+                            <li class="settingItem" data-href="logout"><span class="icon"> &#8634; </span>   退出登录</li>
+                        </ul>
                     </c:if>
+                    <!-- 未登录用户的悬浮卡片内容 -->
                     <c:if test="${empty sessionScope.user.username}">
-                        <p><a href="loginForm" class="btn">登录/注册</a></p>
-
+                        <ul class="settings">
+                            <li class="settingItem" data-href="loginForm"><span class="icon">&#128273;</span>登录/注册</li>
+                        <ul class="settings">
                     </c:if>
                 </div>
+
             </div>
         </div>
     </div>

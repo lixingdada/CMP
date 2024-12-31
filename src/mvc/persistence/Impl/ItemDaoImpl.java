@@ -24,6 +24,7 @@ public class ItemDaoImpl implements ItemDao {
 
     private static final String GET_PRODUCT_NAME_BY_ITEM_ID ="SELECT p.name FROM item i JOIN product p ON i.productid = p.productid WHERE i.itemid = ?";
 
+    private static final String GET_ITEM_NAME_BY_ITEM_ID = "SELECT attr3 FROM item WHERE itemid = ?";
 
     private Item resultSetToItem(ResultSet resultSet) {
         Item item = new Item();
@@ -152,6 +153,22 @@ public class ItemDaoImpl implements ItemDao {
         try {
             if(resultSet.next()){
                 productName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productName;
+    }
+
+    @Override
+    public String getItemNameByItemId(String itemId) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(itemId);
+        ResultSet resultSet = DBUtil.executeQuery(GET_ITEM_NAME_BY_ITEM_ID,arrayList);
+        String productName = "";
+        try {
+            if(resultSet.next()){
+                productName = resultSet.getString("attr3");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

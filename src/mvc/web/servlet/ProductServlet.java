@@ -61,7 +61,7 @@ public class ProductServlet extends HttpServlet {
 
         req.setCharacterEncoding("UTF-8");
         String search = req.getParameter("information");
-        req.setAttribute("information",search);
+
 
         //System.out.println("搜索信息："+search);
         CatalogService catalogService = new CatalogService();
@@ -75,7 +75,9 @@ public class ProductServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         session.setAttribute("ItemList",itemList);
+        session.setAttribute("information",search);
         req.setAttribute("productName",productName);
+
 //        session.setAttribute("msg","null");
 
         req.getRequestDispatcher("productForm").forward(req,resp);

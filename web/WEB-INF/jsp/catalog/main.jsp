@@ -15,7 +15,6 @@
     <br>
     <br>
     <br>
-
 </p>
 <!-- 搜索表单 -->
 <div id="search">
@@ -54,7 +53,7 @@
     <c:forEach items="${sessionScope.allItems}" var="item">
         <a href="item?itemId=${item.itemId}&username=${sessionScope.user.username}" class="category-box">
             <img src="images/${item.attribute2}" alt="Python">
-            <div className="category-text">${item.itemId}</div>
+            <div class="category-text">${item.attribute3}</div>
         </a>
     </c:forEach>
 </div>

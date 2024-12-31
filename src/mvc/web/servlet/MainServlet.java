@@ -1,5 +1,6 @@
 package mvc.web.servlet;
 
+import com.alibaba.fastjson2.JSON;
 import mvc.domain.Item;
 import mvc.domain.Product;
 import mvc.service.CatalogService;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "MainServlet" , urlPatterns = {"/main"})
@@ -49,5 +52,25 @@ public class MainServlet extends HttpServlet {
 //        session.setAttribute("msg","null");
 //
 //        req.getRequestDispatcher("category").forward(req,resp);
+
+//        自动补全
+
+//        自动补全异步请求
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+
+        CatalogService catalogService = new CatalogService();
+        String search = req.getParameter("information");
+        List<Product> productList = catalogService.getSearchProductList(search);
+        List<String> autoComplete = new ArrayList<>();
+        for(int i = 0; i < productList.size(); i++){
+            autoComplete.add(productList.get(i).getName());
+        }
+
+        String json = JSON.toJSONString(autoComplete);
+        out.print(json);
+        out.close();
+
     }
 }

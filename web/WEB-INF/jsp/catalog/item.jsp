@@ -9,12 +9,26 @@
         </head>
         <body>
 
-        <form action="./main" method="post" class="search-form">
-            <input type="text" name="information" placeholder="${requestScope.information}"/>
-            <button type="submit" class="image-button">
-                <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
-            </button>
-        </form>
+        <p>
+            <br>
+            <br>
+        </p>
+        <!-- 搜索表单 -->
+        <div id="search">
+            <form action="./product" method="post" class="search-form">
+                <div class="search-container">
+                    <input type="search" name="information" id="information" placeholder=${sessionScope.information}>
+                    <button type="submit" class="search-button">🔍</button>
+                </div>
+            </form>
+            <div id = "productAutoComplete" >
+                <ul id="productAutoList">
+                    <%--            <li class="productAutoItem">1111111111</li>--%>
+                    <%--            <li class="productAutoItem">2222222222222</li>--%>
+                    <%--            <li class="productAutoItem">3333333333333</li>--%>
+                </ul>
+            </div>
+        </div>
 
         <br>
 
@@ -32,7 +46,7 @@
 
                 <!-- 文字信息 -->
                 <div class="info-content">
-                    <h1>商品名字: ${sessionScope.productName}</h1>
+                    <h1>商品名字: ${sessionScope.item.attribute3}</h1>
                     <h2>价格: ¥${sessionScope.item.listPrice}</h2>
                     <h2>供应商: ${sessionScope.item.supplierId}</h2>
                     <h2>状态: ${sessionScope.item.status}</h2>
@@ -41,11 +55,12 @@
                     <!-- 菜单选项部分 -->
                     <div class="menu-options">
                         <a href="addItemToCart?itemId=${sessionScope.item.itemId}&username=${sessionScope.user.username}" class="menu-option">加入购物车</a>
-                        <a href="product" class="menu-option">返回</a>
+<%--                        <a href="product" class="menu-option">返回</a>--%>
 
                     </div>
                 </div>
             </div>
         </div>
+        <script src="js/item.js"></script>
         </body>
         </html>

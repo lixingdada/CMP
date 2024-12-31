@@ -52,7 +52,6 @@ public class EditAddressServlet extends HttpServlet {
       String flag = req.getParameter("flag");
         if(flag!=null&&flag.equals("delete")){
             userInfoService.deleteAddress(user,user.getUsername(),receiverName,receiverPhone,receiverAddress);
-            req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
             return;
         }
 

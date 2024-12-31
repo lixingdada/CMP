@@ -2,7 +2,7 @@
 .top-container {
     margin: 0;
     padding: 0;
-    background-color: rgba(255, 255, 255, 0.3); /* 设置半透明背景 */
+    background-color: rgba(255, 255, 255, 0.8); /* 设置半透明背景 */
     position: fixed; /* 固定导航栏 */
     top: 0;
     width: 100%; /* 宽度覆盖整个页面 */
@@ -83,21 +83,31 @@
     object-fit: cover; /* 确保图片按比例缩放 */
 }
 
+/* 鼠标移开时恢复原样 */
+.profile-circle.shrink {
+    transform: scale(1); /* 恢复原大小 */
+}
+
 /* 悬浮卡片样式 */
 .hover-card1 {
     display: none; /* 默认隐藏 */
     position: absolute;
-    top: 50px; /* 卡片相对于头像的位置 */
+    top: 55px;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px; /* 卡片宽度 */
-    padding: 10px;
+    width: 200px;
     background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 阴影 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     z-index: 100;
-    text-align: center;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 0;
+    text-align: left;
+    border: 1.1px solid #007BFF;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* 卡片显示时 */
@@ -107,7 +117,27 @@
     visibility: visible;
 }
 
-/* 鼠标移开时恢复原样 */
-.profile-circle.shrink {
-    transform: scale(1); /* 恢复原大小 */
+.settings{
+    padding: 0;
+    margin: 0;
 }
+
+.settingItem{
+    list-style: none;
+    line-height: 45px;
+    height: 45px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.settingItem:hover {
+    background: #eee;
+
+}
+
+.icon{
+    padding-left: 10px;
+    padding-right: 20px;
+}
+

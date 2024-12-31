@@ -1,4 +1,3 @@
-
 'use strict';
 
 $(function () {
@@ -7,11 +6,21 @@ $(function () {
     let profileCircle = document.querySelector('.profile-circle');
     let hoverCard = document.querySelector('.hover-card1');
     let $greet = $('.greeting');
+    let $settings = $('.settings');
 
 // 定义一个标志，判断鼠标是否在头像或卡片内
     let isHovering = false;
 
-
+    $settings.on('click', '.settingItem', function () {
+        let $this = $(this);
+        let href = $this.data('href'); // 修正：先获取 href 值
+        console.log(href); // 确保 href 输出到控制台
+        if (href) {
+            window.location.href = href; // 页面跳转
+        } else {
+            console.error('Href not found!'); // 如果 href 为空，输出错误提示
+        }
+    });
 
         // 获取当前时间并显示问候语
         const currentHour = new Date().getHours();
@@ -55,4 +64,8 @@ $(function () {
             }
         }, 300); // 延迟隐藏
     });
+
+
+
+
 });

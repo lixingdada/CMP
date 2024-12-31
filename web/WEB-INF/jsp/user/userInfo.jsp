@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>个人信息</title>
     <link rel="stylesheet" href="css/userInfo.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
 
@@ -16,22 +17,22 @@
         <h2>个人信息</h2>
     </div>
     <div class="profile-content">
-        <p><strong>头像:</strong> <img src="images/${sessionScope.user.avatar}" alt="头像" class="avatar"></p>
-        <p><strong>账号:</strong> ${sessionScope.user.username}</p>
-        <p><strong>昵称:</strong> ${sessionScope.user.virtualName}</p>
-        <p><strong>生日:</strong> ${sessionScope.user.birthday}</p>
-        <p><strong>邮箱:</strong> ${sessionScope.user.email}</p>
-        <p><strong>电话:</strong> ${sessionScope.user.phone}</p>
-        <button class="btn" onclick="showEditModal()">编辑</button>
+        <p id="oldImg">头像: <img src="images/${sessionScope.user.avatar}" alt="头像" class="avatar"></p>
+        <p>账号: ${sessionScope.user.username}</p>
+        <p id="oldVirtualName">昵称: ${sessionScope.user.virtualName}</p>
+        <p id="oldBirthday">生日: ${sessionScope.user.birthday}</p>
+        <p id="oldEmail">邮箱: ${sessionScope.user.email}</p>
+        <p id="oldPhone">电话: ${sessionScope.user.phone}</p>
+        <button class="btn" data-modal ="editProfileModal">编辑</button>
     </div>
 </div>
 
 <!-- 编辑个人信息的悬浮窗口 -->
 <div id="editProfileModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal('editProfileModal')">&times;</span>
+        <span class="close" id="closeEditProfileModal" data-model="editProfileModal">&times;</span>
         <h2>编辑个人信息</h2>
-        <form action="userInfo" method="post" >
+        <form action="userInfo" method="post" id="userInfoForm" >
          <%--   <form action="userInfo" method="post" enctype="multipart/form-data">--%>
 
             <%--<label for="avatar">头像:</label>
@@ -73,7 +74,7 @@
             <input type="email" id="email" name="email" value="${sessionScope.user.email}" required>
             <label for="phone">电话:</label>
             <input type="text" id="phone" name="phone" value="${sessionScope.user.phone}" required>
-            <button type="submit" class="btn">保存</button>
+            <button type="submit" >保存</button>
         </form>
     </div>
 </div>
@@ -87,39 +88,41 @@
         </c:if>
     </div>
     <div class="address-content">
-        <c:forEach var="address" items="${sessionScope.user.addresses}">
-            <div class="address-item">
-                <div class="address-info">
-                    <p><strong>收货人:</strong> ${address.receiverName}</p>
-                    <p><strong>电话:</strong> ${address.receiverPhone}</p>
-                    <p><strong>地址:</strong> ${address.receiverAddress}</p>
+        <div id="addresses">
+            <c:forEach var="address" items="${sessionScope.user.addresses}">
+                <div class="address-item">
+                    <div class="address-info">
+                        <p><strong>收货人:</strong> ${address.receiverName}</p>
+                        <p><strong>电话:</strong> ${address.receiverPhone}</p>
+                        <p><strong>地址:</strong> ${address.receiverAddress}</p>
+                    </div>
+                    <button class="btn" id="editAddressButton"
+                            data-modal ="editAddressModal"
+                            data-receiver-name="${address.receiverName}"
+                            data-receiver-phone="${address.receiverPhone}"
+                            data-receiver-address="${address.receiverAddress}">
+                        修改
+                    </button>
+                    <form id="deleteForm" action="editAddress" method="post">
+                        <input type="hidden" name ="flag" value="delete">
+                        <input type="hidden" name="receiverName" value="${address.receiverName}">
+                        <input type="hidden" name="receiverPhone" value="${address.receiverPhone}">
+                        <input type="hidden" name="receiverAddress" value="${address.receiverAddress}">
+                        <button type="submit" class="btn">删除</button>
+                    </form>
                 </div>
-                <button class="btn"
-                        onclick="showEditAddressModal(this)"
-                        data-receiver-name="${address.receiverName}"
-                        data-receiver-phone="${address.receiverPhone}"
-                        data-receiver-address="${address.receiverAddress}">
-                    修改
-                </button>
-                <form action="editAddress" method="post">
-                    <input type="hidden" name ="flag" value="delete">
-                    <input type="hidden" name="receiverName" value="${address.receiverName}">
-                    <input type="hidden" name="receiverPhone" value="${address.receiverPhone}">
-                    <input type="hidden" name="receiverAddress" value="${address.receiverAddress}">
-                    <button type="submit" class="btn">删除</button>
-                </form>
-            </div>
-        </c:forEach>
-        <button class="btn" onclick="showAddAddressModal()">添加收货地址</button>
+            </c:forEach>
+        </div>
+        <button class="btn" data-modal ="addAddressModal">添加收货地址</button>
     </div>
 </div>
 
 <!-- 编辑收货地址的悬浮窗口 -->
 <div id="editAddressModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal('editAddressModal')">&times;</span>
+        <span class="close" id="closeEditAddressModal">&times;</span>
         <h2>编辑收货地址</h2>
-        <form action="editAddress" method="get">
+        <form id="editAddressForm" action="editAddress" method="get">
             <label for="receiverName">收货人:</label>
             <input type="text" id="receiverName" name="receiverName" required>
             <label for="receiverPhone">电话:</label>
@@ -140,9 +143,9 @@
 <!-- 添加收货地址的悬浮窗口 -->
 <div id="addAddressModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal('addAddressModal')">&times;</span>
+        <span class="close" id="closeAddAddressModal">&times;</span>
         <h2>添加收货地址</h2>
-        <form action="editAddress" method="post">
+        <form  id="addForm" action="editAddress" method="post">
             <label for="recipient">收货人:</label>
             <input type="text" id="recipient" name="receiverName" required>
             <label for="receiverPhone1">电话:</label>
@@ -177,74 +180,6 @@
     </div>
 </div>--%>
 
-
-<script>
-    function showEditModal() {
-        document.getElementById('editProfileModal').style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-
-    // 显示编辑地址弹窗
-    function showEditAddressModal(button) {
-        var receiverName = button.getAttribute('data-receiver-name');
-        var receiverPhone = button.getAttribute('data-receiver-phone');
-        var receiverAddress = button.getAttribute('data-receiver-address');
-
-        // 旧值（隐藏字段）
-        document.getElementById('oldReceiverName').value = receiverName;
-        document.getElementById('oldReceiverPhone').value = receiverPhone;
-        document.getElementById('oldReceiverAddress').value = receiverAddress;
-
-        //新
-        document.getElementById('receiverName').value = receiverName;
-        document.getElementById('receiverPhone').value = receiverPhone;
-        document.getElementById('receiverAddress').value = receiverAddress;
-
-        //先赋值再显示悬浮窗口
-        document.getElementById('editAddressModal').style.display = 'block';
-    }
-
-   /* function submitAddressForm(event) {
-        event.preventDefault(); // 防止表单默认提交
-
-        const form = document.getElementById('addAddressForm');
-        const formData = new FormData(form);
-
-        fetch('editAddress', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text()) // 获取纯文本响应（XML）
-            .then(str => (new window.DOMParser()).parseFromString(str, "application/xml"))
-            .then(data => {
-                const success = data.getElementsByTagName("success")[0].textContent;
-                if (success === "true") {
-                    // 成功，关闭窗口并刷新地址列表或更新页面元素
-                    closeModal('addAddressModal');
-                    // 此处可以添加代码来动态刷新页面上显示的地址信息
-                } else {
-                    // 显示错误信息
-                    const errorMessage = document.getElementById('errorMessage');
-                    errorMessage.style.display = 'block';
-                    errorMessage.textContent = data.getElementsByTagName("message")[0].textContent;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }*/
-
-
-
-    // 显示添加地址弹窗
-    function showAddAddressModal() {
-        document.getElementById('addAddressModal').style.display = 'block';
-    }
-</script>
-
+<script src="js/userInfo.js"></script>
 </body>
 </html>

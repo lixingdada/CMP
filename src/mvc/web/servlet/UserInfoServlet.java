@@ -50,6 +50,6 @@ public class UserInfoServlet extends HttpServlet {
         userInfoService.updateUserInfo(virtualName,birthday,email,phone,username);
         userInfoService.loadUser(user,username);
         
-        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
+//        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
     }
 }

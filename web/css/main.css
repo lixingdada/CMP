@@ -7,8 +7,7 @@ body {
     padding: 0;
 }
 
-/* 搜索表单样式 */
-
+/* 搜索表单容器 */
 .search-form {
     margin-top: 20px;
     display: flex;
@@ -25,6 +24,8 @@ body {
     overflow: hidden; /* 隐藏多余内容 */
     width: 900px; /* 总宽度 */
     height: 45px; /* 总高度 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* 平滑过渡 */
 }
 
 /* 搜索框样式 */
@@ -32,15 +33,17 @@ body {
     flex: 1; /* 占据剩余空间 */
     padding: 12px; /* 内边距 */
     font-size: 15px; /* 字体大小 */
-    border: 1px solid #ccc; /* 添加边框 */
+    border: none; /* 去除边框 */
     outline: none; /* 去除聚焦时的蓝边框 */
     border-radius: 0; /* 确保与按钮边角一致 */
+    transition: background-color 0.3s ease; /* 平滑过渡背景 */
 }
 
 /* 搜索框聚焦样式 */
 .search-container input[type="search"]:focus {
-    border-color: #007BFF; /* 聚焦时边框颜色变为蓝色 */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 添加聚焦时的阴影效果 */
+    background-color: #f8f9fa; /* 聚焦时背景微微变浅 */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.6); /* 添加轻柔的蓝色阴影 */
+    border-color: #007BFF; /* 添加聚焦时的边框颜色变化 */
 }
 
 /* 搜索按钮样式 */
@@ -55,15 +58,70 @@ body {
     align-items: center;
     width: 60px; /* 按钮宽度 */
     height: 100%; /* 高度与搜索框一致 */
-    transition: background-color 0.3s ease; /* 悬停效果 */
+    border-left: 1px solid #ccc; /* 添加按钮左侧边框，区分搜索框 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 添加平滑过渡和点击反馈 */
 }
 
 /* 按钮悬停效果 */
 .search-container .search-button:hover {
     background-color: #0056b3; /* 鼠标悬停时的背景色 */
+    transform: scale(1.05); /* 鼠标悬停时的轻微放大效果 */
+}
+
+/* 按钮按下效果 */
+.search-container .search-button:active {
+    background-color: #003d80; /* 按下时的深蓝色 */
+    transform: scale(0.95); /* 按下时的轻微缩小效果 */
+}
+
+/* 容器聚焦状态 */
+.search-container:focus-within {
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4); /* 容器整体阴影效果 */
+    border-color: #007BFF; /* 聚焦时容器边框颜色 */
 }
 
 
+/* 搜索框的父容器需要相对定位 */
+#search {
+    position: relative; /* 为子元素设置定位参考 */
+}
+
+/* 自动完成容器 */
+#productAutoComplete {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 98%;
+    background: white;
+    width: 873px;
+    z-index: 999;
+    color: black;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 自动完成列表 */
+#productAutoList {
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #007bff;
+}
+
+/* 自动完成项 */
+.productAutoItem {
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    list-style: none;
+    padding-left: 15px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.productAutoItem:hover {
+    background: #ccc;
+}
 
 /* 菜单容器样式 */
 .menu-container {
@@ -175,44 +233,4 @@ body {
     text-decoration: none;
 }
 
-/* 搜索框的父容器需要相对定位 */
-#search {
-    position: relative; /* 为子元素设置定位参考 */
-}
 
-/* 自动完成容器 */
-#productAutoComplete {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 98%;
-    background: white;
-    width: 873px;
-    z-index: 999;
-    color: black;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* 自动完成列表 */
-#productAutoList {
-    display: none;
-    margin: 0;
-    padding: 0;
-    border: 1px solid #007bff;
-}
-
-/* 自动完成项 */
-.productAutoItem {
-    height: 40px;
-    line-height: 40px;
-    font-size: 15px;
-    list-style: none;
-    padding-left: 15px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.productAutoItem:hover {
-    background: #ccc;
-}

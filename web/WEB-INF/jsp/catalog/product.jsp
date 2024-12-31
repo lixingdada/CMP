@@ -10,15 +10,29 @@
     <link rel="stylesheet" type="text/css" href="css/product.css"> <!-- 引入样式文件 -->
 </head>
 <body>
-这是${sessionScope.productName}的item
 
-<form action="./main" method="post" class="search-form">
-    <input type="text" name="information" placeholder="${requestScope.information}"/>
+<p>
+    <br>
+    <br>
+    <br>
+</p>
 
-    <button type="submit" class="image-button">
-        <img src="${pageContext.request.contextPath}/images/searchicon.png" alt="搜索" />
-    </button>
-</form>
+<!-- 搜索表单 -->
+<div id="search">
+    <form action="./product" method="post" class="search-form">
+        <div class="search-container">
+            <input type="search" name="information" id="information" placeholder=${sessionScope.information}>
+            <button type="submit" class="search-button">🔍</button>
+        </div>
+    </form>
+    <div id = "productAutoComplete" >
+        <ul id="productAutoList">
+            <%--            <li class="productAutoItem">1111111111</li>--%>
+            <%--            <li class="productAutoItem">2222222222222</li>--%>
+            <%--            <li class="productAutoItem">3333333333333</li>--%>
+        </ul>
+    </div>
+</div>
 
 <br>
 
@@ -68,13 +82,13 @@
 </div>
 <%--</table>--%>
 
-<div class="back-link-container">
-    <form action="main" method="get" class="return-button-form">
-        <button type="submit" class="return-button">返回</button>
-    </form>
-</div>
+<%--<div class="back-link-container">--%>
+<%--    <form action="main" method="get" class="return-button-form">--%>
+<%--        <button type="submit" class="return-button">返回</button>--%>
+<%--    </form>--%>
+<%--</div>--%>
 
-
+<script src="js/product.js"></script>
 
 </body>
 </html>

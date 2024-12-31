@@ -20,6 +20,9 @@ public interface ItemDao {
 
     List<Item> getItemsList();
 
+    //通过itemid获得产品名字（数据库更新数据前）
     String getProductNameByItemId(String itemId);
 
+    //通过itemid获得产品名字（数据库更新数据后）
+    String getItemNameByItemId(String itemId);
 }
