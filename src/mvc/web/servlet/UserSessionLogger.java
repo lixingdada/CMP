@@ -5,6 +5,7 @@ import mvc.domain.Product;
 import mvc.domain.User;
 import mvc.service.CatalogService;
 import mvc.service.LogService;
+import mvc.service.UserInfoService;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpSessionListener;
 public class UserSessionLogger implements HttpSessionListener, HttpSessionAttributeListener {
     private CatalogService catalogService = new CatalogService();
     private LogService logService = new LogService();
+
+    private UserInfoService userInfoService = new UserInfoService();
     /*@Override
     public void sessionDestroyed(HttpSessionEvent se) {
         System.out.println("监听器：session清除");
