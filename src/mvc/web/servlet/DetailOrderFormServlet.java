@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class DetailOrderFormServlet extends HttpServlet {
@@ -30,8 +31,15 @@ public class DetailOrderFormServlet extends HttpServlet {
         // 获取订单项信息
         List<OrderItem> orderItems = orderDao.findOrderItemsByOrderId(orderId,username);
 
+        BigDecimal totalPrice = new BigDecimal(0);
+
+        for(OrderItem orderItem:orderItems) {
+            totalPrice = totalPrice.add(orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())));
+        }
+
         session.setAttribute("orderItems", orderItems);
         session.setAttribute("username",username);
+        session.setAttribute("totalPrice", totalPrice);
         req.getRequestDispatcher(LORDERDETAI_FORM).forward(req, resp);
     }
 }

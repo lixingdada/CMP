@@ -6,7 +6,7 @@
     position: fixed; /* 固定导航栏 */
     top: 0;
     width: 100%; /* 宽度覆盖整个页面 */
-    z-index: 1000; /* 确保导航栏在最上层 */
+    z-index: 1001; /* 确保导航栏在最上层 */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
 }
 

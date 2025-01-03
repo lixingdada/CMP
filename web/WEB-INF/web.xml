@@ -13,85 +13,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>UpdateCartServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.UpdateCartServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateCartServlet</servlet-name>
-        <url-pattern>/updateCart</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>RemoveCartItemServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.RemoveCartItemServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RemoveCartItemServlet</servlet-name>
-        <url-pattern>/removeCartItem</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CartFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.CartFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CartFormServlet</servlet-name>
-        <url-pattern>/cartForm</url-pattern>
-    </servlet-mapping>
-
-  <!--  <servlet>
-        <servlet-name>LoginFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.LoginFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginFormServlet</servlet-name>
-        <url-pattern>/loginForm</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>MainFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.MainFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MainFormServlet</servlet-name>
-        <url-pattern>/mainForm</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CategoryFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.CategoryFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CategoryFormServlet</servlet-name>
-        <url-pattern>/categoryForm</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ProductFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.ProductFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProductFormServlet</servlet-name>
-        <url-pattern>/productForm</url-pattern>
-    </servlet-mapping>-->
-
-    <servlet>
         <servlet-name>MyOrderFormServlet</servlet-name>
         <servlet-class>mvc.web.servlet.MyOrderFormServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MyOrderFormServlet</servlet-name>
         <url-pattern>/myOrderForm</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>OrderFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.OrderFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OrderFormServlet</servlet-name>
-        <url-pattern>/orderForm</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -101,15 +28,6 @@
     <servlet-mapping>
         <servlet-name>DetailOrderFormServlet</servlet-name>
         <url-pattern>/orderDetailForm</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ConfirmOrderFormServlet</servlet-name>
-        <servlet-class>mvc.web.servlet.ConfirmOrderFormServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ConfirmOrderFormServlet</servlet-name>
-        <url-pattern>/confirmOrderForm</url-pattern>
     </servlet-mapping>
 
     <servlet>

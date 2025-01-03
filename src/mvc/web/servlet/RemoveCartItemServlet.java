@@ -8,60 +8,57 @@ import mvc.persistence.Impl.CartDaoImpl;
 
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.Iterator;
 
+
+@WebServlet(name = "RemoveCartItemServlet", value = "/removeCartItem")
 public class RemoveCartItemServlet extends HttpServlet {
 
-    private static final String CART_FORM = "/WEB-INF/jsp/cart/cart.jsp";
-    private static final String ERROR_FORM = "/WEB-INF/jsp/common/error.jsp";
     private CartDao cartDao = new CartDaoImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("UTF-8");
 
-        HttpSession session=req.getSession();
         String username = req.getParameter("username");
-        session.setAttribute("username",username);
+        System.out.println("此时的username:" + username);
 
-        System.out.println(username);
+        String itemId = req.getParameter("itemId");
+        System.out.println("此时的itemId:" + itemId);
 
-        if (username == null) {
-            resp.sendRedirect("loginForm");
-            return;
-        }
+        resp.setContentType("text/plain");
+        PrintWriter out = resp.getWriter();
 
-        Cart cart = null;
         try {
-            cart = cartDao.getCartByUserName(username);
+            Cart cart = cartDao.getCartByUserName(username);
+            if (cart != null) {
+                Iterator<CartItem> cartItems = cart.getAllCartItems();
+                while (cartItems.hasNext()) {
+                    CartItem cartItem = cartItems.next();
+
+                    if (cartItem.item.getItemId().toString().equals(itemId)) {
+                        cartDao.removeCartItem(itemId, username);
+                        break;
+                    }
+                }
+                BigDecimal newTotal = cartDao.getCartByUserName(username).getSubTotal();
+                out.write(String.valueOf(newTotal)); //返回新的总价
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        String workingItemId = req.getParameter("workingItemId");
-        CartItem cartItem=new CartItem();
-        cartItem.item = cart.removeItemById(workingItemId);
+    }
 
-        if (cartItem.item == null) {
-            session.setAttribute("errorMsg", "Attempted to remove null CartItem from Cart.");
-            req.getRequestDispatcher(ERROR_FORM).forward(req, resp);
-        } else {
-            try {
-                cartDao.removeCartItem(cartItem.item.getItemId(),username);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            try {
-                cart = cartDao.getCartByUserName(username);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            session.setAttribute("cart", cart);
-            req.getRequestDispatcher(CART_FORM).forward(req, resp);
-        }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }

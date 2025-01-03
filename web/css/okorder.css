@@ -1,0 +1,46 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#Catalog {
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+#Cart {
+    padding: 20px;
+}
+
+p {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+a.Button {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+a.Button:hover {
+    background-color: #0056b3;
+}

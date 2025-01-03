@@ -1,0 +1,105 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 82px;
+    margin-bottom: 18px;
+    color: #215496;
+}
+
+.order-header {
+    background-color: #eee;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+
+.order-container {
+    overflow-y: auto;
+    flex: 1;
+    max-height: calc(100vh - 220px);
+}
+
+.order-item {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-item th,
+.order-item td {
+    text-align: center;
+    border-bottom: 1px dotted #ddd;
+    padding: 15px;
+}
+
+.order-id a {
+    color: #215496;
+    text-decoration: none;
+}
+
+.order-id a:hover {
+    text-decoration: underline;
+}
+
+.order-time .order-address .order-name .order-tel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.bottom-part {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #eee;
+    padding: 20px;
+    text-align: center;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-part td {
+    text-align: center;
+    border-bottom: 0 dotted #ddd;
+    padding: 15px;
+}
+
+.return {
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 50px;
+    margin-right:50px;
+    text-align: center;
+    justify-content: center;
+}
+
+.return:hover {
+    background-color: #215496;
+}
+
+tbody, tfoot {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}

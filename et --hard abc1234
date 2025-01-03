@@ -1,0 +1,34 @@
+[33m87427b2[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{0}: commit: 购物车订单实验要求完成
+[33m2495b51[m HEAD@{1}: commit (merge): a
+[33m2b7085c[m HEAD@{2}: commit: 完善购物车逻辑
+[33mccc3fbc[m HEAD@{3}: pull origin master: Merge made by the 'ort' strategy.
+[33m7913f57[m HEAD@{4}: commit: a
+[33m1330df7[m HEAD@{5}: commit: 收获地址完善
+[33m54e3606[m HEAD@{6}: commit: 稍微小改
+[33m37ad039[m HEAD@{7}: commit: 完善购物车界面
+[33m343d416[m HEAD@{8}: commit (merge): 购物车和订单完善
+[33m694061c[m HEAD@{9}: commit: 购物车和订单完善
+[33md5145ab[m HEAD@{10}: commit: d
+[33m84206a8[m HEAD@{11}: pull origin master: Merge made by the 'ort' strategy.
+[33m19aa285[m HEAD@{12}: commit: c
+[33m14b2eab[m HEAD@{13}: commit (merge): c
+[33m7768ea9[m HEAD@{14}: commit: x
+[33md6002ae[m HEAD@{15}: commit: 进一步完善，cart与order和username绑定
+[33m574e0e9[m HEAD@{16}: pull origin master: Fast-forward
+[33m7d63b4a[m HEAD@{17}: commit: 订单功能基于数据库实现
+[33m889a130[m HEAD@{18}: commit: 订单初步实现
+[33ma4ff545[m HEAD@{19}: commit (merge): 基于数据库的购物车初步实现
+[33m41ae1ad[m HEAD@{20}: commit: 购物车基于数据库初步实现
+[33m5ed3ed9[m HEAD@{21}: reset: moving to HEAD^
+[33m9859904[m HEAD@{22}: commit: 基于数据库的购物车初步实现
+[33m5ed3ed9[m HEAD@{23}: commit: 修改部分版本不同导致的错误
+[33m1ad93dc[m HEAD@{24}: commit (merge): 购物车部分功能
+[33meedf962[m HEAD@{25}: commit (merge): 购物车修改，移除，增加，更新
+[33m8634948[m HEAD@{26}: commit: e
+[33mc8d5222[m HEAD@{27}: commit: 增加一些jsp和文件夹，完善一些代码
+[33m98f8e5f[m HEAD@{28}: commit: cart init again
+[33m61a6230[m HEAD@{29}: pull origin master: Merge made by the 'ort' strategy.
+[33m20e9280[m HEAD@{30}: commit: cart init
+[33m10bd933[m HEAD@{31}: commit: d
+[33mf1c9ab0[m HEAD@{32}: commit (merge): c
+[33m773ece9[m HEAD@{33}: commit (initial): c

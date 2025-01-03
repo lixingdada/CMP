@@ -20,6 +20,10 @@ public class ProductServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String productId = req.getParameter("productId");
         String productName = req.getParameter("productName");
+
+        //%2B不知道为什么不能解析
+        productName = productName.replace("%2B", "+");
+
         req.setAttribute("productName",productName);
 
         CatalogService catalogService = new CatalogService();
@@ -27,6 +31,7 @@ public class ProductServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("ItemList",catalogService.getItemList(productId));
         session.setAttribute("information",productName);
+
         req.getRequestDispatcher("productForm").forward(req,resp);
     }
 
@@ -67,17 +72,16 @@ public class ProductServlet extends HttpServlet {
         //System.out.println("搜索信息："+search);
         CatalogService catalogService = new CatalogService();
         List<Item> itemList = catalogService.getItemListBySearch(search);
-        String productName = "";
-        if(itemList != null)
-            productName = catalogService.getProductNameByItemId(itemList.get(0).getItemId());
+//        String productName = "";
+//        if(itemList != null)
+//            productName = catalogService.getProductNameByItemId(itemList.get(0).getItemId());
 
 //        System.out.println("搜索结果："+itemList);
-
         HttpSession session = req.getSession();
 
         session.setAttribute("ItemList",itemList);
         session.setAttribute("information",search);
-        req.setAttribute("productName",productName);
+//        req.setAttribute("productName",productName);
 
 //        session.setAttribute("msg","null");
 

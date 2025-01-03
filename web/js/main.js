@@ -77,7 +77,10 @@ $(function (){
                 let productName = cache[category][i].name;
                 let productId = cache[category][i].productId;
                 let htmlString = '';
-                htmlString += '<span class="product-link-contain"><a href="product?productId='+ productId +'&productName='+productName+'" class ="product-link"> ' + productName + '</a></span>';
+
+                // url中+ 空格 被看成特殊字符，要修改成某种编码
+                const encodedProductName = encodeURIComponent(productName);
+                htmlString += '<span class="product-link-contain"><a href="product?productId='+ productId +'&productName='+encodedProductName+'" class ="product-link"> ' + productName + '</a></span>';
                 $hoverCard.append(htmlString);
             }
             $hoverCard.slideDown(200);
