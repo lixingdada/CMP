@@ -17,12 +17,16 @@
         <h2>个人信息</h2>
     </div>
     <div class="profile-content">
-        <p id="oldImg">头像: <img src="images/${sessionScope.user.avatar}" alt="头像" class="avatar"></p>
-        <p>账号: ${sessionScope.user.username}</p>
-        <p id="oldVirtualName">昵称: ${sessionScope.user.virtualName}</p>
-        <p id="oldBirthday">生日: ${sessionScope.user.birthday}</p>
-        <p id="oldEmail">邮箱: ${sessionScope.user.email}</p>
-        <p id="oldPhone">电话: ${sessionScope.user.phone}</p>
+<%--        images/${sessionScope.user.avatar}--%>
+        <div class="avatar-container">
+            <img id="profileAvatar" src="images/${sessionScope.user.avatar != null ? sessionScope.user.avatar : '默认头像.png'}" alt="头像" class="avatar">
+            <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+        </div>
+        <p><strong>账号: </strong>${sessionScope.user.username}</p>
+        <p id="oldVirtualName"><strong>昵称: </strong>${sessionScope.user.virtualName}</p>
+        <p id="oldBirthday"><strong>生日: </strong>${sessionScope.user.birthday}</p>
+        <p id="oldEmail"><strong>邮箱: </strong>${sessionScope.user.email}</p>
+        <p id="oldPhone"><strong>电话: </strong>${sessionScope.user.phone}</p>
         <button class="btn" data-modal ="editProfileModal">编辑</button>
     </div>
 </div>

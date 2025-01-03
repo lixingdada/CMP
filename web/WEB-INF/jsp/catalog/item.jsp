@@ -31,36 +31,39 @@
         </div>
 
         <br>
+        <br>
 
         <!-- 左右布局：左侧为图片，右侧为信息 -->
         <div class="page-container">
-            <!-- 左半部分：商品图片 -->
+            <!-- 左侧图片部分 -->
             <div class="left-image">
-                <img src="images/${sessionScope.item.attribute2}" alt="${sessionScope.productName}">
+                <img id="product-image" src="images/${sessionScope.item.attribute2}" alt="商品图片" />
             </div>
 
-            <!-- 右半部分：商品信息 -->
+            <!-- 右侧信息部分 -->
             <div class="right-info">
-                <!-- 圆角矩形块 -->
-                <div class="info-overlay"></div>
-
                 <!-- 文字信息 -->
                 <div class="info-content">
-                    <h1>商品名字: ${sessionScope.item.attribute3}</h1>
-                    <h2>价格: ¥${sessionScope.item.listPrice}</h2>
-                    <h2>供应商: ${sessionScope.item.supplierId}</h2>
-                    <h2>状态: ${sessionScope.item.status}</h2>
-                    <h2>信息: ${sessionScope.item.attribute1}</h2>
+                    <p id="itemName">商品名字: ${sessionScope.item.attribute3}</p>
+                    <p >供应商: ${sessionScope.item.supplierId}</p>
+                    <p>状态: ${sessionScope.item.status}</p>
+                    <p>类型: ${sessionScope.item.attribute1}</p>
+                    <p id="price"> ¥${sessionScope.item.listPrice}</p>
 
                     <!-- 菜单选项部分 -->
                     <div class="menu-options">
                         <a href="addItemToCart?itemId=${sessionScope.item.itemId}&username=${sessionScope.user.username}" class="menu-option">加入购物车</a>
-<%--                        <a href="product" class="menu-option">返回</a>--%>
-
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- 弹窗查看图片 -->
+        <div class="image-modal">
+            <img class="modal-content" src="" alt="查看大图">
+            <span class="close-btn">&times;</span>
+        </div>
+
         <script src="js/item.js"></script>
         </body>
         </html>

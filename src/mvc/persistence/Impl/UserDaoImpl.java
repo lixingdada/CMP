@@ -34,6 +34,8 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_ADDRESS = "DELETE FROM receiver WHERE userid = ?AND receiver_name = ? AND receiver_phone = ? AND receiver_addr = ?";
 
     private static final String IS_REPEAT_ADDRESS = "SELECT * FROM receiver WHERE userid = ?AND receiver_name = ? AND receiver_phone = ? AND receiver_addr = ? ";
+
+   private static final String UPDATE_AVATAR = "UPDATE account set avatar=? WHERE userid = ?";
     // 获取所有用户
     @Override
     public List<User> findAllUser() {
@@ -223,5 +225,15 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    @Override
+    public int updateAvatar(String avatar,String userid) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(avatar);
+        arrayList.add(userid);
+        int count = DBUtil.executeUpdate(UPDATE_AVATAR,arrayList);
+        DBUtil.close();
+        return count;
     }
 }

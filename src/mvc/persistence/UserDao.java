@@ -28,4 +28,6 @@ public interface UserDao {
     public void deleteAddress(String username,String name,String phone,String address);
 
     public boolean isRepeatAddress(String username,String name,String phone,String address);
+
+    public int updateAvatar(String avatar,String userid);
 }

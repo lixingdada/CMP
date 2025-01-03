@@ -102,6 +102,7 @@ public class CatalogService {
                 itemList.addAll(items);  // 将 items 列表中的所有元素添加到 itemList 中
             }
         }
+
         return itemList;
     }
 

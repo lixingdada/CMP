@@ -56,10 +56,10 @@ $(function (){
             data : userInfoFormData,
             success : function (data){
                 alert("个人信息修改成功！");
-                $('#oldVirtualName').text('昵称: '+$('#virtualName').val())  ;
-                $('#oldBirthday').text('生日: '+$('#birthday').val())  ;
-                $('#oldEmail').text('邮箱: ' + $('#email').val()) ;
-                $('#oldPhone').text('电话: '+$('#phone').val())  ;
+                $('#oldVirtualName').html('<strong>昵称: </strong> '+$('#virtualName').val())  ;
+                $('#oldBirthday').html('<strong>生日: </strong>'+$('#birthday').val())  ;
+                $('#oldEmail').html('<strong>邮箱: </strong> ' + $('#email').val()) ;
+                $('#oldPhone').html('<strong>电话: </strong>'+$('#phone').val()) ;
                 $editProfileModal.hide();
             },
             error : function (errorMsg){
@@ -188,5 +188,40 @@ $(function (){
 
         });
 
+        // 头像上传
+    $('#profileAvatar').on('click', function () {
+        $('#avatarUpload').click();
+    });
+
+    $('#avatarUpload').on('change',function (e){
+        let file = e.target.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+            // console.log(formData);
+
+            $.ajax({
+                type : 'post',
+                url : 'uploadAvatar',
+                data : formData,
+                processData: false,     // 阻止 jQuery 将 data 转换为字符串
+                contentType: false,     // 告诉 jQuery 不要设置默认的 Content-Type
+                success : function (data){
+                    console.log('我在这');
+                    $('#profileAvatar').attr('src', `images/${file.name}`);
+                    $('#avatarImg').attr('src', `images/${file.name}`);
+                },
+                error : function (errorMsg){
+                    console.log(errorMsg);
+                    console.log('修改头像异步请求失败');
+                }
+            })
+        }else{
+            alert('请选择有效的图片文件！');
+        }
+
+
+    });
 
 });

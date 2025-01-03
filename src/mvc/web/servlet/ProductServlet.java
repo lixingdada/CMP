@@ -26,6 +26,7 @@ public class ProductServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.setAttribute("ItemList",catalogService.getItemList(productId));
+        session.setAttribute("information",productName);
         req.getRequestDispatcher("productForm").forward(req,resp);
     }
 

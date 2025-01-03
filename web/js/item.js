@@ -54,4 +54,24 @@ $(function (){
             });
         }
     }
+
+    // 点击图片显示弹窗
+    $(".left-image img").on("click", function () {
+        let imgSrc = $(this).attr("src");
+        $(".image-modal").fadeIn();
+        $(".modal-content").attr("src", imgSrc);
+    });
+
+    // 点击关闭按钮隐藏弹窗
+    $(".close-btn").on("click", function () {
+        $(".image-modal").fadeOut();
+    });
+
+    // 点击弹窗背景隐藏弹窗
+    $(".image-modal").on("click", function (e) {
+        if ($(e.target).hasClass("image-modal")) {
+            $(".image-modal").fadeOut();
+        }
+    });
+
 });

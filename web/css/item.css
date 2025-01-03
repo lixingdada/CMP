@@ -9,7 +9,6 @@ body, html {
     font-family: Arial, sans-serif;
     padding: 20px;
 }
-
 /* 页面整体容器，设置为左右布局 */
 .page-container {
     display: flex; /* 使用 flex 实现左右布局 */
@@ -22,106 +21,124 @@ body, html {
 
 /* 左侧图片部分 */
 .left-image {
-    flex: 1; /* 左侧占据 50% 宽度 */
+    width: 336px; /* 固定容器宽度 */
+    height: 452px; /* 固定容器高度 */
     display: flex;
     justify-content: center; /* 图片居中 */
     align-items: center;
-
+    border-radius: 10px; /* 圆角效果 */
+    overflow: hidden; /* 确保图片不超出容器边界 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 添加轻微阴影 */
 }
 
 .left-image img {
-    max-width: 100%; /* 图片宽度适应容器 */
-    height: auto; /* 图片高度自动调整 */
-    border-radius: 8px; /* 圆角 */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* 动画效果 */
     cursor: pointer;
-    width: 500px; /* 图片宽度固定为 300px */
-    height: 500px; /* 图片高度固定为 300px */
+    width: 100%; /* 固定宽度 */
+    height: 100%; /* 固定高度 */
+    object-fit: cover; /* 填满容器，可能裁剪部分图片 */
+    transition: transform 0.3s ease;
 }
+
 
 .left-image img:hover {
-    transform: scale(1.1); /* 鼠标悬停放大 */
-    opacity: 0.8; /* 鼠标悬停透明 */
+    border: 3px solid #007BFF;
 }
 
+/* 右侧信息卡片 */
 .right-info {
     flex: 1;
-    background-color: rgba(128, 128, 128, 0.3); /* 半透明背景 */
-    backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
+    background-color: #f5faff; /* 柔和的淡蓝色背景 */
+    border: 1px solid #007BFF; /* 边框颜色略深 */
     padding: 30px; /* 调整内边距 */
     width: 450px; /* 固定宽度 */
-    height: 350px; /* 固定高度 */
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-
+    height: 389px; /* 固定高度 */
+    border-radius: 12px; /* 更加柔和的圆角效果 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* 新增：覆盖的圆角矩形背景块 */
-.info-overlay {
-    position: absolute;
-    top: 50px; /* 调整顶部位置 */
-    left: 20px; /* 调整左侧位置 */
-    width: 580px; /* 矩形宽度，小于 .right-info */
-    height: 250px; /* 矩形高度，小于 .right-info */
-    background-color: rgba(256,256,256, 0.3);/* 圆角矩形背景色白色 */
-    border-radius: 10px; /* 圆角效果 */
-    z-index: 1; /* 置于底层 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* 轻微阴影效果 */
-}
-
-/* 新增：文字信息样式 */
-.info-content {
-    position: relative; /* 相对定位，以便覆盖到 .info-overlay 上 */
-    z-index: 2; /* 置于顶层 */
-}
-
-.right-info h1, .right-info h2 {
-    margin: 25px 0;
+/* 文字内容样式 */
+.right-info #itemName{
     font-size: 20px;
-    color: #333;
     font-weight: bold;
-    z-index: 2; /* 置于顶层 */
+}
+
+.right-info #price{
+    font-size: 25px;
+    color: #FF0000;
+    font-weight: bold;
 }
 
 /* 菜单选项样式 */
 .menu-options {
-    margin-top: 50px;
+    margin-top: 107px;
     display: flex;
     justify-content: center; /* 左右居中分布 */
     align-items: center;
-    gap: 200px; /* 选项之间的间距 */
-    position: relative;
+    gap: 20px; /* 选项之间的间距 */
 }
 
-/* 左右选项样式 */
 .menu-option {
-    font-size: 25px;
-    color: black; /* 默认文字颜色 */
-    text-decoration: underline; /* 默认无下划线 */
-    cursor: pointer;
-
-    text-align: center; /* 文字居中 */
-    transition: color 0.3s ease, text-decoration 0.3s ease; /* 平滑变色过渡 */
+    display: inline-block; /* 使链接变成类似按钮的块状元素 */
+    font-size: 18px; /* 调整文字大小 */
+    color: #ffffff; /* 按钮文字颜色为白色 */
+    text-decoration: none; /* 去掉下划线 */
+    cursor: pointer; /* 鼠标悬停显示手势 */
+    background-color: #007BFF; /* 按钮背景颜色为蓝色 */
+    padding: 10px 20px; /* 按钮内边距 */
+    border-radius: 8px; /* 圆角按钮 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 添加动画效果 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
 }
 
-/* 鼠标悬停时的样式 */
 .menu-option:hover {
-    color: #007BFF; /* 鼠标悬停变为蓝色 */
+    background-color: #0056b3; /* 鼠标悬停时变为深蓝色 */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* 阴影变大 */
 }
 
-/* 鼠标按下时的样式 */
-.menu-option:active {
-    color: darkblue; /* 鼠标按下变为深蓝色 */
-    text-decoration: underline; /* 鼠标按下加下划线 */
+
+
+/* 图片查看弹窗 */
+.image-modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 黑色半透明背景 */
 }
 
-/* 中间竖线样式 */
-.menu-divider {
-    width: 5px;
-    height: 25px; /* 竖线高度，可调整 */
-    background-color: black; /* 竖线颜色 */
-    margin: 4065px; /* 竖线左右间距 */
+.modal-content {
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
 
 /* 搜索表单容器 */
 .search-form {

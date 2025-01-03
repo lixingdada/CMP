@@ -46,7 +46,7 @@
 <%--            头像框--%>
             <div class="profile-container">
                 <div class="profile-circle">
-                    <img src="" alt="头像" class="profile-image">
+                    <img id="avatarImg" src="images/${sessionScope.user.avatar != null ? sessionScope.user.avatar : '默认头像.png'}" alt="头像" class="profile-image">
                 </div>
                 <div class="hover-card1">
                     <!-- 登录用户的悬浮卡片内容 -->
@@ -71,19 +71,19 @@
     </div>
 </div>
 
-<script>
-    // 检查用户是否已登录
-    const isUserLogIn = ${not empty sessionScope.user.username ? true : false};
+<%--<script>--%>
+<%--    // 检查用户是否已登录--%>
+<%--    const isUserLogIn = ${not empty sessionScope.user.username ? true : false};--%>
 
-    function handleRedirect(url) {
-        if (!isUserLogIn) {
-            alert("您尚未登录，点击确认后1秒后自动跳转！");
-            setTimeout(() => window.location.href = "loginForm", 1000);
-        } else {
-            window.location.href = url;
-        }
-    }
-</script>
+<%--    function handleRedirect(url) {--%>
+<%--        if (!isUserLogIn) {--%>
+<%--            alert("您尚未登录，点击确认后1秒后自动跳转！");--%>
+<%--            setTimeout(() => window.location.href = "loginForm", 1000);--%>
+<%--        } else {--%>
+<%--            window.location.href = url;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
 
 <script src="js/top.js"></script>
 

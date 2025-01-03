@@ -4,7 +4,13 @@ body {
     background-size: cover; /* 让背景图充满整个页面 */
     background-repeat: no-repeat;
     background-attachment: fixed; /* 使背景固定在视口 */
+    text-decoration: none;
 }
+
+.btn {
+    text-decoration: none; /* 去除下划线 */
+}
+
 /* 个人信息卡片样式 */
 .profile-card {
     width: 50%; /* 宽度占屏幕二分之一 */
@@ -28,20 +34,26 @@ body {
     color: #333;
 }
 
-/*头像*/
+/* CSS */
 .avatar-container {
     text-align: center;
     margin-bottom: 20px;
 }
 
 .avatar {
-    width: 100px; /* 头像宽度 */
-    height: 100px; /* 头像高度 */
+    width: 120px; /* 调整头像大小 */
+    height: 120px;
     border-radius: 50%; /* 圆形效果 */
-    border: 2px solid #ccc; /* 边框 */
+    border: 3px solid #007BFF; /* 增加显眼边框 */
     cursor: pointer; /* 鼠标悬停变成手型 */
     object-fit: cover; /* 保持图片比例 */
+    transition: transform 0.2s; /* 悬停效果 */
 }
+
+.avatar:hover {
+    transform: scale(1.1); /* 放大效果 */
+}
+
 
 
 /* 收货地址卡片样式 */

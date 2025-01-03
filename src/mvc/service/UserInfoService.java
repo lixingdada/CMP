@@ -56,4 +56,10 @@ public class UserInfoService {
         userDao.deleteAddress(username, name, phone, address);
         findAddress(user,username);
     }
+
+    public int updateAvatar(String avatar,User user){
+        //别忘了更新user对象
+        user.setAvatar(avatar);
+        return userDao.updateAvatar(avatar,user.getUsername());
+    }
 }

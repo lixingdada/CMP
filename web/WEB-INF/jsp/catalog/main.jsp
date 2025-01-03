@@ -42,7 +42,8 @@
 </div>
 
 <!-- 悬浮选项卡 -->
-<div class="hover-card"></div>
+<div class="hover-card">
+</div>
 <%--<div class="hover-card" id="c++">C++的选项卡内容</div>--%>
 <%--<div class="hover-card" id="java">Java的选项卡内容</div>
 <div class="hover-card" id="c">C的选项卡内容</div>
@@ -52,13 +53,25 @@
 <div class="category-container">
     <c:forEach items="${sessionScope.allItems}" var="item">
         <a href="item?itemId=${item.itemId}&username=${sessionScope.user.username}" class="category-box">
-            <img src="images/${item.attribute2}" alt="Python">
+            <img class="activeImg" src="images/${item.attribute2}" alt="${item.attribute3}">
             <div class="category-text">${item.attribute3}</div>
+            <div class="category-price">￥${item.listPrice}</div>
+
+            <!-- 覆盖卡片 -->
+            <div class="overlay-card">
+                <p class="overlay1">基本信息</p>
+                <p class="overlay2">商品名称：${item.attribute3}</p>
+                <p class="overlay2">商品类型：${item.attribute1}</p>
+                <p class="overlay3">供应商：${item.supplierId}</p>
+                <p class="overlay4">状态：${item.status}</p>
+                <p class="overlay5">价格：￥${item.listPrice}</p>
+            </div>
         </a>
     </c:forEach>
 </div>
 
 <script src="./js/main.js"></script>
+<script src="./js/showItemInfo.js"></script>
 
 </body>
 </html>

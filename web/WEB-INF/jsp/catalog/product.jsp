@@ -71,11 +71,23 @@
 <%--        </div>--%>
 <%--    </c:forEach>--%>
 
+    <!-- 分类容器 -->
     <div class="category-container">
         <c:forEach items="${sessionScope.ItemList}" var="item">
             <a href="item?itemId=${item.itemId}&username=${sessionScope.user.username}" class="category-box">
-                <img src="images/${item.attribute2}" alt="Python">
-                <div className="category-text">${requestScope.productName}      ${item.listPrice}</div>
+                <img class="activeImg" src="images/${item.attribute2}" alt="${item.attribute3}">
+                <div class="category-text">${item.attribute3}</div>
+                <div class="category-price">￥${item.listPrice}</div>
+
+                <!-- 覆盖卡片 -->
+                <div class="overlay-card">
+                    <p class="overlay1">基本信息</p>
+                    <p class="overlay2">商品名称：${item.attribute3}</p>
+                    <p class="overlay2">商品类型：${item.attribute1}</p>
+                    <p class="overlay3">供应商：${item.supplierId}</p>
+                    <p class="overlay4">状态：${item.status}</p>
+                    <p class="overlay5">价格：￥${item.listPrice}</p>
+                </div>
             </a>
         </c:forEach>
     </div>
@@ -87,7 +99,7 @@
 <%--        <button type="submit" class="return-button">返回</button>--%>
 <%--    </form>--%>
 <%--</div>--%>
-
+<script src="./js/showItemInfo.js"></script>
 <script src="js/product.js"></script>
 
 </body>

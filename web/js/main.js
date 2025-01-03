@@ -31,8 +31,38 @@ $(function (){
     //     }
     // });
 
-    $menuItems.on('mouseenter', function () {
+
+
+    // $('.more').hover(
+    //     function () {
+    //         isHover = true;
+    //         $('.hover-card').slideDown(200);
+    //     },
+    //     function () {
+    //         isHover = false;
+    //         setTimeout(()=>{
+    //             if (!isHover)
+    //                 $('.hover-card').slideUp(200);
+    //         },300);
+    //     }
+    // );
+    //
+    // $('.hover-card').hover(
+    //     function () {
+    //         isHover = true;
+    //     },
+    //     function () {
+    //         isHover = false;
+    //         setTimeout(() => {
+    //             if (!isHover)
+    //                 $('.hover-card').slideUp(200);
+    //         }, 300);
+    //     }
+    // )
+
+    $menuItems.hover(function (){
         isHovering = true;
+
         let category = $(this).data('target');
         $hoverCard.html('');
 
@@ -47,10 +77,10 @@ $(function (){
                 let productName = cache[category][i].name;
                 let productId = cache[category][i].productId;
                 let htmlString = '';
-                    htmlString += '  |  <a href="product?productId='+ productId +'&productName='+productName+'" class ="no-underline"> ' + productName + '</a>';
-                    $hoverCard.append(htmlString);
+                htmlString += '<span class="product-link-contain"><a href="product?productId='+ productId +'&productName='+productName+'" class ="product-link"> ' + productName + '</a></span>';
+                $hoverCard.append(htmlString);
             }
-            $hoverCard.show();
+            $hoverCard.slideDown(200);
             return;  // 如果数据已加载，直接返回
         }
 
@@ -69,40 +99,110 @@ $(function (){
                     let productName = cache[category][i].name;
                     let productId = cache[category][i].productId;
                     let htmlString = '';
-                    htmlString +=  '  |  <a href="product?productId='+ productId +'&productName='+productName+'" class ="no-underline"> ' + productName + '</a>';
+                    htmlString +=  '<span class="product-link-contain"><a href="product?productId='+ productId +'&productName='+productName+'" class ="product-link"> ' + productName + '</a></span>';
                     $hoverCard.append(htmlString);
                 }
-                $hoverCard.show();
+                $hoverCard.slideDown(200);
             },
             error: function(errorMsg) {
                 console.log(errorMsg);
             }
         });
-    });
+        },
+        function () {
+            isHovering = false;
+            setTimeout(()=>{
+                if (!isHovering)
+                    $hoverCard.slideUp(200);
+            },200);
+        }
+    );
 
-    $menuItems.on('mouseleave', function () {
-        isHovering = false;
-        setTimeout(() => {
-            if (!isHovering) {
-                $hoverCard.hide();
-            }
-        }, 30);
-    });
+    $hoverCard.hover(function (){
+            isHovering = true;
+        },
+        function (){
+            isHovering = false;
+            setTimeout(() => {
+                if (!isHovering) {
+                    $hoverCard.slideUp(200);
+                }
+            }, 200);
+        }
+    );
 
-// 悬浮卡片的 hover 状态
-    $hoverCard.on('mouseenter', () => {
-        isHovering = true;
-        // $hoverCard.show();
-    });
+    // $menuItems.on('mouseenter', function () {
+    //     isHovering = true;
+    //     let category = $(this).data('target');
+    //     $hoverCard.html('');
+    //
+    //     // 如果缓存中有该类别的内容，直接展示并返回(好处：减少请求次数、避免了多次显示同一内容)
+    //     if (cache[category]) {
+    //         // $.each(cache[category], function(i, item) {
+    //         //     let htmlString = '';
+    //         //     htmlString += '  |  <a href="" class ="no-underline"> ' + item.name + '</a>';
+    //         //     $hoverCard.append(htmlString);
+    //         // });
+    //         for (let i = 0; i < cache[category].length; i++){
+    //             let productName = cache[category][i].name;
+    //             let productId = cache[category][i].productId;
+    //             let htmlString = '';
+    //                 htmlString += '  |  <a href="product?productId='+ productId +'&productName='+productName+'" class ="no-underline"> ' + productName + '</a>';
+    //                 $hoverCard.append(htmlString);
+    //         }
+    //         $hoverCard.show();
+    //         return;  // 如果数据已加载，直接返回
+    //     }
+    //
+    //     // 否则，发起新的 AJAX 请求
+    //
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: './category?category=' + category,
+    //         data: null,
+    //         success: function(data) {
+    //             // 缓存数据
+    //             cache[category] = data;
+    //
+    //             // 填充悬浮卡片
+    //             for (let i = 0; i < data.length; i++) {
+    //                 let productName = cache[category][i].name;
+    //                 let productId = cache[category][i].productId;
+    //                 let htmlString = '';
+    //                 htmlString +=  '  |  <a href="product?productId='+ productId +'&productName='+productName+'" class ="no-underline"> ' + productName + '</a>';
+    //                 $hoverCard.append(htmlString);
+    //             }
+    //             $hoverCard.show();
+    //         },
+    //         error: function(errorMsg) {
+    //             console.log(errorMsg);
+    //         }
+    //     });
+    // });
 
-    $hoverCard.on('mouseleave', () => {
-        isHovering = false;
-        setTimeout(() => {
-            if (!isHovering) {
-                $hoverCard.hide();
-            }
-        }, 30);
-    });
+//     $menuItems.on('mouseleave', function () {
+//         isHovering = false;
+//         setTimeout(() => {
+//             if (!isHovering) {
+//                 $hoverCard.hide();
+//             }
+//         }, 30);
+//     });
+//
+// // 悬浮卡片的 hover 状态
+//     $hoverCard.on('mouseenter', () => {
+//         isHovering = true;
+//         // $hoverCard.show();
+//     });
+
+    // $hoverCard.on('mouseleave', () => {
+    //     isHovering = false;
+    //     setTimeout(() => {
+    //         if (!isHovering) {
+    //             $hoverCard.hide();
+    //         }
+    //     }, 30);
+    // });
 
     // 自动补全
     $information.on('input',function (){

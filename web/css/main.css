@@ -168,20 +168,22 @@ body {
 }
 
 
-/* 悬浮选项卡样式 */
+/* 悬浮卡片样式 */
 .hover-card {
-    display: none; /* 默认隐藏 */
+    display: none;
     position: absolute;
-    top: 240px; /* 悬浮位置 */
-    left: 50%; /* 居中 */
+    top: 240px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 80%; /* 卡片宽度 */
-    height: 150px; /* 卡片高度 */
-    background-color: rgba(255, 255, 255);
+    width: 80%;
+    height: 255px;
+    background-color: rgba(255, 255, 255); /* 白色背景 */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    z-index: 1000; /* 确保悬浮层在最上方 */
+    padding: 20px; /* 内边距，增加顶部和其他边距 */
+    box-sizing: border-box; /* 确保内边距不影响宽度 */
+    z-index: 50;
+    overflow-y: auto; /* 当内容超出卡片高度时，显示滚动条 */
 }
 
 /* 分类容器样式 */
@@ -196,41 +198,141 @@ body {
 .category-box {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
+    justify-content: space-between;
+    height: 350px;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     text-decoration: none;
     color: black;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, border 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1.5px solid transparent;
+    padding-bottom: 20px;
+    overflow: hidden; /* 防止图片溢出 */
 }
 
 .category-box:hover {
-    transform: scale(1.05);
+    border: 1.5px solid blue;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .category-box img {
-    width: 80%;
-    height: auto;
-    max-height: 120px;
-    object-fit: contain;
+    width: 100%; /* 图片宽度填满父容器 */
+    height: 70%; /* 图片高度填满父容器 */
+    object-fit: cover; /* 按比例缩放并填充容器 */
     border-radius: 8px;
-    margin-bottom: 10px;
 }
+
 
 .category-text {
     font-size: 18px;
     font-weight: bold;
     color: #333;
     text-align: center;
+
+}
+
+.category-price {
+    font-size: 20px;
+    color: #FF0000;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 25px;
+}
+
+.overlay-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 半透明背景 */
+    color: white;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px; /* 保持和图片一致的圆角 */
+    transition: opacity 0.3s ease; /* 渐变效果 */
+    z-index: 2; /* 覆盖内容 */
+
+}
+
+.category-box {
+    position: relative; /* 为了让 .overlay-card 定位在内部 */
+}
+
+.overlay1 {
+    margin-left: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+.overlay2 {
+    font-size: 16px;
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.overlay3 {
+    font-size: 16px;
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.overlay4 {
+    font-size: 16px;
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+.overlay5 {
+    font-size: 18px;
+    color: red;
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+/*.overlay-more {*/
+/*    font-size: 16px;*/
+/*    text-decoration: underline;*/
+/*    cursor: pointer;*/
+/*    transition: color 0.3s ease;*/
+/*}*/
+
+/*.overlay-more:hover {*/
+/*    color: #007BFF; !* 鼠标悬停时变为蓝色 *!*/
+/*}*/
+
+a{
+    text-decoration: none;
 }
 
 .no-underline {
     text-decoration: none;
 }
 
+/* 链接样式 */
+.product-link {
+    color: #007BFF; /* 蓝色文字 */
+    text-decoration: none; /* 去掉下划线 */
+    font-size: 19px; /* 字体大小 */
+    font-weight: 500; /* 中等加粗 */
+    margin: 10px 0; /* 上下间距 */
+}
 
+/* 悬停时链接的样式 */
+.product-link:hover {
+    color: #0056b3; /* 深蓝色 */
+}
+
+/* 每个链接的容器 */
+.product-link-contain {
+    margin: 10px 0; /* 上下间距，避免拥挤 */
+    padding: 10px 20px; /* 添加内边距，增加间距 */
+    word-wrap: break-word; /* 自动换行 */
+    word-break: break-word; /* 单词超出容器宽度时换行 */
+}
