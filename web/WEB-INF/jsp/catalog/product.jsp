@@ -1,5 +1,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../common/top.jsp"%>
@@ -21,7 +22,7 @@
 <div id="search">
     <form action="./product" method="post" class="search-form">
         <div class="search-container">
-            <input type="search" name="information" id="information" placeholder=${sessionScope.information}>
+            <input type="search" name="information" id="information" placeholder="${fn:escapeXml(sessionScope.information)}">
             <button type="submit" class="search-button">🔍</button>
         </div>
     </form>
@@ -45,7 +46,14 @@
         <td>商家</td>
         <td>描述</td>
     </tr>--%>
+
+<c:if test="${empty sessionScope.ItemList}">
+    <div>没有搜索到任何内容</div>
+</c:if>
+
+<c:if test="${ not empty sessionScope.ItemList}">
 <div class="item-container">
+
 <%--    <c:forEach items="${sessionScope.ItemList}" var="item">--%>
 <%--      &lt;%&ndash;  <tr>--%>
 <%--            <td>${item.itemId}</td>--%>
@@ -72,6 +80,7 @@
 <%--    </c:forEach>--%>
 
     <!-- 分类容器 -->
+
     <div class="category-container">
         <c:forEach items="${sessionScope.ItemList}" var="item">
             <a href="item?itemId=${item.itemId}&username=${sessionScope.user.username}" class="category-box">
@@ -92,6 +101,7 @@
         </c:forEach>
     </div>
 </div>
+</c:if>
 <%--</table>--%>
 
 <%--<div class="back-link-container">--%>
