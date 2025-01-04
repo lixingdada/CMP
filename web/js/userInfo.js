@@ -18,6 +18,7 @@ $(function (){
         switch ($(this).data('modal')){
             case 'editProfileModal': $editProfileModal.show();break;
             case 'addAddressModal': {
+                $('.tips').text('');
                 $('#recipient').val('');
                 $('#receiverPhone1').val('');
                 $('#address').val('');
@@ -29,12 +30,16 @@ $(function (){
 
     //打开修改地址的小表（这个比较特殊，因为他在.addresses里面）使用事件委托
     $addresses.on('click', '#editAddressButton',function () {
+        $('.tips').text('');
         let $thisButton = $(this);
         //从编辑按钮入手获得要修改的东西先
         $editAddressItem = $thisButton.closest('.address-item');
         $('#receiverName').val($thisButton.data('receiver-name'));
         $('#receiverPhone').val($thisButton.data('receiver-phone'));
         $('#receiverAddress').val($thisButton.data('receiver-address'));
+        $('#oldReceiverName').val($thisButton.data('receiver-name'));
+        $('#oldReceiverPhone').val($thisButton.data('receiver-phone'));
+        $('#oldReceiverAddress').val($thisButton.data('receiver-address'));
         $editAddressModal.show();
     });
 
@@ -102,7 +107,12 @@ $(function (){
             type : 'post',
             url : 'editAddress',
             data : addData,
-            success : function () {
+            success : function (response) {
+                if(response === 'repeat'){
+                    $('.tips').text("您新增的地址已存在！");
+                    console.log('新增有重复！')
+                    return;
+                }
                 $addAddressModal.hide();
                 let html = '';
                 alert("新增收货地址成功！");
@@ -153,7 +163,12 @@ $(function (){
                 type : 'get',
                 url : 'editAddress',
                 data : editData,
-                success : function () {
+                success : function (response) {
+                    if(response === 'repeat'){
+                        $('.tips').text("您的修改后的地址已存在！");
+                        console.log('修改有重复！')
+                        return;
+                    }
                     $editAddressItem.remove();
                     $editAddressModal.hide();
                     let html = '';

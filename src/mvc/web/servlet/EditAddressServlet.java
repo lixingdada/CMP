@@ -23,19 +23,25 @@ public class EditAddressServlet extends HttpServlet {
         String receiverName = req.getParameter("receiverName");
         String receiverPhone = req.getParameter("receiverPhone");
         String receiverAddress = req.getParameter("receiverAddress");
-        System.out.println(receiverName);
 
+        UserInfoService userInfoService = new UserInfoService();
+        //判断地址是否重复
+        if(userInfoService.isAddressRepeat(user.getUsername(),receiverName,receiverPhone,receiverAddress)){
+            PrintWriter out = resp.getWriter();
+            out.print("repeat");
+            return;
+        }
 
         String oldReceiverName = req.getParameter("oldReceiverName");
         String oldReceiverPhone = req.getParameter("oldReceiverPhone");
         String oldReceiverAddress = req.getParameter("oldReceiverAddress");
-        System.out.println(oldReceiverName);
 
-        UserInfoService userInfoService = new UserInfoService();
+        System.out.println(receiverName + " " + oldReceiverName );
+
         String message = userInfoService.editAddress(user,receiverName,receiverPhone,receiverAddress,user.getUsername(),oldReceiverName,oldReceiverPhone,oldReceiverAddress);
         req.setAttribute("message",message);
 
-        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
+//        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
     }
 
     @Override
@@ -55,6 +61,14 @@ public class EditAddressServlet extends HttpServlet {
             return;
         }
 
+        //判断地址是否重复
+        if(userInfoService.isAddressRepeat(user.getUsername(),receiverName,receiverPhone,receiverAddress)){
+            PrintWriter out = resp.getWriter();
+            out.print("repeat");
+            return;
+        }
+
+        //其实message是用来看有没有重复的，现在就懒得改了
         String message =  userInfoService.insertAddress(user,user.getUsername(),receiverName,receiverPhone,receiverAddress);
         System.out.println("message"+message);
         req.setAttribute("message",message);
@@ -76,6 +90,6 @@ public class EditAddressServlet extends HttpServlet {
 
         out.flush();
         */
-        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
+//        req.getRequestDispatcher("/WEB-INF/jsp/user/userInfo.jsp").forward(req,resp);
     }
 }

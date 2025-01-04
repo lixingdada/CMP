@@ -138,7 +138,8 @@
             <input type="hidden" id="oldReceiverName" name="oldReceiverName">
             <input type="hidden" id="oldReceiverPhone" name="oldReceiverPhone">
             <input type="hidden" id="oldReceiverAddress" name="oldReceiverAddress">
-
+            <p class = "tips"></p>
+            <br>
             <button type="submit" class="btn">保存</button>
         </form>
     </div>
@@ -156,7 +157,8 @@
             <input type="text" id="receiverPhone1" name="receiverPhone" required>
             <label for="address">地址:</label>
             <input type="text" id="address" name="receiverAddress" required>
-
+            <p class = "tips"></p>
+            <br>
             <button type="submit" class="btn">保存</button>
         </form>
     </div>

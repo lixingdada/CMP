@@ -202,3 +202,8 @@ form button:hover {
     margin-top: 10px;
     font-size: 0.9em;
 }
+
+.tips{
+    color: red;
+    font-size: 18px;
+}

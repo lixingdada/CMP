@@ -62,4 +62,8 @@ public class UserInfoService {
         user.setAvatar(avatar);
         return userDao.updateAvatar(avatar,user.getUsername());
     }
+
+    public boolean isAddressRepeat(String username, String name, String phone, String address){
+        return userDao.isRepeatAddress(username,name,phone,address);
+    }
 }
