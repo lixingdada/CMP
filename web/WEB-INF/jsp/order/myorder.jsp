@@ -30,10 +30,12 @@
             </thead>
 
             <tbody>
+            <c:set var="counter" value="0" scope="page"/>
             <c:forEach var="order" items="${sessionScope.myOrder}">
+                <c:set var="counter" value="${counter + 1}" scope="page"/>
                 <tr class="order-details">
                     <td class="order-id">
-                        <a href="orderDetailForm?orderId=${order.orderId}&username=${sessionScope.username}" >${order.orderId}</a>
+                        <a href="orderDetailForm?orderId=${order.orderId}&username=${sessionScope.username}" >${counter}</a>
                     </td>
 
                     <td class="order-time">

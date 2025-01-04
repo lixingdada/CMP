@@ -7,7 +7,7 @@ var quantityInputs = document.querySelectorAll('input[type="number"]');  //获�
 
 for (var i = 0, length = quantityInputs.length; i < length; i++) {
     quantityInputs[i].addEventListener('input', function () {    //监听数量输入框的输入事件
-        var itemId   = this.closest('tr').querySelector('a[id="itemId"]').textContent,   //获取商品id
+        var itemId   = this.closest('tr').querySelector('td[id="itemId"]').textContent,   //获取商品id
             quantity = this.value;      //获取商品数量
         if (isNaN(quantity) || quantity < 0 || quantity % 1 !== 0 || !/^\d+$/.test(quantity)) {   //判断输入是否合法
             this.value = '';
@@ -34,7 +34,7 @@ for (var i = 0, length = quantityInputs.length; i < length; i++) {
         if (quantity === null || quantity === '') {
             this.value= 1;
             this.title = '无数量输入时，自动补1';
-            sendNumberRequest(this.closest('tr').querySelector('a[id="itemId"]').textContent, 1); // 发送请求更新总价
+            sendNumberRequest(this.closest('tr').querySelector('td[id="itemId"]').textContent, 1); // 发送请求更新总价
             this.closest('tr').querySelector('td[id="itemTotal"]').textContent = parseFloat(this.closest('tr').querySelector('td[id="itemPrice"]').textContent).toFixed(2);
         }
     });
@@ -67,7 +67,7 @@ var deleteButtons = document.querySelectorAll('button[id="remove"]');
 
 for (var j = 0, length2 = deleteButtons.length; j < length2; j++) {
     deleteButtons[j].addEventListener('click', function () {
-        var itemId = this.closest('tr').querySelector('a[id="itemId"]').textContent;
+        var itemId = this.closest('tr').querySelector('td[id="itemId"]').textContent;
         sendRemoveRequest(itemId);
         var row = this.closest('tr');
         row.parentNode.removeChild(row);

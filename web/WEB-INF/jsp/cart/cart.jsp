@@ -38,12 +38,14 @@
             <c:if test="${sessionScope.cart.getNumberOfItems() > 0}">
                 <c:forEach var="cartItem" items="${sessionScope.cart.getAllCartItems()}">
                     <c:set var="currentItem" value="${sessionScope.catalogService.getItem(cartItem.item.itemId)}"/>
+
                     <tr class="product-details">
+                        <td style="display: none" id="itemId">${cartItem.item.itemId}</td>
                         <td class="product-image">
                             <img src="images/${currentItem.getAttribute2()}" alt="">
                         </td>
                         <td class="product-name">
-                            <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemId">${cartItem.item.itemId}</a>
+                            <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemName">${currentItem.getAttribute3()}</a>
                         </td>
                         <td class="product-quantity">
                             <div class="quantity-wrapper">

@@ -34,9 +34,9 @@ public class AddItemToCartServlet extends HttpServlet {
         System.out.println("username"+username);
         session.setAttribute("username",username);
 
-        CatalogService catalogService = new CatalogService();
+        CatalogService catalogServiceTemp = new CatalogService();
         CartItem cartItem = new CartItem();
-        cartItem.item = catalogService.getItem(workingItemId);
+        cartItem.item = catalogServiceTemp.getItem(workingItemId);
 
         if (username == null||username.equals("")) {
             resp.sendRedirect("loginForm");
@@ -69,14 +69,16 @@ public class AddItemToCartServlet extends HttpServlet {
 
         //日志
         if(username!=null&&!username.equals("")){
-            Item item = catalogService.getItem(workingItemId);
+            Item item = catalogServiceTemp.getItem(workingItemId);
             int supplier = item.getSupplierId();
-            Product product = catalogService.getProduct(item.getProductId());
+            Product product = catalogServiceTemp.getProduct(item.getProductId());
             String productName = product.getName();
             System.out.println("加入购物车");
             logService.addCart(username,workingItemId,username+"将由"+ supplier + "提供的" + productName+"加入了购物车！");
         }
+        CatalogService catalogService = new CatalogService();
 
+        session.setAttribute("catalogService", catalogService);
         req.getRequestDispatcher(CART_FORM).forward(req, resp);
     }
 

@@ -102,7 +102,7 @@
                                 <img src="images/${currentItem.getAttribute2()}" alt="">
                             </td>
                             <td class="product-name">
-                                <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemId">${cartItem.item.itemId}</a>
+                                <a href="item?itemId=${cartItem.item.itemId}&username=${sessionScope.username}" id="itemName">${currentItem.getAttribute3()}</a>
                             </td>
                             <td class="product-quantity">
                                 <div class="quantity-wrapper">
@@ -134,7 +134,7 @@
                         <a href="cartForm?username=${sessionScope.username}" type="button" class="return-button">返回</a>
                     </td>
                     <td class="text-container">
-                        <button id="pay" type="submit" class="pay">去支付</button>
+                        <button id="pay" type="button" class="pay">去支付</button>
                     </td>
                 </tr>
                 </tfoot>
@@ -159,8 +159,11 @@
         var orderTel = document.getElementById('orderTel').value;
         console.log(username+orderName+orderAddress+orderTel);
         if (orderName === '' || orderAddress === '' || orderTel === '') {
+            console.log('empty');
             alert('请填写完整信息');
+            event.preventDefault(); // 阻止表单提交
         } else {
+            console.log('not empty');
             document.getElementById('orderForm').submit();
         }
     }

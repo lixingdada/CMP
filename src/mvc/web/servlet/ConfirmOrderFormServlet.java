@@ -7,6 +7,7 @@ import mvc.persistence.CartDao;
 import mvc.persistence.Impl.CartDaoImpl;
 import mvc.persistence.Impl.ReceiverDaoImpl;
 import mvc.persistence.ReceiverDao;
+import mvc.service.CatalogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,6 @@ public class ConfirmOrderFormServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String username = req.getParameter("username");
 
-        System.out.println(username+" makabama");
         try {
             Cart cart = cartDao.getCartByUserName(username);
             if(cart!=null) {
@@ -43,6 +43,9 @@ public class ConfirmOrderFormServlet extends HttpServlet {
                     session.setAttribute("cart",cart);
                     List<Address> receivers = receiverDao.getReceiversByUserId(username);
                     session.setAttribute("receivers", receivers);
+                    CatalogService catalogService = new CatalogService();
+
+                    session.setAttribute("catalogService", catalogService);
                     req.getRequestDispatcher(CONFIRMORDER_FORM).forward(req, resp);
                 }
             }

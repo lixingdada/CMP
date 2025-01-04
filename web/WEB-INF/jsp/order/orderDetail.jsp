@@ -20,7 +20,7 @@
         <table class="order-item">
             <thead class="order-header">
                 <tr>
-                    <th>商品ID</th>
+                    <th>名称</th>
                     <th>数量</th>
                     <th>单价</th>
                     <th>总价</th>
@@ -29,9 +29,10 @@
 
             <tbody>
     <c:forEach var="item" items="${sessionScope.orderItems}">
+        <c:set var="currentItem" value="${sessionScope.catalogService.getItem(item.itemId)}"/>
         <tr class="order-details">
             <td class="item-name">
-                <a href="item?itemId=${item.itemId}&username=${sessionScope.username}" id="itemId">${item.itemId}</a>
+                <a href="item?itemId=${item.itemId}&username=${sessionScope.username}" id="itemName">${currentItem.getAttribute3()}</a>
             </td>
             <td class="item-quantity">${item.quantity}</td>
             <td class="item-price">${item.price}</td>

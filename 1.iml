@@ -88,5 +88,6 @@
     <orderEntry type="library" name="mysql-connector-java-8.0.29" level="project" />
     <orderEntry type="library" name="mysql-connector-j-9.1.0" level="project" />
     <orderEntry type="library" name="mysql-connector-java-8.0.161" level="project" />
+    <orderEntry type="library" name="fastjson2-2.0.39.android4" level="project" />
   </component>
 </module>
