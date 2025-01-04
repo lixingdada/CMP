@@ -118,15 +118,15 @@ $(function (){
                 alert("新增收货地址成功！");
                 html = '<div class="address-item">\n' +
                     '                    <div class="address-info">\n' +
-                    '                        <p><strong>收货人:</strong> '+$receiverName+'</p>\n' +
-                    '                        <p><strong>电话:</strong> '+$receiverPhone+'</p>\n' +
-                    '                        <p><strong>地址:</strong> '+$receiverAddress+'</p>\n' +
+                    '                        <p><strong>收货人:</strong>'+$receiverName+'</p>\n' +
+                    '                        <p><strong>电话:</strong>'+$receiverPhone+'</p>\n' +
+                    '                        <p><strong>地址:</strong>'+$receiverAddress+'</p>\n' +
                     '                    </div>\n' +
                     '                    <button class="btn" id="editAddressButton"\n' +
                     '                            data-modal ="editAddressModal"\n' +
                     '                            data-receiver-name="'+$receiverName+'"\n' +
-                    '                            data-receiver-phone=" '+$receiverPhone+'"\n' +
-                    '                            data-receiver-address=" '+$receiverAddress+'">\n' +
+                    '                            data-receiver-phone="'+$receiverPhone+'"\n' +
+                    '                            data-receiver-address="'+$receiverAddress+'">\n' +
                     '                        修改\n' +
                     '                    </button>\n' +
                     '                    <form id="deleteForm" action="editAddress" method="post">\n' +
@@ -175,15 +175,15 @@ $(function (){
                     alert("修改收货地址成功！");
                     html = '<div class="address-item">\n' +
                         '                    <div class="address-info">\n' +
-                        '                        <p><strong>收货人:</strong> '+$receiverName+'</p>\n' +
-                        '                        <p><strong>电话:</strong> '+$receiverPhone+'</p>\n' +
-                        '                        <p><strong>地址:</strong> '+$receiverAddress+'</p>\n' +
+                        '                        <p><strong>收货人:</strong>'+$receiverName+'</p>\n' +
+                        '                        <p><strong>电话:</strong>'+$receiverPhone+'</p>\n' +
+                        '                        <p><strong>地址:</strong>'+$receiverAddress+'</p>\n' +
                         '                    </div>\n' +
                         '                    <button class="btn"\n' +
                         '                            data-modal ="editAddressModal" id="editAddressButton"\n' +
                         '                            data-receiver-name="'+$receiverName+'"\n' +
-                        '                            data-receiver-phone=" '+$receiverPhone+'"\n' +
-                        '                            data-receiver-address=" '+$receiverAddress+'">\n' +
+                        '                            data-receiver-phone="'+$receiverPhone+'"\n' +
+                        '                            data-receiver-address="'+$receiverAddress+'">\n' +
                         '                        修改\n' +
                         '                    </button>\n' +
                         '                    <form id="deleteForm" action="editAddress" method="post">\n' +

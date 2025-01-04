@@ -12,9 +12,9 @@ public interface UserDao {
     public User findUserByUsernameAndPassword(String username,String password);
 
     public void loadUser(User user,String username);
-   /* public User findUser(int id);*/
+    /* public User findUser(int id);*/
     public boolean insertUser(User user);
-
+    public boolean userExists(String username);
     public int insertAccount(String username);
 
     public int updateUserInfo(String virtualName, LocalDate birthday,String email,String phone,String username);
