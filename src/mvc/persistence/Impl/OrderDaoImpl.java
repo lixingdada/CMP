@@ -36,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
             insertOrderStmt = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS);
             insertOrderStmt.setString(1, order.getUserId());
             insertOrderStmt.setString(2, order.getOrderName());
-            insertOrderStmt.setDate(3, new java.sql.Date(order.getOrderDate().getTime()));
+            insertOrderStmt.setTimestamp(3, order.getOrderDate());
             insertOrderStmt.setString(4, order.getOrderAddress());
             insertOrderStmt.setString(5, order.getOrderTel());
             insertOrderStmt.executeUpdate();
@@ -156,7 +156,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setOrderId(resultSet2.getInt("orderId"));
                 order.setUserId(resultSet2.getString("userId"));
                 order.setOrderName(resultSet2.getString("orderName"));
-                order.setOrderDate(resultSet2.getDate("orderDate"));
+                order.setOrderDate(resultSet2.getTimestamp("orderDate"));
                 order.setOrderAddress(resultSet2.getString("orderAddress"));
                 order.setOrderTel(resultSet2.getString("orderTel"));
                 //orderList.add(order);

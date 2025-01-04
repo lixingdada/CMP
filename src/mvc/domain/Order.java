@@ -5,6 +5,7 @@ import mvc.domain.CartItem;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ public class Order implements Serializable {
     private int orderId;
     private String userId;
     private String orderName;
-    private Date orderDate;
+    private Timestamp orderDate;
     private String orderAddress;
     private String orderTel;
     private Cart cart;
@@ -52,11 +53,11 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -84,11 +85,13 @@ public class Order implements Serializable {
         this.cart = cart;
     }
 
-    public Order() {orderDate = new Date();}
+    public Order() {
+        this.orderDate = new Timestamp(new Date().getTime()); // 初始化为当前时间
+    }
 
     public Order(User user, Cart cart) {
-        orderName = user.getUsername();
-        orderDate = new Date();
+        this.orderName = user.getUsername();
+        this.orderDate = new Timestamp(new Date().getTime()); // 初始化为当前时间
         this.cart = cart;
     }
 

@@ -39,7 +39,7 @@
                     </td>
 
                     <td class="order-time">
-                        <fmt:formatDate value="${order.orderDate}" pattern="yyyy/MM/dd hh:mm:ss" />
+                        <fmt:formatDate value="${order.orderDate}" pattern="yyyy/MM/dd HH:mm:ss" />
                     </td>
 
                     <td class="order-name">
