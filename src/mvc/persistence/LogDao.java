@@ -13,6 +13,8 @@ public interface LogDao {
 
     int generateOrders(String username,String itemId,String details);    //生成订单
 
+    int payOrder(String username,String itemId ,String details);     //支付了订单
+
     int cancelOrders(String username,String itemId,int orderId);    //取消订单
 
 }

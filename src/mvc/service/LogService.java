@@ -38,4 +38,8 @@ public class LogService {
         return logDao.cancelOrders(username, itemId, orderId);
     }
 
+    public int payOrder(String username,String itemId,String details){
+        return logDao.payOrder(username,itemId,details);
+    }
+
 }

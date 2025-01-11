@@ -67,15 +67,15 @@ public class AddItemToCartServlet extends HttpServlet {
 
         session.setAttribute("cart", cart);
 
-        //日志
-        if(username!=null&&!username.equals("")){
-            Item item = catalogServiceTemp.getItem(workingItemId);
-            int supplier = item.getSupplierId();
-            Product product = catalogServiceTemp.getProduct(item.getProductId());
-            String productName = product.getName();
-            System.out.println("加入购物车");
-            logService.addCart(username,workingItemId,username+"将由"+ supplier + "提供的" + productName+"加入了购物车！");
-        }
+//        //日志
+//        if(username!=null&&!username.equals("")){
+//            Item item = catalogServiceTemp.getItem(workingItemId);
+//            int supplier = item.getSupplierId();
+//            Product product = catalogServiceTemp.getProduct(item.getProductId());
+//            String productName = product.getName();
+//            System.out.println("加入购物车");
+//            logService.addCart(username,workingItemId,username+"将由"+ supplier + "提供的" + productName+"加入了购物车！");
+//        }
         CatalogService catalogService = new CatalogService();
 
         session.setAttribute("catalogService", catalogService);

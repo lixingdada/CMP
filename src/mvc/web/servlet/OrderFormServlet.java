@@ -51,18 +51,18 @@ public class OrderFormServlet extends HttpServlet {
             // 将订单添加到订单服务中
             orderDao.saveOrder(newOrder,username);
 
-            //日志
-            String itemInfo = "";
-            List<CartItem> items = cart.getCartItemList();
-            int flag= 0;
-            for(CartItem item:items){
-                itemInfo+=item.getItem().getItemId();
-                flag++;
-                if(flag<items.size()){
-                    itemInfo+="、";
-                }
-            }
-            logService.generateOrders(username,itemInfo,username+"生成了包含"+itemInfo+"的订单！");
+//            //日志
+//            String itemInfo = "";
+//            List<CartItem> items = cart.getCartItemList();
+//            int flag= 0;
+//            for(CartItem item:items){
+//                itemInfo+=item.getItem().getItemId();
+//                flag++;
+//                if(flag<items.size()){
+//                    itemInfo+="、";
+//                }
+//            }
+//            logService.generateOrders(username,itemInfo,username+"生成了包含"+itemInfo+"的订单！");
 
             HttpSession session = req.getSession();
             session.setAttribute("username",username);

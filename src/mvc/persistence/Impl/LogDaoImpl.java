@@ -10,6 +10,8 @@ public class LogDaoImpl implements LogDao {
     String LOGIN_LOG = "INSERT INTO user_log (user_id,action,details) VALUES (?,?,?)";
     String BROWSE_LOG = "INSERT INTO user_log (user_id,action,item_id,details) VALUES (?,?,?,?)";
     String  DELETE_CART= "DELETE from user_log WHERE  user_id = ? AND item_id = ?  AND cart_id = ?";
+
+    String  PAY_ORDER= "INSERT INTO user_log (user_id,action,item_id,details) VALUES (?,?,?,?)";
     String  CANCEL_ORDER= "DELETE from user_log WHERE  user_id = ? AND item_id = ?  AND order_id = ?";
     @Override
     public int loginLog(String username,  String details) {
@@ -66,6 +68,16 @@ public class LogDaoImpl implements LogDao {
         arrayList.add(itemId);
         arrayList.add(details);
         return DBUtil.executeUpdate(BROWSE_LOG,arrayList);
+    }
+
+    @Override
+    public int payOrder(String username, String itemId,String details) {
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(username);
+        arrayList.add("支付订单");
+        arrayList.add(itemId);
+        arrayList.add(details);
+        return DBUtil.executeUpdate(PAY_ORDER,arrayList);
     }
 
     @Override

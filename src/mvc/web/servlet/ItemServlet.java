@@ -17,27 +17,27 @@ import java.io.IOException;
 public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-         String itemId = req.getParameter("itemId");
-         //String username = (String) session.getAttribute("username");
-         String username = req.getParameter("username");
-        System.out.println("username:"+username);
-        System.out.println("你要查看的具体商品为"+itemId);
-
-        LogService logService =new LogService();
-        CatalogService catalogService = new CatalogService();
-
-        Item item = catalogService.getItem(itemId);
-
-        session.setAttribute("item",item);
-
-        if (username!=null && !username.equals("")) {
-            int supplier = item.getSupplierId();
-            Product product = catalogService.getProduct(item.getProductId());
-            String productName = product.getName();
-            System.out.println("用户浏览");
-            logService.browseLog(username, itemId, username + "浏览了由" + supplier + "提供的" + productName);
-        }
+//        HttpSession session = req.getSession();
+//         String itemId = req.getParameter("itemId");
+//         //String username = (String) session.getAttribute("username");
+//         String username = req.getParameter("username");
+//        System.out.println("username:"+username);
+//        System.out.println("你要查看的具体商品为"+itemId);
+//
+//        LogService logService =new LogService();
+//        CatalogService catalogService = new CatalogService();
+//
+//        Item item = catalogService.getItem(itemId);
+//
+//        session.setAttribute("item",item);
+//
+//        if (username!=null && !username.equals("")) {
+//            int supplier = item.getSupplierId();
+//            Product product = catalogService.getProduct(item.getProductId());
+//            String productName = product.getName();
+//            System.out.println("用户浏览");
+//            logService.browseLog(username, itemId, username + "浏览了由" + supplier + "提供的" + productName);
+//        }
 
         req.getRequestDispatcher("itemForm").forward(req,resp);
     }
