@@ -17,12 +17,8 @@ import java.nio.charset.StandardCharsets;
 /**
  * 登录拦截器。
  *
- * <p>职责：解析 Authorization 头里的 Bearer token，校验通过后写入 {@link UserContext}，
- * 请求结束时清理。未通过时直接返回 401 JSON，不再进入 Controller。
- *
- * <p>对照原版：原版每个需要登录的 Servlet 开头都写一段
- * {@code if (session.getAttribute("user") == null) { 重定向到登录页 }`，
- * 二十多个 Servlet 抄了二十多遍，漏一个就是越权。
+ * <p>从 Authorization 头里取 Bearer token 校验，通过后把用户名写进 {@link UserContext}，
+ * 请求结束时清掉。不通过直接返回 401 JSON，不进 Controller。
  */
 @Slf4j
 @Component

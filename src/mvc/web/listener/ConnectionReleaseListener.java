@@ -9,12 +9,11 @@ import javax.servlet.annotation.WebListener;
 /**
  * 请求结束时归还数据库连接。
  *
- * <p>连接改成请求级复用之后，每条连接的所有权归属于处理该请求的线程（见
- * {@code ConnectionContext}）。Servlet 容器会复用线程，所以必须在请求结束时手动解绑，
- * 否则连接会被一直占着：池子很快耗尽，下一个请求再来就只能等超时。
+ * <p>连接现在是请求级的，所有权在处理该请求的线程上（见 ConnectionContext）。
+ * 容器会复用线程，所以请求一结束就得解绑，否则连接一直被占着，池子很快见底。
  *
- * <p>这里用 {@link ServletRequestListener} 而不是 Filter，是因为它不依赖 URL 映射，
- * 包括静态资源请求在内的所有请求都会被通知，不会再出现"某个路径漏了归还"的情况。
+ * <p>用 ServletRequestListener 而没用 Filter，是因为它不依赖 URL 映射，
+ * 静态资源请求也会被通知到，不会出现某个路径漏还的情况。
  */
 @WebListener
 public class ConnectionReleaseListener implements ServletRequestListener {

@@ -19,6 +19,10 @@ TOUT="build/test-classes"
 MIRROR="${MAVEN_MIRROR:-https://maven.aliyun.com/repository/public}"
 
 # ---------- 0. 环境检查 ----------
+# 只配了 JAVA_HOME、没加进 PATH 的情况挺常见，这里补一下
+if [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/javac" ]; then
+    PATH="$JAVA_HOME/bin:$PATH"
+fi
 if ! command -v javac >/dev/null 2>&1; then
     echo "[错误] 找不到 javac，请安装 JDK 8+ 并配置 JAVA_HOME / PATH"
     exit 1

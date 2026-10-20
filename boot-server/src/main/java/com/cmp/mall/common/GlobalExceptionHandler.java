@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 /**
  * 全局异常处理。
  *
- * <p>对照原版：每个 Servlet 里写一遍 {@code try { ... } catch (Exception e) { 输出错误页 }}
- * 重复了二十多次，且各写各的格式。这里一处兜底，业务代码只需要 {@code throw new BizException(...)}。
+ * <p>业务代码只管 throw BizException，返回格式在这里统一。
  */
 @Slf4j
 @RestControllerAdvice

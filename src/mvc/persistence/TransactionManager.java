@@ -4,23 +4,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 事务管理器：用模板方法把事务边界从业务代码里收敛出来。
+ * 事务管理器。
  *
- * <p>改造前，每个 DAO 内部都要重复写一遍
- * {@code setAutoCommit(false) → 执行 → commit() → catch → rollback() → finally → 恢复自动提交}，
- * 而且多个 DAO 之间的操作无法合并到同一个事务里。
+ * <p>以前每个 DAO 里都写一遍 setAutoCommit(false) / commit / rollback / 恢复自动提交，
+ * 而且跨 DAO 的操作合并不到一个事务里。现在事务边界交给调用方声明：
  *
- * <p>改造后，事务边界由调用方声明：
  * <pre>
- * TransactionManager.execute(new TransactionCallback&lt;Boolean&gt;() {
- *     public Boolean doInTransaction() throws SQLException {
- *         orderDao.insertOrder(order);
- *         cartDao.clearCart(username);
- *         return Boolean.TRUE;
- *     }
+ * TransactionManager.execute(() -> {
+ *     orderDao.insertOrder(order);
+ *     cartDao.clearCart(username);
+ *     return Boolean.TRUE;
  * });
  * </pre>
- * 两个 DAO 共享 {@link ConnectionContext} 中的同一个连接，任一步失败整体回滚。
+ *
+ * 回调里的几个 DAO 共用 {@link ConnectionContext} 上的同一条连接，任一步抛异常整体回滚。
  */
 public final class TransactionManager {
 

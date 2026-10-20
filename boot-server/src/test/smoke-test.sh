@@ -1,11 +1,36 @@
 #!/usr/bin/env bash
 # 端到端冒烟测试：走完整业务链路，逐项断言
+# 前置：MySQL 已按 schema.sql 初始化，后端已在 8080 起来，PATH 里有 mysql 客户端
 set -u
 BASE="http://localhost:8080/api"
 # 用函数而不是变量：变量里的引号在展开时不会被重新解析，--noproxy * 会被通配符展开
 CURL() { curl -s --noproxy '*' --max-time 15 "$@"; }
 export PYTHONIOENCODING=utf-8
 PY=python
+
+# mysql 客户端不一定在 PATH 里（Windows 装完通常不勾选加入 PATH），这里挨个找一下
+find_mysql() {
+  if command -v mysql >/dev/null 2>&1; then
+    command -v mysql
+    return
+  fi
+  for p in \
+    "/c/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe" \
+    "/c/Program Files/MySQL/MySQL Server 8.4/bin/mysql.exe" \
+    "/usr/local/mysql/bin/mysql" \
+    "/opt/homebrew/bin/mysql"; do
+    if [ -x "$p" ]; then
+      echo "$p"
+      return
+    fi
+  done
+}
+
+MYSQL="${MYSQL:-$(find_mysql)}"
+if [ -z "$MYSQL" ]; then
+  echo "[错误] 找不到 mysql 客户端，可用 MYSQL 环境变量指定绝对路径后重跑"
+  exit 1
+fi
 
 pass=0
 fail=0
@@ -37,7 +62,7 @@ print('' if d is None else d)
 }
 
 echo "=========== 1. 登录（同时验证明文密码自动升级为 BCrypt） ==========="
-before=$(mysql -uroot -p123456 -N -e "use cmp_2; select password from signon where username='test';" 2>/dev/null | grep -v Warning)
+before=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select password from signon where username='test';" 2>/dev/null | grep -v Warning)
 echo "  登录前 signon.password: ${before:0:20}..."
 
 RESP=$(CURL -X POST "$BASE/auth/login" -H "Content-Type: application/json" \
@@ -48,7 +73,7 @@ check "登录返回 code=0" "$code" "0"
 [ -z "$TOKEN" ] && { echo "  [FATAL] 未拿到 token，后续跳过"; echo "$RESP"; exit 1; }
 echo "  token: ${TOKEN:0:32}..."
 
-after=$(mysql -uroot -p123456 -N -e "use cmp_2; select password from signon where username='test';" 2>/dev/null | grep -v Warning)
+after=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select password from signon where username='test';" 2>/dev/null | grep -v Warning)
 echo "  登录后 signon.password: ${after:0:32}..."
 case "$after" in
   \$2*) check "明文密码已自动升级为 BCrypt" "yes" "yes" ;;
@@ -79,7 +104,7 @@ echo "  首个SKU=$items"
 echo ""
 echo "=========== 4. 购物车 ==========="
 api DELETE /cart > /dev/null   # 清空，保证可重复执行
-qtyBefore=$(mysql -uroot -p123456 -N -e "use cmp_2; select qty from item where itemid='$items';" 2>/dev/null | grep -v Warning)
+qtyBefore=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select qty from item where itemid='$items';" 2>/dev/null | grep -v Warning)
 echo "  加购前库存: $qtyBefore"
 
 r=$(api POST /cart/items "{\"itemId\":\"$items\",\"quantity\":2}" | json_get "['code']")
@@ -92,7 +117,7 @@ cartTotal2=$(api GET /cart | json_get "['data']['totalQuantity']")
 check "重复加购累加到 4" "$cartTotal2" "4"
 # 只统计当前用户的行：库里还存在历史脏数据（cart_id=1 且 item_id 为 NULL），
 # 那是原版留下来的"第一代数据"，不能算进这次断言
-lineCount=$(mysql -uroot -p123456 -N -e "use cmp_2; select count(*) from cart_item ci join cart c on c.cart_id=ci.cart_id where c.username='test';" 2>/dev/null | grep -v Warning)
+lineCount=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select count(*) from cart_item ci join cart c on c.cart_id=ci.cart_id where c.username='test';" 2>/dev/null | grep -v Warning)
 check "购物车行数=1（未重复插入）" "$lineCount" "1"
 
 echo ""
@@ -105,14 +130,14 @@ orderAmount=$(echo "$orderResp" | json_get "['data']['totalAmount']")
 echo "  订单号=$orderId 金额=$orderAmount"
 check "订单号有效" "$([ -n "$orderId" ] && echo yes)" "yes"
 
-qtyAfter=$(mysql -uroot -p123456 -N -e "use cmp_2; select qty from item where itemid='$items';" 2>/dev/null | grep -v Warning)
+qtyAfter=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select qty from item where itemid='$items';" 2>/dev/null | grep -v Warning)
 expected=$((qtyBefore - 4))
 check "库存已扣减 $qtyBefore -> $expected" "$qtyAfter" "$expected"
 
 cartAfter=$(api GET /cart | json_get "['data']['totalQuantity']")
 check "下单后购物车已清空" "$cartAfter" "0"
 
-detailCount=$(mysql -uroot -p123456 -N -e "use cmp_2; select count(*) from order_items where orderId=$orderId;" 2>/dev/null | grep -v Warning)
+detailCount=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select count(*) from order_items where orderId=$orderId;" 2>/dev/null | grep -v Warning)
 check "订单明细已写入" "$([ "${detailCount:-0}" -ge 1 ] && echo yes)" "yes"
 
 echo ""
@@ -128,13 +153,13 @@ echo "=========== 7. 库存不足时应整单回滚 ==========="
 api DELETE /cart > /dev/null
 api POST /cart/items "{\"itemId\":\"$items\",\"quantity\":1}" > /dev/null
 # 直接把库存改成 0，模拟超卖场景
-mysql -uroot -p123456 -e "use cmp_2; update item set qty=0 where itemid='$items';" 2>/dev/null
+"$MYSQL" -uroot -p123456 -e "use cmp_2; update item set qty=0 where itemid='$items';" 2>/dev/null
 stockFail=$(api POST /orders '{"orderName":"李四","orderAddress":"测试地址","orderTel":"13900000000"}')
 scode=$(echo "$stockFail" | json_get "['code']")
 check "库存不足下单失败 code=2006" "$scode" "2006"
 leftInCart=$(api GET /cart | json_get "['data']['totalQuantity']")
 check "失败后购物车未被清空（整体回滚）" "$leftInCart" "1"
-lostOrder=$(mysql -uroot -p123456 -N -e "use cmp_2; select count(*) from orders where orderName='李四';" 2>/dev/null | grep -v Warning)
+lostOrder=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select count(*) from orders where orderName='李四';" 2>/dev/null | grep -v Warning)
 check "失败订单未落库（主表已回滚）" "$lostOrder" "0"
 
 echo ""
@@ -142,7 +167,7 @@ echo "=========== 8. 操作日志（AOP 切面） ==========="
 logCount=$(api GET "/logs?limit=5" | $PY -c "import sys,json;print(len(json.load(sys.stdin)['data']))" 2>/dev/null)
 check "操作日志有记录" "$([ "${logCount:-0}" -ge 1 ] && echo yes)" "yes"
 echo "  最近日志条数=$logCount"
-actions=$(mysql -uroot -p123456 -N -e "use cmp_2; select group_concat(distinct action) from user_log where user_id='test';" 2>/dev/null | grep -v Warning)
+actions=$("$MYSQL" -uroot -p123456 -N -e "use cmp_2; select group_concat(distinct action) from user_log where user_id='test';" 2>/dev/null | grep -v Warning)
 echo "  已记录动作: $actions"
 
 echo ""
@@ -159,7 +184,7 @@ echo "  校验提示: $badMsg"
 
 echo ""
 echo "=========== 10. 恢复测试数据 ==========="
-mysql -uroot -p123456 -e "use cmp_2; update item set qty=$qtyBefore where itemid='$items'; delete ci from cart_item ci join cart c on c.cart_id=ci.cart_id where c.username='test';" 2>/dev/null
+"$MYSQL" -uroot -p123456 -e "use cmp_2; update item set qty=$qtyBefore where itemid='$items'; delete ci from cart_item ci join cart c on c.cart_id=ci.cart_id where c.username='test';" 2>/dev/null
 echo "  已还原库存 $items -> $qtyBefore，清空 test 的购物车"
 
 echo ""

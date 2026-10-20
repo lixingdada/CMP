@@ -16,9 +16,10 @@ public interface CartMapper {
     int insertCart(@Param("username") String username);
 
     /**
-     * 查询某一项是否已在车内。原版按 item_id 定位，但加购时只写了 item_name，
-     * item_id 恒为 NULL，导致重复加购数量永远不累加——这是改造前的一个真实缺陷，
-     * 这里改用 (cart_id, item_name) 作为业务唯一标识。
+     * 按 (cart_id, item_name) 定位车内的一行。
+     *
+     * <p>原来按 item_id 找，但加购时只写了 item_name，item_id 一直是 NULL，
+     * 所以重复加购永远走不到累加分支。
      */
     CartItem findItemByCartAndName(@Param("cartId") Integer cartId,
                                    @Param("itemName") String itemName);

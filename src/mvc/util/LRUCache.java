@@ -6,12 +6,9 @@ import java.util.Map;
 /**
  * 线程安全的 LRU 缓存。
  *
- * <p>实现思路：{@link LinkedHashMap} 的构造函数第三个参数 accessOrder 传 true 后，
- * 每次 get / put 都会把被访问的节点移到链表尾部；再重写 removeEldestEntry，
- * 让元素数超过容量时自动淘汰链表头部（也就是最久未使用）的那个节点。
- * 这样增删查都保持在 O(1)。
- *
- * <p>内置命中率统计，便于观测缓存收益。
+ * <p>LinkedHashMap 构造时 accessOrder 传 true，get/put 会把节点挪到链表尾部，
+ * 再重写 removeEldestEntry 在超容量时淘汰头部最久未用的那个。
+ * 顺带记了命中次数，方便看缓存到底有没有用。
  */
 public class LRUCache<K, V> {
 

@@ -33,13 +33,8 @@ import java.util.stream.Collectors;
 /**
  * 下单与订单查询。
  *
- * <p>下单是整个系统唯一需要跨多张表原子写入的操作：扣库存（item）、插主表（orders）、
- * 插明细（order_items）、清购物车（cart_item）、写日志（user_log）。任意一步失败都必须整体回滚，
- * 否则会出现"库存扣了但没有订单"或"订单生成了但购物车没清"的脏数据。
- *
- * <p>对照手写版：那里靠 {@code TransactionManager.execute(callback)} 手动包一层，
- * 并依赖 ThreadLocal 把同一条连接传给各个 DAO；这里只需要在方法上加一个注解，
- * 事务的开启、提交、回滚、连接绑定全部由 Spring 通过 AOP 完成。
+ * <p>下单要动五张表：item 扣库存、orders 主表、order_items 明细、cart_item 清车、user_log 日志。
+ * 任何一步失败都得整体回滚，不然会出现库存扣了但没订单这种情况。
  */
 @Slf4j
 @Service
@@ -51,11 +46,7 @@ public class OrderService {
     private final ItemMapper itemMapper;
 
     /**
-     * 创建订单。
-     *
-     * <p>{@code rollbackFor = Exception.class} 不能省：Spring 默认只在遇到
-     * {@link RuntimeException} 与 {@link Error} 时回滚，若抛出受检异常则不回滚。
-     * 显式声明后语义才符合"任何异常都整体撤销"的预期。
+     * 创建订单。rollbackFor 要显式写上，Spring 默认只对 RuntimeException 回滚。
      */
     @Transactional(rollbackFor = Exception.class)
     public OrderView create(String username, CreateOrderRequest request) {
@@ -68,7 +59,7 @@ public class OrderService {
             throw new BizException(ErrorCode.CART_EMPTY);
         }
 
-        // ---------- 1. 逐条扣库存 ----------
+        // 逐条扣库存
         List<OrderItem> orderItems = new ArrayList<>(cartItems.size());
         for (CartItem line : cartItems) {
             // 兼容老数据：item_id 为 NULL 时，item_name 里存的是 itemId
@@ -95,7 +86,7 @@ public class OrderService {
             orderItems.add(oi);
         }
 
-        // ---------- 2. 写订单主表（回填自增 orderId） ----------
+        // 写订单主表，orderId 是自增的，insert 完回填到对象上
         Order order = new Order();
         order.setUserId(username);
         order.setOrderName(request.orderName());
@@ -104,13 +95,13 @@ public class OrderService {
         order.setOrderDate(LocalDateTime.now());
         orderMapper.insertOrder(order);
 
-        // ---------- 3. 批量写明细（一条 SQL，不是循环 N 条） ----------
+        // 明细一条 SQL 批量插，不循环
         for (OrderItem oi : orderItems) {
             oi.setOrderId(order.getOrderId());
         }
         orderMapper.insertOrderItems(orderItems);
 
-        // ---------- 4. 清空购物车 ----------
+        // 清空购物车
         cartMapper.deleteByCartId(cart.getCartId());
 
         log.info("下单成功 username={} orderId={} 明细数={}",

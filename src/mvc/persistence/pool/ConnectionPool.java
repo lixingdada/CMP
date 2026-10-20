@@ -14,19 +14,10 @@ import mvc.persistence.ConnectionContext;
 /**
  * 手写数据库连接池。
  *
- * <p>设计要点：
- * <ul>
- *   <li>预创建 + 懒扩容：池满之前按需创建物理连接，之后只复用不再新建</li>
- *   <li>动态代理：把物理连接包装成代理对象返回，调用方执行 close() 时不真正关闭，
- *       而是把连接归还到空闲队列——这样上层代码无需感知"池"的存在，写法与原来完全一致</li>
- *   <li>等待超时：池空时线程在 idle 队列上等待，超时抛异常，避免请求无限挂起</li>
- *   <li>归还前校验：物理连接若已断开（isValid 返回 false）直接丢弃并补建</li>
- *   <li>归还前重置会话状态：回滚未提交事务并恢复 autoCommit，
- *       避免连接被下一个请求复用时带着上一个请求的事务状态</li>
- * </ul>
- *
- * <p>配置可通过 JVM 参数覆盖，例如 -Dcmp.pool.size=20
- * 这样就不再需要把密码硬编码在工具类里。
+ * <p>池满之前按需创建物理连接，之后只复用不新建。借出去的连接用动态代理包了一层，
+ * 调用方执行 close() 时把连接还回空闲队列，这样上层代码完全不用改写法。
+ * 池空时在 idle 上等，超过 -Dcmp.pool.timeout（默认 3s）抛异常，避免请求挂死。
+ * 归还前先重置会话状态，见 {@link #resetState}。
  */
 public final class ConnectionPool {
 
@@ -137,11 +128,11 @@ public final class ConnectionPool {
     }
 
     /**
-     * 归还前重置会话状态。
+     * 归还前把会话状态清干净。
      *
-     * <p>直连模式下连接用完即销毁，状态自然消失；一旦池化，连接会被下一个请求复用，
-     * 上一次残留的 autoCommit=false 会让后续的单条 SQL 静默不提交。
-     * 因此归还原处必须先把未提交的事务回滚掉并恢复自动提交。
+     * <p>这里踩过坑：老代码有不少地方 setAutoCommit(false) 之后没恢复。直连时连接用完就销毁，
+     * 没影响；池化之后连接被下一个请求拿去，autoCommit 还是 false，
+     * SQL 执行成功但没提交，报错都没有，数据就是没进去。所以还池之前必须 rollback 并恢复成 true。
      */
     private void resetState(Connection c) {
         try {
@@ -204,7 +195,7 @@ public final class ConnectionPool {
     }
 
     /**
-     * 物理连接的代理：拦截 close() 改为归还，其余方法原样转发。
+     * 物理连接的代理：只拦 close() 改成归还，其他方法原样转发。
      */
     private final class PooledHandler implements InvocationHandler {
 
@@ -229,8 +220,8 @@ public final class ConnectionPool {
                     return null;
                 }
                 if (ConnectionContext.get() == proxy) {
-                    // 请求级连接：所有权在 ConnectionContext，由请求结束时统一归还。
-                    // 这里不能回池，否则外层调用还在用这条连接就会被别的请求借走。
+                    // 请求级连接，所有权在 ConnectionContext，等请求结束统一还。
+                    // 这里回池的话，外层还在用的连接会被别的请求借走。
                     return null;
                 }
                 released = true;

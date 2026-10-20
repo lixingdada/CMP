@@ -21,13 +21,7 @@ import org.springframework.util.StringUtils;
 /**
  * 认证与用户注册。
  *
- * <p>方法上的 {@code @Transactional} 是声明式事务：Spring 通过 AOP 在方法前后织入
- * 开启 / 提交 / 回滚。对照手写版，那里是我自己写 {@code TransactionManager.execute(callback)}
- * 手动包一层，还要靠 ThreadLocal 把同一条连接传给各个 DAO；这里只需要一个注解，
- * 连接从哪来、什么时候提交、异常怎么回滚，全部由框架统一处理。
- *
- * <p>注意一个只有用框架才会遇到的坑：{@code @Transactional} 加在同类内部互相调用的
- * 方法上不生效，因为自调用不经过代理对象。
+ * <p>坑：@Transactional 加在同类内部自调用的方法上是不生效的，走不到代理对象。
  */
 @Slf4j
 @Service

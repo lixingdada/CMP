@@ -48,11 +48,10 @@ public class CartService {
     }
 
     /**
-     * 加入购物车。
+     * 加入购物车。同一商品再次加购要累加数量，不能插新行。
      *
-     * <p>同一商品再次加购时累加数量而不是新增一行。定位用的键是 item_id，
-     * 取不到时退回 item_name——因为改造前的老数据只写了 item_name、item_id 是 NULL，
-     * 只按 item_id 找会永远找不到，于是每次都插新行、数量永远不累加。
+     * <p>定位键先用 item_id，取不到退回 item_name。老数据只写了 item_name，
+     * item_id 是 NULL，只按 item_id 找会永远找不到，结果每次都插一行，数量永远不累加。
      */
     @Transactional(rollbackFor = Exception.class)
     public void addItem(String username, String itemId, int quantity) {

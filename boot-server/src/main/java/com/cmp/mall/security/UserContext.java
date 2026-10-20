@@ -1,12 +1,9 @@
 package com.cmp.mall.security;
 
 /**
- * 当前请求的登录用户，基于 ThreadLocal。
+ * 当前请求的登录用户，放在 ThreadLocal 里。
  *
- * <p>与手写版里的 {@code ConnectionContext} 是同一个思路：把"一次请求内共享的状态"
- * 绑到处理该请求的线程上，用完必须清理。区别是这里存的是身份而不是数据库连接。
- * Tomcat 线程会复用，忘记 remove 会导致下一个请求读到上一个用户的身份——这正是
- * ThreadLocal 最典型的坑。
+ * <p>Tomcat 线程是复用的，用完不 remove 的话下一个请求会读到上一个用户的身份。
  */
 public final class UserContext {
 

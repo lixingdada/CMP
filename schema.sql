@@ -14,6 +14,20 @@
 CREATE DATABASE IF NOT EXISTS cmp_2 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE cmp_2;
 
+-- 先删表再建，保证这个脚本可以反复执行。顺序按依赖倒着来，
+-- 虽然现在没加外键约束，以后加了也不至于删不掉。
+DROP TABLE IF EXISTS user_log;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS cart_item;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS receiver;
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS signon;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+
 -- 1. 商品分类
 CREATE TABLE category (
   catid   VARCHAR(10)  NOT NULL COMMENT '分类ID',
