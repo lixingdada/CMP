@@ -1,0 +1,16 @@
+# shell 脚本必须用 LF，否则在 Git Bash / Linux 下会因 \r 报 "command not found"
+*.sh            text eol=lf
+*.java          text eol=lf
+*.xml           text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+*.sql           text eol=lf
+*.md            text eol=lf
+*.json          text eol=lf
+
+# 图片等二进制文件不做换行转换
+*.png           binary
+*.jpg           binary
+*.gif           binary
+*.ico           binary
+*.jar           binary

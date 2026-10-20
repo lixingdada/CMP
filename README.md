@@ -69,6 +69,12 @@ CMP/
 │   ├── nginx.conf             静态资源 + /api 反代 + 双实例 upstream
 │   └── docker-compose.yml     mysql + server1 + server2 + web
 │
+├── test/                      手写版集成测试（一键脚本 + 3 个用例，55 项断言）
+│   ├── run-tests.sh           拉依赖 → 编译 → 运行
+│   ├── LRUCacheTest.java      10 项
+│   ├── PoolContextTest.java   17 项
+│   └── E2ETest.java           28 项，含前置数据重置，可反复执行
+│
 └── schema.sql                 11 张表建表语句 + 种子数据，测试账号 test / 123456
 ```
 
@@ -234,19 +240,32 @@ user_log                                 操作日志（item_id / cart_id / orde
 
 ## 验证
 
-框架版（JDK 17 + 真实 MySQL 8）：
+测试全部在仓库内，可自行复现。
 
-- 编译：`mvn package` 全量 58 个类，0 错误
-- 端到端：`boot-server/src/test/smoke-test.sh` **24 项断言全部通过**，覆盖登录与明文密码自动升级、无 token 返回 401、商品分页、加购累加、下单扣库存、库存不足整单回滚、越权校验、AOP 日志、参数校验
-- 前端：`npm run build` 通过，产物 gzip 后主包 61.89 kB
+### 手写版：`bash test/run-tests.sh`
 
-手写版（JDK 17 + Servlet 4.0）：
+一条命令完成「拉依赖 → 编译主源码 → 编译测试 → 依次运行」，共 **55 项断言**：
 
-- `javac -Xlint:all` 全量 70 个类，0 错误 0 警告
-- 单元级 17 项 + 链路级 28 项断言全部通过
-- 整条链路只占用 1 条物理连接（改造前是每处 DAO 调用一条）
+| 用例 | 项数 | 覆盖内容 |
+|---|---|---|
+| `LRUCacheTest` | 10 | 淘汰顺序、命中统计、容量边界、拒绝 null、20 万次写读容量不溢出 |
+| `PoolContextTest` | 17 | 借还与超时、ThreadLocal 绑定与解绑、归还后 `autoCommit` 重置、缓存命中不借连接、事务回滚与嵌套不重开、池满抛超时 |
+| `E2ETest` | 28 | 登录 → 浏览 → 加购累加 → 下单 → 明细 → 日志全链路，含库存扣减、库存不足不扣成负数、事务整体回滚、连接不残留 |
 
-**未在本机验证的部分**：Docker 镜像构建与容器编排（开发机未安装 Docker）。`docker-compose.yml` 已用 YAML 解析器校验结构、`nginx.conf` 按 Nginx 语法逐项核对，但镜像构建需要实际执行 `docker compose up --build` 才能确认。
+`E2ETest` 进入正题前会执行 `prepareFixture` 把库存、购物车、订单、测试账号密码重置到确定状态，因此**可反复执行**（已连跑三次验证）。
+
+> 一个跨版本的真实问题：手写版是明文比对密码的老实现，boot 版已改为 BCrypt 并在登录时自动升级存量明文。两版共用同一个库，boot 版登录一次后手写版就查不到该用户了。`prepareFixture` 会把测试账号密码还原为明文——这不是用例取巧，而是两个版本存储格式不兼容的直接体现。
+
+### 框架版：`bash boot-server/src/test/smoke-test.sh`
+
+**24 项断言全部通过**（JDK 17 + 真实 MySQL 8），覆盖登录与明文密码自动升级、无 token 返回 401、商品分页、加购累加、下单扣库存、库存不足整单回滚、越权校验、AOP 日志、参数校验。
+
+另有：`mvn package` 全量 58 个类 0 错误；前端 `npm run build` 通过，产物 gzip 后主包 61.89 kB。
+
+### 未验证的部分
+
+- **Docker 镜像构建与容器编排**：开发机未安装 Docker。`docker-compose.yml` 已用 YAML 解析器校验结构、`nginx.conf` 按 Nginx 语法逐项核对，但镜像构建需要实际执行 `docker compose up --build` 才能确认。
+- **并发压测**：没有做吞吐量与 P95 延迟的对比测试，因此本仓库不含任何性能数字。
 
 ---
 
