@@ -1,7 +1,36 @@
+# ---------- Java / Maven ----------
+target/
+*.class
+*.war
+*.ear
+
+# ---------- Node / 前端 ----------
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-error.log*
+
+# ---------- IDE ----------
 out/
-
-.idea
-
+.idea/
+*.iml
 1.iml
+*.ipr
+*.iws
+.vscode/
+!.vscode/extensions.json
 
+# ---------- 运行时产物 ----------
+logs/
+*.log
+.run/
 
+# ---------- 环境变量（含密码，不提交） ----------
+.env
+.env.local
+deploy/.env
+
+# ---------- 系统 ----------
+.DS_Store
+Thumbs.db

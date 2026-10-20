@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.OrderMapper">
+
+    <resultMap id="OrderMap" type="com.cmp.mall.entity.Order">
+        <id column="orderId" property="orderId"/>
+        <result column="userId" property="userId"/>
+        <result column="orderName" property="orderName"/>
+        <result column="orderDate" property="orderDate"/>
+        <result column="orderAddress" property="orderAddress"/>
+        <result column="orderTel" property="orderTel"/>
+    </resultMap>
+
+    <resultMap id="OrderItemMap" type="com.cmp.mall.entity.OrderItem">
+        <result column="orderId" property="orderId"/>
+        <result column="itemId" property="itemId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="price" property="price"/>
+        <result column="username" property="username"/>
+    </resultMap>
+
+    <!-- useGeneratedKeys：插入后把自增主键回填到实体的 orderId 上，明细表直接用 -->
+    <insert id="insertOrder" parameterType="com.cmp.mall.entity.Order"
+            useGeneratedKeys="true" keyProperty="orderId" keyColumn="orderId">
+        INSERT INTO orders (userId, orderName, orderDate, orderAddress, orderTel)
+        VALUES (#{userId}, #{orderName}, #{orderDate}, #{orderAddress}, #{orderTel})
+    </insert>
+
+    <!-- 明细一次性插入，避免循环里发 N 次 SQL -->
+    <insert id="insertOrderItems">
+        INSERT INTO order_items (orderId, itemId, quantity, price, username)
+        VALUES
+        <foreach collection="items" item="it" separator=",">
+            (#{it.orderId}, #{it.itemId}, #{it.quantity}, #{it.price}, #{it.username})
+        </foreach>
+    </insert>
+
+    <select id="findById" resultMap="OrderMap">
+        SELECT orderId, userId, orderName, orderDate, orderAddress, orderTel
+        FROM orders WHERE orderId = #{orderId}
+    </select>
+
+    <select id="findByUserId" resultMap="OrderMap">
+        SELECT orderId, userId, orderName, orderDate, orderAddress, orderTel
+        FROM orders
+        WHERE userId = #{userId}
+        ORDER BY orderDate DESC, orderId DESC
+    </select>
+
+    <select id="findItemsByOrderId" resultMap="OrderItemMap">
+        SELECT orderId, itemId, quantity, price, username
+        FROM order_items
+        WHERE orderId = #{orderId}
+        ORDER BY itemId
+    </select>
+
+    <!--
+      明细行展示需要名称。优先用 item.attr3（库里已存好的完整展示名），
+      取不到时退回 product.name + 规格，最后才退回 itemId，保证任何历史数据都能显示。
+    -->
+    <select id="findItemViewsByOrderId" resultType="com.cmp.mall.dto.OrderItemView">
+        SELECT oi.itemId   AS itemId,
+               COALESCE(
+                   NULLIF(i.attr3, ''),
+                   CONCAT(IFNULL(p.name, ''), IFNULL(CONCAT(' / ', NULLIF(i.attr1, '')), '')),
+                   oi.itemId
+               )           AS itemName,
+               oi.quantity AS quantity,
+               oi.price    AS price
+        FROM order_items oi
+        LEFT JOIN item i    ON i.itemid = oi.itemId
+        LEFT JOIN product p ON p.productid = i.productid
+        WHERE oi.orderId = #{orderId}
+        ORDER BY oi.itemId
+    </select>
+
+    <select id="findItemsByOrderIds" resultMap="OrderItemMap">
+        SELECT orderId, itemId, quantity, price, username
+        FROM order_items
+        WHERE orderId IN
+        <foreach collection="orderIds" item="id" open="(" separator="," close=")">#{id}</foreach>
+        ORDER BY orderId, itemId
+    </select>
+
+    <select id="sumQuantityByUserAndItem" resultType="int">
+        SELECT IFNULL(SUM(quantity), 0)
+        FROM order_items
+        WHERE username = #{userId} AND itemId = #{itemId}
+    </select>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.LogMapper">
+
+    <resultMap id="UserLogMap" type="com.cmp.mall.entity.UserLog">
+        <id column="logId" property="logId"/>
+        <result column="user_id" property="userId"/>
+        <result column="action" property="action"/>
+        <result column="action_time" property="actionTime"/>
+        <result column="item_id" property="itemId"/>
+        <result column="cart_id" property="cartId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="details" property="details"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.cmp.mall.entity.UserLog"
+            useGeneratedKeys="true" keyProperty="logId" keyColumn="logId">
+        INSERT INTO user_log (user_id, action, action_time, item_id, cart_id, order_id, details)
+        VALUES (#{userId}, #{action}, #{actionTime}, #{itemId}, #{cartId}, #{orderId}, #{details})
+    </insert>
+
+    <select id="findRecentByUser" resultMap="UserLogMap">
+        SELECT logId, user_id, action, action_time, item_id, cart_id, order_id, details
+        FROM user_log
+        WHERE user_id = #{userId}
+        ORDER BY logId DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

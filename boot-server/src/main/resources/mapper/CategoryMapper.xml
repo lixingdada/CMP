@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.CategoryMapper">
+
+    <resultMap id="CategoryMap" type="com.cmp.mall.entity.Category">
+        <id column="catid" property="catId"/>
+        <result column="name" property="name"/>
+        <result column="descn" property="descn"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">catid, name, descn</sql>
+
+    <select id="findAll" resultMap="CategoryMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM category
+        ORDER BY catid
+    </select>
+
+    <select id="findById" resultMap="CategoryMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM category
+        WHERE catid = #{catId}
+    </select>
+
+    <select id="countById" resultType="int">
+        SELECT COUNT(1) FROM category WHERE catid = #{catId}
+    </select>
+
+</mapper>

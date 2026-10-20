@@ -1,0 +1,52 @@
+# ============================================================
+# 后端镜像：多阶段构建
+#   阶段一用 maven 镜像编译打包（镜像里自带 JDK，不污染运行镜像）
+#   阶段二只拷贝 jar，用精简 JRE 运行
+#   最终镜像不含源码、不含 Maven、不含完整 JDK
+# ============================================================
+
+# ---------- 阶段一：构建 ----------
+FROM maven:3.9-eclipse-temurin-17 AS builder
+
+WORKDIR /build
+
+# 先单独拷 pom 并预下载依赖：只要 pom 没变，这一层就能命中缓存，
+# 改代码时不必重新下载几百兆依赖
+COPY boot-server/pom.xml ./
+RUN mvn -B -q dependency:go-offline
+
+# 再拷源码编译
+COPY boot-server/src ./src
+RUN mvn -B -q clean package -DskipTests
+
+# ---------- 阶段二：运行 ----------
+FROM eclipse-temurin:17-jre-alpine
+
+# 装时区数据并设置时区，否则容器内 new Date() 是 UTC，订单时间会差 8 小时
+RUN apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && apk del tzdata
+
+# 不用 root 运行：即使应用被攻破，容器内权限也受限
+RUN addgroup -S app && adduser -S app -G app
+
+WORKDIR /app
+COPY --from=builder /build/target/cmp-boot-server.jar app.jar
+RUN mkdir -p /app/logs && chown -R app:app /app
+
+USER app
+EXPOSE 8080
+
+# MaxRAMPercentage 而不是写死 -Xmx：容器内存限额变化时 JVM 自动跟随，
+# 避免限额 512M 却申请 1G 被 OOM Killer 杀掉
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+UseG1GC -Dfile.encoding=UTF-8" \
+    SPRING_PROFILES_ACTIVE=prod \
+    TZ=Asia/Shanghai
+
+# 健康检查打到 actuator：容器编排据此判断是否可接流量
+HEALTHCHECK --interval=15s --timeout=3s --start-period=45s --retries=3 \
+    CMD wget -qO- http://127.0.0.1:8080/actuator/health || exit 1
+
+# 用 exec 形式让 java 成为 1 号进程，能正确接收 SIGTERM 触发优雅停机
+ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]

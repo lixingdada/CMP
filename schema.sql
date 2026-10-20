@@ -1,13 +1,17 @@
 -- ============================================================
--- CMP「码农天堂」数据库重建脚本
+-- CMP「码农天堂」数据库脚本
 -- 依据：src/mvc/persistence/Impl/*.java 中的 SQL 语句
 --      + ResultSet 读取的列名反推（非原始建表语句，属逆向还原）
--- 用法：DBeaver 连接本地 MySQL → 打开本文件 → 全选执行
--- 注意：DBUtil.java 里连接的库名是 cmp_2
+--
+-- 用法一（本地）：DBeaver 连接 MySQL → 打开本文件 → 全选执行
+-- 用法二（Docker）：由 MySQL 容器在首次启动时自动执行
+--   （挂载到 /docker-entrypoint-initdb.d/，仅在数据目录为空时运行）
+--
+-- 注意：库名 cmp_2，与 DBUtil.java 中的连接串一致。
+-- 本脚本不删库，只删表重建；如需彻底重来请手动 DROP DATABASE。
 -- ============================================================
 
-DROP DATABASE IF EXISTS cmp_2;
-CREATE DATABASE cmp_2 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS cmp_2 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE cmp_2;
 
 -- 1. 商品分类

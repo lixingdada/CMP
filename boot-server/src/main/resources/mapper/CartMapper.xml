@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.CartMapper">
+
+    <resultMap id="CartMap" type="com.cmp.mall.entity.Cart">
+        <id column="cart_id" property="cartId"/>
+        <result column="username" property="username"/>
+    </resultMap>
+
+    <resultMap id="CartItemMap" type="com.cmp.mall.entity.CartItem">
+        <result column="cart_id" property="cartId"/>
+        <result column="item_id" property="itemId"/>
+        <result column="item_name" property="itemName"/>
+        <result column="item_price" property="itemPrice"/>
+        <result column="quantity" property="quantity"/>
+    </resultMap>
+
+    <select id="findByUsername" resultMap="CartMap">
+        SELECT cart_id, username FROM cart WHERE username = #{username} LIMIT 1
+    </select>
+
+    <insert id="insertCart">
+        INSERT INTO cart (username) VALUES (#{username})
+    </insert>
+
+    <select id="findItemByCartAndName" resultMap="CartItemMap">
+        SELECT cart_id, item_id, item_name, item_price, quantity
+        FROM cart_item
+        WHERE cart_id = #{cartId} AND item_name = #{itemName}
+        LIMIT 1
+    </select>
+
+    <select id="findItemByCartAndItemId" resultMap="CartItemMap">
+        SELECT cart_id, item_id, item_name, item_price, quantity
+        FROM cart_item
+        WHERE cart_id = #{cartId} AND item_id = #{itemId}
+        LIMIT 1
+    </select>
+
+    <select id="findByCartId" resultMap="CartItemMap">
+        SELECT cart_id, item_id, item_name, item_price, quantity
+        FROM cart_item
+        WHERE cart_id = #{cartId}
+        ORDER BY item_name
+    </select>
+
+    <!--
+      一次 JOIN 取回"购物车行 + 实时库存"，避免先在循环里逐行查 item 造成 N+1。
+      老数据里 item_id 可能是 NULL（原版加购只写了 item_name），
+      此时 LEFT JOIN 不中，stock 为 null，由上层的展示逻辑兜底为"未知"。
+    -->
+    <select id="findLinesByCartId" resultType="com.cmp.mall.dto.CartLineView">
+        SELECT ci.item_id     AS itemId,
+               ci.item_name   AS itemName,
+               ci.item_price  AS itemPrice,
+               ci.quantity    AS quantity,
+               i.qty          AS stock
+        FROM cart_item ci
+        LEFT JOIN item i ON i.itemid = ci.item_id
+        WHERE ci.cart_id = #{cartId}
+        ORDER BY ci.item_name
+    </select>
+
+    <insert id="insertItem" parameterType="com.cmp.mall.entity.CartItem">
+        INSERT INTO cart_item (cart_id, item_id, item_name, item_price, quantity)
+        VALUES (#{cartId}, #{itemId}, #{itemName}, #{itemPrice}, #{quantity})
+    </insert>
+
+    <update id="updateItemQuantity">
+        UPDATE cart_item
+        SET quantity = #{quantity}
+        WHERE cart_id = #{cartId} AND item_name = #{itemName}
+    </update>
+
+    <update id="updateItemQuantityById">
+        UPDATE cart_item
+        SET quantity = #{quantity}
+        WHERE cart_id = #{cartId} AND item_id = #{itemId}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM cart_item WHERE cart_id = #{cartId} AND item_name = #{itemName}
+    </delete>
+
+    <delete id="deleteByCartId">
+        DELETE FROM cart_item WHERE cart_id = #{cartId}
+    </delete>
+
+    <select id="countItems" resultType="int">
+        SELECT COUNT(1) FROM cart_item WHERE cart_id = #{cartId}
+    </select>
+
+</mapper>

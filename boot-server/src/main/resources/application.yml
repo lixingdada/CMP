@@ -1,0 +1,97 @@
+server:
+  # 注意：命令行参数 --server.port=xxxx 的优先级高于本文件，
+  # 若所在环境注入了 SERVER_PORT / SERVER__PORT 之类的变量，启动时显式指定即可覆盖。
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    accept-count: 200
+    # 未设置时取系统临时目录，容器内建议挂载到可写卷
+    basedir: ${TOMCAT_BASEDIR:/tmp/tomcat}
+
+spring:
+  application:
+    name: cmp-boot-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:cmp_2}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:123456}
+    hikari:
+      # 对照手写版：池容量上限、借出等待超时、空闲回收、泄漏检测——
+      # 这几项正是手写连接池里没做、也最容易被面试官追问的部分
+      pool-name: CmpHikariPool
+      maximum-pool-size: ${DB_POOL_SIZE:20}
+      minimum-idle: 5
+      connection-timeout: 3000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+      leak-detection-threshold: 20000
+
+  sql:
+    init:
+      # 建表由 schema.sql 负责，默认不自动执行：
+      # 生产环境交给 MySQL 容器首次启动时初始化（见 deploy/docker-compose.yml）
+      mode: never
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+  mvc:
+    # 未匹配到 Controller 时抛异常，由 GlobalExceptionHandler 统一返回 JSON 404
+    throw-exception-if-no-handler-found: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.cmp.mall.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    # 交给 SLF4J 输出，配合下面的 logging.level.mapper 控制是否打印 SQL
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    default-fetch-size: 100
+    default-statement-timeout: 30
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+jwt:
+  # 生产环境必须通过环境变量覆盖；不少于 32 字节，否则启动即失败
+  secret: ${JWT_SECRET:cmp-mall-default-secret-key-change-in-production-0123456789}
+  expire-minutes: ${JWT_EXPIRE_MINUTES:120}
+  header: Authorization
+  prefix: "Bearer "
+
+cors:
+  # 只有本地开发需要：生产环境前后端同域，由 Nginx 统一入口
+  allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{traceId:-}] %logger{36} - %msg%n"

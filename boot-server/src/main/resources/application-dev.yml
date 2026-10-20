@@ -1,0 +1,14 @@
+# 本地开发：直连本机 MySQL，打印 SQL，方便对照手写 JDBC 时 Executing: 那行日志
+logging:
+  level:
+    root: INFO
+    com.cmp.mall: DEBUG
+    com.cmp.mall.mapper: DEBUG
+  file:
+    name: logs/cmp-boot-server.log
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

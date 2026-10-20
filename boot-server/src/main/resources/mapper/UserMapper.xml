@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.UserMapper">
+
+    <resultMap id="SignonMap" type="com.cmp.mall.entity.Signon">
+        <id column="username" property="username"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+    <resultMap id="AccountMap" type="com.cmp.mall.entity.Account">
+        <id column="userid" property="userId"/>
+        <result column="virtualname" property="virtualName"/>
+        <result column="birthday" property="birthday"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+    </resultMap>
+
+    <resultMap id="ReceiverMap" type="com.cmp.mall.entity.Receiver">
+        <id column="userid" property="userId"/>
+        <result column="receiver_name" property="receiverName"/>
+        <result column="receiver_phone" property="receiverPhone"/>
+        <result column="receiver_addr" property="receiverAddr"/>
+    </resultMap>
+
+    <select id="findSignonByUsername" resultMap="SignonMap">
+        SELECT username, password FROM signon WHERE username = #{username}
+    </select>
+
+    <select id="countByUsername" resultType="int">
+        SELECT COUNT(1) FROM signon WHERE username = #{username}
+    </select>
+
+    <insert id="insertSignon">
+        INSERT INTO signon (username, password) VALUES (#{username}, #{password})
+    </insert>
+
+    <update id="updatePassword">
+        UPDATE signon SET password = #{password} WHERE username = #{username}
+    </update>
+
+    <select id="findAccountById" resultMap="AccountMap">
+        SELECT userid, virtualname, birthday, email, phone, avatar
+        FROM account WHERE userid = #{userId}
+    </select>
+
+    <insert id="insertAccount" parameterType="com.cmp.mall.entity.Account">
+        INSERT INTO account (userid, virtualname, birthday, email, phone, avatar)
+        VALUES (#{userId}, #{virtualName}, #{birthday}, #{email}, #{phone}, #{avatar})
+    </insert>
+
+    <update id="updateAccount" parameterType="com.cmp.mall.entity.Account">
+        UPDATE account
+        <set>
+            <if test="virtualName != null">virtualname = #{virtualName},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+        </set>
+        WHERE userid = #{userId}
+    </update>
+
+    <select id="findReceiverById" resultMap="ReceiverMap">
+        SELECT userid, receiver_name, receiver_phone, receiver_addr
+        FROM receiver WHERE userid = #{userId}
+    </select>
+
+    <insert id="insertReceiver" parameterType="com.cmp.mall.entity.Receiver">
+        INSERT INTO receiver (userid, receiver_name, receiver_phone, receiver_addr)
+        VALUES (#{userId}, #{receiverName}, #{receiverPhone}, #{receiverAddr})
+    </insert>
+
+    <update id="updateReceiver" parameterType="com.cmp.mall.entity.Receiver">
+        UPDATE receiver
+        <set>
+            <if test="receiverName != null">receiver_name = #{receiverName},</if>
+            <if test="receiverPhone != null">receiver_phone = #{receiverPhone},</if>
+            <if test="receiverAddr != null">receiver_addr = #{receiverAddr},</if>
+        </set>
+        WHERE userid = #{userId}
+    </update>
+
+</mapper>

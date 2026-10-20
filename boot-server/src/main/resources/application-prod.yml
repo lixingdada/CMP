@@ -1,0 +1,19 @@
+# 生产（容器）：不打印 SQL、不暴露接口文档，日志只写控制台交给 Docker 采集
+logging:
+  level:
+    root: INFO
+    com.cmp.mall: INFO
+    com.cmp.mall.mapper: INFO
+  file:
+    name: ""
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+management:
+  endpoint:
+    health:
+      show-details: never

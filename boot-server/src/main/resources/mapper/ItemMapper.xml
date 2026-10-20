@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmp.mall.mapper.ItemMapper">
+
+    <resultMap id="ItemMap" type="com.cmp.mall.entity.Item">
+        <id column="itemid" property="itemId"/>
+        <result column="productid" property="productId"/>
+        <result column="listprice" property="listPrice"/>
+        <result column="unitcost" property="unitCost"/>
+        <result column="supplier" property="supplier"/>
+        <result column="status" property="status"/>
+        <result column="attr1" property="attr1"/>
+        <result column="attr2" property="attr2"/>
+        <result column="attr3" property="attr3"/>
+        <result column="attr4" property="attr4"/>
+        <result column="attr5" property="attr5"/>
+        <result column="qty" property="qty"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemid, productid, listprice, unitcost, supplier, status,
+        attr1, attr2, attr3, attr4, attr5, qty
+    </sql>
+
+    <select id="findByProductId" resultMap="ItemMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM item
+        WHERE productid = #{productId}
+        ORDER BY itemid
+    </select>
+
+    <select id="findById" resultMap="ItemMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM item
+        WHERE itemid = #{itemId}
+    </select>
+
+    <!--
+      扣库存用一条 UPDATE 完成"判断 + 扣减"，不做"先查后改"。
+      并发的两个请求会在这行上串行：第二个执行时 qty 已被扣减，
+      若不足则 WHERE 不成立、影响行数为 0，上层据此抛"库存不足"。
+      这是乐观思路配合数据库行锁，避免超卖。
+    -->
+    <update id="deductStock">
+        UPDATE item
+        SET qty = qty - #{quantity}
+        WHERE itemid = #{itemId}
+          AND qty >= #{quantity}
+    </update>
+
+    <update id="restoreStock">
+        UPDATE item
+        SET qty = qty + #{quantity}
+        WHERE itemid = #{itemId}
+    </update>
+
+</mapper>
