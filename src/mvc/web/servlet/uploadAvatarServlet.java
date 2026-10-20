@@ -1,6 +1,5 @@
 package mvc.web.servlet;
 
-import com.mysql.cj.Session;
 import mvc.domain.User;
 import mvc.service.CatalogService;
 import mvc.service.UserInfoService;

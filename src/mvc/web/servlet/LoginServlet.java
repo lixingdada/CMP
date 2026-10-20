@@ -5,7 +5,6 @@ import mvc.service.LogService;
 import mvc.service.LoginService;
 import mvc.domain.User;
 import mvc.service.UserInfoService;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
