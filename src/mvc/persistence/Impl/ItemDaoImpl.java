@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemDaoImpl implements ItemDao {
-    private static  final String GET_QUANTITY = "  SELECT listprice FROM item WHERE itemid = ?";
+    private static  final String GET_QUANTITY = "  SELECT qty FROM item WHERE itemid = ?";
+    private static  final String UPDATE_QUANTITY = "  UPDATE item SET qty = qty - ? WHERE itemid = ? AND qty >= ?";
     private static  final String GET_ITEM_LIST = "  SELECT * FROM item WHERE  productid= ?";
     private static  final String GET_ITEM = "  SELECT * FROM item WHERE itemid = ?";
 
@@ -46,23 +47,52 @@ public class ItemDaoImpl implements ItemDao {
         return item;
     }
 
+    /**
+     * 扣减库存。
+     *
+     * <p>参数沿用接口原有的 Map 形式，约定 key：{@code itemid}（或 {@code itemId}）
+     * 指定条目，{@code increment}（或 {@code qty}）指定扣减数量，缺省按 1 处理。
+     * SQL 里带 {@code qty >= ?} 条件，库存不足时更新 0 行，不会扣成负数。
+     */
     @Override
     public void updateInventoryQuantity(Map<String, Object> param) {
+        if (param == null) {
+            return;
+        }
+        Object itemId = param.containsKey("itemid") ? param.get("itemid") : param.get("itemId");
+        Object increment = param.containsKey("increment") ? param.get("increment") : param.get("qty");
+        if (itemId == null) {
+            return;
+        }
+        int decrement = increment instanceof Number ? ((Number) increment).intValue() : 1;
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(Integer.valueOf(decrement));
+        arrayList.add(itemId.toString());
+        arrayList.add(Integer.valueOf(decrement));
+        DBUtil.executeUpdate(UPDATE_QUANTITY, arrayList);
     }
 
-    //不知道要干嘛这个的函数
+    /**
+     * 查询条目库存。
+     *
+     * <p>原实现是空方法、恒返回 0，而 {@code CatalogService} 用
+     * {@code getInventoryQuantity(id) > 0} 判断商品是否有货，于是详情页永远显示无货。
+     */
     @Override
     public int getInventoryQuantity(String itemId) {
         ArrayList<Object> arrayList = new ArrayList<>();
         arrayList.add(itemId);
 
-        ResultSet resultSet = DBUtil.executeQuery(GET_QUANTITY,arrayList);
+        ResultSet resultSet = null;
         try {
-            if (resultSet.next()){
-
+            resultSet = DBUtil.executeQuery(GET_QUANTITY, arrayList);
+            if (resultSet.next()) {
+                return resultSet.getInt("qty");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            DBUtil.closeResultSet(resultSet);
         }
         return 0;
     }

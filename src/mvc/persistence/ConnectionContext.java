@@ -43,6 +43,10 @@ public final class ConnectionContext {
     /** 解绑并归还连接（若存在） */
     public static void clear() {
         Connection c = HOLDER.get();
+        // 先解绑再关闭：代理的 close() 会判断"是不是当前线程绑定的连接"，
+        // 若不先解绑就会被当成请求级连接而拒绝归还。
+        HOLDER.remove();
+        IN_TX.remove();
         if (c != null) {
             try {
                 c.close();
@@ -50,7 +54,5 @@ public final class ConnectionContext {
                 // 归还失败不影响请求结束
             }
         }
-        HOLDER.remove();
-        IN_TX.remove();
     }
 }

@@ -41,6 +41,7 @@ CREATE TABLE item (
   attr3     VARCHAR(80)            COMMENT '属性3',
   attr4     VARCHAR(80)            COMMENT '属性4',
   attr5     VARCHAR(80)            COMMENT '属性5',
+  qty       INT          NOT NULL DEFAULT 100 COMMENT '库存数量',
   PRIMARY KEY (itemid),
   KEY idx_item_product (productid)
 ) COMMENT='商品条目';
@@ -134,22 +135,34 @@ CREATE TABLE user_log (
 INSERT INTO category VALUES
 ('FISH','鱼类','各种观赏鱼'),
 ('DOGS','狗类','各种犬类'),
-('CATS','猫类','各种猫类');
+('CATS','猫类','各种猫类'),
+('BIRDS','鸟类','各种鸣禽与观赏鸟'),
+('REPTILES','爬行类','蜥蜴、蛇等爬行动物');
 
 INSERT INTO product VALUES
 ('FI-SW-01','FISH','天使鱼','来自深海的观赏鱼'),
 ('FI-SW-02','FISH','虎皮鱼','活泼好动'),
 ('K9-DL-01','DOGS','斑点狗','忠诚热情'),
 ('K9-RT-01','DOGS','金毛','性格温和'),
-('FL-DSH-01','CATS','短毛猫','安静亲人');
+('FL-DSH-01','CATS','短毛猫','安静亲人'),
+('AV-CB-01','BIRDS','亚马逊鹦鹉','善于模仿人声'),
+('AV-SB-02','BIRDS','黄喉雀','叫声清脆'),
+('RP-LI-02','REPTILES','绿鬣蜥','需要较大饲养箱'),
+('RP-SN-01','REPTILES','玉米蛇','温顺易饲养');
 
-INSERT INTO item VALUES
-('EST-1','FI-SW-01',16.50,10.00,1,'P','大型','水族箱',NULL,NULL,NULL),
-('EST-2','FI-SW-01',16.50,10.00,1,'P','小型','水族箱',NULL,NULL,NULL),
-('EST-3','FI-SW-02',18.50,12.00,1,'P','大型','水族箱',NULL,NULL,NULL),
-('EST-4','K9-DL-01',18.50,12.00,1,'P','成年','雄性',NULL,NULL,NULL),
-('EST-5','K9-RT-01',18.50,12.00,2,'P','幼年','雌性',NULL,NULL,NULL),
-('EST-6','FL-DSH-01',18.50,12.00,3,'P','成年','雄性',NULL,NULL,NULL);
+INSERT INTO item
+(itemid, productid, listprice, unitcost, supplier, status, attr1, attr2, attr3, attr4, attr5, qty) VALUES
+('EST-1','FI-SW-01',16.50,10.00,1,'P','大型','水族箱','天使鱼 大型',NULL,NULL,120),
+('EST-2','FI-SW-01',16.50,10.00,1,'P','小型','水族箱','天使鱼 小型',NULL,NULL,150),
+('EST-3','FI-SW-02',18.50,12.00,1,'P','大型','水族箱','虎皮鱼 大型',NULL,NULL,80),
+('EST-4','K9-DL-01',18.50,12.00,1,'P','成年','雄性','斑点狗 成年雄性',NULL,NULL,60),
+('EST-5','K9-RT-01',18.50,12.00,2,'P','幼年','雌性','金毛 幼年雌性',NULL,NULL,45),
+('EST-6','FL-DSH-01',18.50,12.00,3,'P','成年','雄性','短毛猫 成年雄性',NULL,NULL,70),
+('EST-7','FL-DSH-01',20.00,13.00,3,'P','幼年','雌性','短毛猫 幼年雌性',NULL,NULL,55),
+('EST-8','AV-CB-01',193.50,92.00,4,'P','成年','雄性','亚马逊鹦鹉 成年雄性',NULL,NULL,20),
+('EST-9','AV-SB-02',193.50,92.00,4,'P','成年','雌性','黄喉雀 成年雌性',NULL,NULL,35),
+('EST-10','RP-LI-02',22.00,14.00,5,'P','成年','雄性','绿鬣蜥 成年雄性',NULL,NULL,25),
+('EST-11','RP-SN-01',18.50,12.00,5,'P','成年','雌性','玉米蛇 成年雌性',NULL,NULL,30);
 
 -- 测试账号：test / 123456
 INSERT INTO signon VALUES ('test','123456');

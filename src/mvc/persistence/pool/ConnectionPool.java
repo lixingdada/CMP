@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import mvc.persistence.ConnectionContext;
+
 /**
  * 手写数据库连接池。
  *
@@ -19,6 +21,8 @@ import java.util.LinkedList;
  *       而是把连接归还到空闲队列——这样上层代码无需感知"池"的存在，写法与原来完全一致</li>
  *   <li>等待超时：池空时线程在 idle 队列上等待，超时抛异常，避免请求无限挂起</li>
  *   <li>归还前校验：物理连接若已断开（isValid 返回 false）直接丢弃并补建</li>
+ *   <li>归还前重置会话状态：回滚未提交事务并恢复 autoCommit，
+ *       避免连接被下一个请求复用时带着上一个请求的事务状态</li>
  * </ul>
  *
  * <p>配置可通过 JVM 参数覆盖，例如 -Dcmp.pool.size=20
@@ -71,11 +75,13 @@ public final class ConnectionPool {
      */
     public Connection getConnection() throws SQLException {
         Connection physical = borrowPhysical();
-        InvocationHandler handler = new PooledHandler(physical);
-        return (Connection) Proxy.newProxyInstance(
+        PooledHandler handler = new PooledHandler(physical);
+        Connection proxy = (Connection) Proxy.newProxyInstance(
                 ConnectionPool.class.getClassLoader(),
                 new Class<?>[]{Connection.class},
                 handler);
+        handler.bindProxy(proxy);
+        return proxy;
     }
 
     /** 真正从池里取走一个物理连接 */
@@ -120,12 +126,31 @@ public final class ConnectionPool {
     private void release(Connection physical) {
         synchronized (idle) {
             if (physical != null && isHealthy(physical)) {
+                resetState(physical);
                 idle.addLast(physical);
             } else {
                 closeQuietly(physical);
                 createdCount--;
             }
             idle.notifyAll();
+        }
+    }
+
+    /**
+     * 归还前重置会话状态。
+     *
+     * <p>直连模式下连接用完即销毁，状态自然消失；一旦池化，连接会被下一个请求复用，
+     * 上一次残留的 autoCommit=false 会让后续的单条 SQL 静默不提交。
+     * 因此归还原处必须先把未提交的事务回滚掉并恢复自动提交。
+     */
+    private void resetState(Connection c) {
+        try {
+            if (!c.getAutoCommit()) {
+                c.rollback();
+                c.setAutoCommit(true);
+            }
+        } catch (SQLException ignored) {
+            // 重置失败时连接会在下次借出时被 isValid 筛掉
         }
     }
 
@@ -184,10 +209,15 @@ public final class ConnectionPool {
     private final class PooledHandler implements InvocationHandler {
 
         private final Connection target;
+        private Connection proxy;
         private boolean released;
 
         private PooledHandler(Connection target) {
             this.target = target;
+        }
+
+        private void bindProxy(Connection proxy) {
+            this.proxy = proxy;
         }
 
         @Override
@@ -195,10 +225,16 @@ public final class ConnectionPool {
             String name = method.getName();
 
             if ("close".equals(name)) {
-                if (!released) {
-                    released = true;
-                    release(target);
+                if (released) {
+                    return null;
                 }
+                if (ConnectionContext.get() == proxy) {
+                    // 请求级连接：所有权在 ConnectionContext，由请求结束时统一归还。
+                    // 这里不能回池，否则外层调用还在用这条连接就会被别的请求借走。
+                    return null;
+                }
+                released = true;
+                release(target);
                 return null;
             }
             if ("isClosed".equals(name)) {

@@ -15,7 +15,7 @@ public class CartDaoImpl implements CartDao {
 
     private static final String SELECT_CART_BY_USER_ID = "SELECT * FROM cart WHERE username = ?";
     private static final String INSERT_CART_ITEM = "INSERT INTO cart_item (cart_id, item_name, item_price, quantity) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_CART_ITEM_QUANTITY_BY_CART_ID = "UPDATE cart_item SET quantity = ? WHERE item_id = ?";
+    private static final String UPDATE_CART_ITEM_QUANTITY_BY_CART_ID = "UPDATE cart_item SET quantity = ? WHERE cart_id = ? AND item_name = ?";
     private static final String DELETE_CART_ITEM = "DELETE FROM cart_item WHERE cart_id = ? AND item_name = ?";
 
     private static final String CREATE_CART_FOR_USER = "INSERT INTO cart (username) VALUES (?)";
@@ -115,11 +115,10 @@ public class CartDaoImpl implements CartDao {
                     preparedStatement3 = connection.prepareStatement(UPDATE_CART_ITEM_QUANTITY_BY_CART_ID);
 
                     preparedStatement3.setInt(1, newQuantity);
-
-                    int itemId = resultSet2.getInt("item_id");
-                    preparedStatement3.setInt(2, itemId);
-
-                    System.out.println("Executing: " + preparedStatement3.toString());
+                    // 购物车条目以 (cart_id, item_name) 定位：item_name 存的是条目ID，
+                    // 原来按 item_id 更新，而插入时并没有写 item_id，取出来恒为 0，更新不到任何行
+                    preparedStatement3.setInt(2, cartId);
+                    preparedStatement3.setString(3, cartItem.item.getItemId());
 
                     preparedStatement3.executeUpdate();
                     break;

@@ -19,6 +19,10 @@ import java.util.ArrayList;
  *       {@link ConnectionContext} 上，一个请求一条连接，互不干扰。</li>
  *   <li><b>引入连接池</b>：初版每次 getConnection() 都新建物理连接，开销大且并发一高就崩。
  *       现在从 {@link ConnectionPool} 借出，close() 归还而不是真正断开。</li>
+ *   <li><b>连接按请求复用</b>：同一个请求内多次 getConnection() 返回同一条连接，
+ *       DAO 里原有的 close 调用不再真正断开，统一由请求结束时的
+ *       {@code ConnectionReleaseListener} 归还，既消除连接泄漏，也避免内层 DAO
+ *       提前把外层还在用的连接放回池中。</li>
  *   <li><b>密码不再硬编码</b>：改为从 JVM 参数读取，默认值仅用于本地开发。</li>
  * </ol>
  *
@@ -98,18 +102,21 @@ public class DBUtil {
 
     /**
      * 关闭连接。
-     * <p>事务进行中时不做处理——连接的所有权在 {@link TransactionManager}，由它负责提交或回滚。
-     * 否则把连接归还连接池。
+     *
+     * <p>连接的所有权在线程上下文 {@link ConnectionContext}：同一个请求内所有 DAO 共享同一条连接，
+     * 因此这里对"当前线程绑定的那条连接"不做归还——否则内层 DAO 一关闭，外层 DAO 正在用的连接
+     * 就回到了池里，可能被别的请求借走。真正的归还统一发生在请求结束时。
+     *
+     * <p>只有非线程绑定的连接（理论上不会出现）才真正 close。
      */
     public static void closeConnection(Connection connection) {
         if (connection == null) {
             return;
         }
-        if (ConnectionContext.inTransaction()) {
+        if (connection == ConnectionContext.get()) {
             return;
         }
-        if (connection == ConnectionContext.get()) {
-            ConnectionContext.clear();
+        if (ConnectionContext.inTransaction()) {
             return;
         }
         try {
@@ -152,8 +159,23 @@ public class DBUtil {
         }
     }
 
-    /** 结束当前线程的数据库资源，归还连接池 */
+    /**
+     * 兼容旧代码保留的空操作。
+     *
+     * <p>改造后连接是请求级的：同一个请求复用一条连接，直到请求结束才统一归还。
+     * 所以 DAO 内部的 close 不再代表"断开连接"，只是历史写法，这里保留是为了不改动 60 多处调用点。
+     */
     public static void close() {
+        // 由请求结束时的 releaseThreadConnection() 统一归还，此处不做处理
+    }
+
+    /**
+     * 归还当前线程绑定的连接。
+     *
+     * <p>由 {@code ConnectionReleaseListener} 在请求结束时调用；没有 Web 容器的场景
+     * （例如单元测试、命令行任务）需要手动调用。
+     */
+    public static void releaseThreadConnection() {
         ConnectionContext.clear();
     }
 
