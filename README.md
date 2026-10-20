@@ -69,11 +69,16 @@ CMP/
 │   ├── nginx.conf             静态资源 + /api 反代 + 双实例 upstream
 │   └── docker-compose.yml     mysql + server1 + server2 + web
 │
-├── test/                      手写版集成测试（一键脚本 + 3 个用例，55 项断言）
-│   ├── run-tests.sh           拉依赖 → 编译 → 运行
-│   ├── LRUCacheTest.java      10 项
-│   ├── PoolContextTest.java   17 项
-│   └── E2ETest.java           28 项，含前置数据重置，可反复执行
+├── test/                      测试与压测
+│   ├── run-tests.sh           功能测试一键入口：拉依赖 → 编译 → 运行（55 项断言）
+│   ├── LRUCacheTest.java      10 项：淘汰顺序、命中统计、容量边界、拒绝 null
+│   ├── PoolContextTest.java   17 项：借还超时、ThreadLocal 绑定、事务回滚、池满排队
+│   ├── E2ETest.java           28 项：全链路 + 前置数据重置，可反复执行
+│   ├── bench.sh               压测一键入口：DAO 微基准 + 池容量 + HTTP 端到端
+│   ├── Benchmark.java         连接池与查询成本基准（含防 JIT 消除与端口回收处理）
+│   └── HttpBenchmark.java     HTTP 端到端基准，8 个接口 × 3 档并发
+│
+├── PERF.md                    性能压测报告（环境、局限、数据、可用与不可用的说法）
 │
 └── schema.sql                 11 张表建表语句 + 种子数据，测试账号 test / 123456
 ```
@@ -265,7 +270,24 @@ user_log                                 操作日志（item_id / cart_id / orde
 ### 未验证的部分
 
 - **Docker 镜像构建与容器编排**：开发机未安装 Docker。`docker-compose.yml` 已用 YAML 解析器校验结构、`nginx.conf` 按 Nginx 语法逐项核对，但镜像构建需要实际执行 `docker compose up --build` 才能确认。
-- **并发压测**：没有做吞吐量与 P95 延迟的对比测试，因此本仓库不含任何性能数字。
+- **高并发上限**：只压到 32 并发，没有做阶梯加压找容量拐点，因此无法给出"支持多少并发"的结论。
+
+---
+
+## 性能
+
+见 **[PERF.md](PERF.md)**。数据全部为 `test/Benchmark.java` 与 `test/HttpBenchmark.java` 实跑所得，命令 `bash test/bench.sh`。
+
+几个结论：
+
+- 连接池把单行查询的固定开销从 **2.81 ms 压到 235 μs**（单并发吞吐 355 → 4256 req/s），省掉的是 TCP 握手与 MySQL 认证，与 SQL 无关
+- 4 → 32 并发吞吐不再上升（7739 → 7481 req/s），说明瓶颈已转移到 MySQL 单机
+- 池容量 10 打 32 并发：**吞吐不掉（7157 vs 7168）但 P99 由 11.20 ms 恶化到 78.23 ms**，只看平均值会完全错过
+- 分类查询一次耗时 **287 μs**，接入进程内缓存后这部分从关键路径消失
+
+**关于缓存倍数**：本仓库**不提供**"缓存使 QPS 提升 N 倍"这类数字。命中路径是纯读取，耗时低于本机 100 ns 计时分辨率且会被 JIT 合并重复调用，实测会得出 10 ns/次这种失真结果。详细说明见 PERF.md 第三节。
+
+**关于绝对值**：压测机即开发机，MySQL 与压测客户端争抢同一颗 CPU，且表内只有十几行数据。绝对值不可外推生产，只有同环境下的相对差异成立。
 
 ---
 
