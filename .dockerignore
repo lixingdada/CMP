@@ -1,0 +1,22 @@
+.git
+.github
+.idea
+*.iml
+.vscode
+
+# 构建产物
+**/target
+**/node_modules
+**/dist
+build
+test/lib
+.run
+*.log
+
+# 第一版的静态资源，两个镜像都用不到
+# 以后要给 legacy 单独做镜像时删掉这一行
+legacy/src/main/webapp/images
+
+*.md
+.env
+deploy/.env

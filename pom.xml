@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lixing</groupId>
+    <artifactId>cmp</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>CMP</name>
+    <description>商品零售管理系统</description>
+
+    <!--
+        只做聚合，不是父工程。
+        boot-server 的 parent 必须是 spring-boot-starter-parent，不能再套一层，
+        所以两个模块各自管理版本，这里只负责一条命令构建全部。
+    -->
+    <modules>
+        <module>legacy</module>
+        <module>boot-server</module>
+    </modules>
+</project>

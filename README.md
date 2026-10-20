@@ -2,7 +2,7 @@
 
 商品零售管理系统。后端 Spring Boot + MyBatis，前端 Vue 3，前后端分离。
 
-仓库里有两套实现：`src/` 和 `web/` 是最早用 Servlet + JSP 写的，`boot-server/` 和 `boot-web/` 是后来重写的版本，现在主要维护后者。
+仓库里有两个模块：`legacy/` 是最早用 Servlet + JSP 写的，`boot-server/` 和 `boot-web/` 是后来重写的版本，现在主要维护后者。
 
 ## 功能
 
@@ -24,17 +24,21 @@
 ## 目录
 
 ```
+legacy/                     第一版，Servlet 4.0 + JSP + JDBC
+  src/main/java/mvc/        Servlet、Service、DAO、连接池
+  src/main/webapp/          JSP、CSS、图片、web.xml
 boot-server/                第二版后端
-  controller/               5 个 Controller
-  service/                  业务逻辑，事务边界在这一层
-  mapper/                   7 个 Mapper 接口，XML 在 resources/mapper
-  entity/ dto/              实体和出入参
-  security/                 JWT 签发、拦截器、UserContext
-  aop/ common/              日志切面、统一响应、异常处理、traceId
+  src/main/java/com/cmp/mall/
+    controller/             5 个 Controller
+    service/                业务逻辑，事务边界在这一层
+    mapper/                 7 个 Mapper 接口，XML 在 resources/mapper
+    entity/ dto/            实体和出入参
+    security/               JWT 签发、拦截器、UserContext
+    aop/ common/            日志切面、统一响应、异常处理、traceId
 boot-web/                   第二版前端，7 个页面
-src/ web/                   第一版，Servlet + JSP
 deploy/                     Dockerfile、nginx.conf、compose 文件
 test/                       测试和压测脚本
+pom.xml                     聚合工程，一条命令构建两个 Java 模块
 schema.sql                  建表语句和种子数据
 ```
 
@@ -61,6 +65,19 @@ cd boot-web && npm install && npm run dev   # 5173，/api 由 vite 代理到 808
 ```
 
 后端默认连 `localhost:3306/cmp_2`，数据库账号、密码、端口都可以用环境变量覆盖，见 `application.yml`。测试账号 `test / 123456`。
+
+### 构建
+
+```bash
+mvn package
+```
+
+根目录是聚合工程，会依次构建 `legacy` 和 `boot-server`。产物：
+
+- `legacy/target/cmp.war`：丢进 Tomcat 9 就是第一版。servlet-api 是 provided，其余依赖（JSTL、MySQL 驱动、fastjson2）都在 `WEB-INF/lib` 里。
+- `boot-server/target/cmp-boot-server.jar`：`java -jar` 直接跑。
+
+只构建其中一个用 `mvn -pl legacy package` 或 `mvn -pl boot-server package`。
 
 ## 接口
 

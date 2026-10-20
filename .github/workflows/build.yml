@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  backend:
+  java:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +16,6 @@ jobs:
           distribution: temurin
           cache: maven
       - name: build and test
-        working-directory: boot-server
         run: mvn -B package
 
   frontend:

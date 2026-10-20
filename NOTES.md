@@ -55,7 +55,7 @@ WHERE itemid = #{itemId} AND qty >= #{quantity}
 
 ## 第一版的连接池
 
-原来每次 `DriverManager.getConnection()` 都新建物理连接，并发一高就撑不住。池在 `src/mvc/persistence/pool/`。
+原来每次 `DriverManager.getConnection()` 都新建物理连接，并发一高就撑不住。池在 `legacy/src/main/java/mvc/persistence/pool/`。
 
 **借还**：借出去的 `Connection` 用 `Proxy` 包一层，`close()` 被拦下来改成归还到空闲队列，其余方法原样转发。这样上层六十多个调用点一行都不用改。池空时线程在 idle 队列上等，超时抛异常，不让请求一直挂着。
 

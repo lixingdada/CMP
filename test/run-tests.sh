@@ -14,6 +14,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 LIB="test/lib"
+SRC="legacy/src/main/java"
 OUT="build/classes"
 TOUT="build/test-classes"
 MIRROR="${MAVEN_MIRROR:-https://maven.aliyun.com/repository/public}"
@@ -49,7 +50,7 @@ DEPS="$LIB/servlet-api.jar;$LIB/mysql-connector.jar;$LIB/fastjson2.jar"
 echo ""
 echo "=========== 编译主源码 ==========="
 rm -rf "$OUT" && mkdir -p "$OUT"
-find src -name '*.java' > /tmp/cmp_srcs.txt
+find "$SRC" -name '*.java' > /tmp/cmp_srcs.txt
 javac -encoding UTF-8 -nowarn -cp "$DEPS" -d "$OUT" @/tmp/cmp_srcs.txt || {
     echo "[错误] 主源码编译失败"; exit 1; }
 echo "类文件数: $(find "$OUT" -name '*.class' | wc -l)"
