@@ -1,0 +1,11 @@
+# 定时任务示例。放到 /etc/cron.d/cmp 里，或者 root 的 crontab 里。
+# 注意路径按实际部署位置改，脚本本身不依赖固定目录。
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# 每天凌晨 3:10 备份数据库和日志，只留 7 天
+10 3 * * *  root  /opt/cmp/deploy/scripts/backup.sh all --keep 7 >> /var/log/cmp/backup.log 2>&1
+
+# 每 5 分钟巡检一次，正常时不出声，有告警才写日志
+*/5 * * * *  root  /opt/cmp/deploy/scripts/monitor.sh --quiet >> /var/log/cmp/monitor.log 2>&1

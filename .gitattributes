@@ -7,6 +7,9 @@
 *.sql           text eol=lf
 *.md            text eol=lf
 *.json          text eol=lf
+# cron 不认 crontab 里的 \r，行尾一乱整个任务都不会执行
+deploy/crontab.example  text eol=lf
+deploy/scripts/*.sh     text eol=lf
 
 # 图片等二进制文件不做换行转换
 *.png           binary

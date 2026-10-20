@@ -33,6 +33,7 @@ test/lib/
 .env
 .env.local
 deploy/.env
+deploy/backups/
 
 # ---------- 系统 ----------
 .DS_Store

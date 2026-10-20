@@ -47,6 +47,9 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile.server
+    # 固定镜像名，release.sh 回滚时靠 cmp-server:previous 这个 tag 找回上一版。
+    # 不写 image 的话 compose 会按项目名自动生成名字，脚本没法稳定引用
+    image: cmp-server:latest
     container_name: cmp-server1
     environment:
       SPRING_PROFILES_ACTIVE: prod
@@ -72,6 +75,8 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile.server
+    # 与 server1 用同一个镜像，只是容器配置不同
+    image: cmp-server:latest
     container_name: cmp-server2
     environment:
       SPRING_PROFILES_ACTIVE: prod
